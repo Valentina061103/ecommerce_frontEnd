@@ -1,7 +1,7 @@
 import styles from './Slider.module.css';
-import zapatilla1 from '../assets/zapatilla1.png';  // Asegúrate de que las rutas de las imágenes sean correctas
-import modelo from '../assets/modelo.png';
-import zapatilla2 from '../assets/zapatilla2.png';
+import zapatilla1 from '../../assets/zapatilla1.png';  // Asegúrate de que las rutas de las imágenes sean correctas
+import modelo from '../../assets/modelo.png';
+import zapatilla2 from '../../assets/zapatilla2.png';
 
 const Slider = () => {
   return (

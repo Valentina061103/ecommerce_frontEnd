@@ -1,0 +1,22 @@
+.conteiner_header {
+    background-color: #000;
+    width: 100vw;
+    height: 9vh;
+    display: flex;
+    justify-content: center;
+}
+.content_header {
+    color: white;
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.content_header img {
+    width: 5rem;
+}
+.containerCategories_header {
+    display: flex;
+    width: 35%;
+    justify-content: space-between;
+}
