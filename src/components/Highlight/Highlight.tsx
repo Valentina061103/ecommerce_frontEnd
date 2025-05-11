@@ -2,8 +2,8 @@ import styles from './Highlight.module.css';
 
 const Highlight = () => {
   return (
-    <div className={styles.highlight}>
-      <h1>CLÁSICOS INFALTABLES</h1>
+    <div className={styles.container_highlight}>
+      <h2>CLASICOS INFALTABLES</h2>
       <p>Comodidad y estilo único</p>
       <button>Ver colección</button>
     </div>

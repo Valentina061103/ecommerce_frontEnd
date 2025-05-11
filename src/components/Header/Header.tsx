@@ -14,10 +14,14 @@ export const Header = () => {
                     <p>Deporte</p>
                 </div>
                 <div className={styles.containerButtons_header}>
-                    <button>filtro</button>
-                    <button>
+                    <div className={styles.searchContainer}>
+                        <span className="material-symbols-outlined">
+                            search
+                        </span>
+                        <input type="text" placeholder="Buscar" />
+                    </div>
                     <span className="material-symbols-outlined">shopping_cart</span>
-                    </button>
+                    <span className="material-symbols-outlined">menu</span>
                 </div>
             </div>
         </div>
