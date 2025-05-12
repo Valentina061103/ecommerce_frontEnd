@@ -15,6 +15,7 @@
 }
 .cardProduct_buttonDelete span{
     font-size: 2.5rem;
+    cursor: pointer;
 }
 
 .CardProduct_content_detail {
@@ -61,4 +62,7 @@
 }
 .cardProduct_price_counter p {
     font-size: 1rem;
+}
+.cardProduct_price_counter span {
+    cursor: pointer;
 }

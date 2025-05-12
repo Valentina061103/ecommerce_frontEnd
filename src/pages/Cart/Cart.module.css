@@ -57,7 +57,9 @@
     padding: 12px 64px ;
     border-radius: 20px;
     margin-bottom: 0.5rem;
+    cursor: pointer;
 }
 .container_actions p {
     color: #757373;
+    cursor: pointer;
 }
