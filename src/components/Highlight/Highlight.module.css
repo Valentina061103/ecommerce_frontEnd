@@ -1,0 +1,28 @@
+.container_highlight {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.container_highlight h2 {
+  font-family: var(--font-paytone-one);
+  color: #000;
+  font-size:5vw;
+  letter-spacing: 3px;
+}
+
+.container_highlight p {
+  color: var(--color-gris-oscuro);
+  font-size: 2.5vw;
+  margin-bottom: 1.5rem;
+}
+
+.container_highlight button {
+  font-family: var(--font-abel);
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 20px;
+}
