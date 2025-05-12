@@ -1,11 +1,13 @@
 import styles from './Highlight.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const Highlight = () => {
+  const navigate = useNavigate();
   return (
     <div className={styles.container_highlight}>
       <h2>CLASICOS INFALTABLES</h2>
       <p>Comodidad y estilo único</p>
-      <button>Ver colección</button>
+      <button onClick={()=> navigate('/catalogo')}>Ver colección</button>
     </div>
   );
 };

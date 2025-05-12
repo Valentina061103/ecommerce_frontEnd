@@ -1,5 +1,4 @@
 import { CardProductCart } from "../../components/CardProductCart/CardProductCart";
-import { Header } from "../../components/Header/Header"
 import styles from './Cart.module.css';
 
 interface Shoe {
@@ -19,7 +18,6 @@ export const Cart = () => {
     const subtotal = Shoes.reduce((acc, shoe) => acc + shoe.price, 0);
     return (
         <div>
-            <Header />
             <div className={styles.container_contentCard}>
                 <div className={styles.container_cardsProducts}>
                     {Shoes.map((shoe, index) => (
