@@ -3,20 +3,23 @@ import Home from "../pages/Home";
 import { Cart } from "../pages/Cart/Cart";
 import Catalogo from "../pages/Catalog/Catalogo";
 import Layout from "../components/Layout/Layout";
-
+import { Login } from "../pages/Login/Login";
+import { Register } from "../pages/Register/Register"; // Importamos el componente de registro
 
 export const AppRouter = () => {
     return (
         <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<Layout />}>
-            <Route index element={<Navigate to="Home" />} />
-            <Route path="Home" element={<Home />} />
-            <Route path="Cart" element={<Cart />} />
-            <Route path="Catalogo" element={<Catalogo />} />
-            <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
-            </Route>
-        </Routes>
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Navigate to="Home" />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} /> {/* Nueva ruta para el registro */}
+                    <Route path="Home" element={<Home />} />
+                    <Route path="Cart" element={<Cart />} />
+                    <Route path="Catalogo" element={<Catalogo />} />
+                    <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
+                </Route>
+            </Routes>
         </BrowserRouter>
     );
 };

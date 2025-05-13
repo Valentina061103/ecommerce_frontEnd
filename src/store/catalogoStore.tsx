@@ -10,10 +10,10 @@
     };
 
     type Store = {
-    productos: Producto[];
-    filtroCategoria: string[];
-    toggleCategoria: (categoria: string) => void;
-    productosFiltrados: () => Producto[];
+        productos: Producto[];
+        filtroCategoria: string[];
+        toggleCategoria: (categoria: string) => void;
+        productosFiltrados: () => Producto[];
     };
 
     const initialProductos: Producto[] = [
