@@ -1,4 +1,3 @@
-// src/hooks/useProducts.ts
 import { useEffect, useState } from "react";
 
 export interface Product {
