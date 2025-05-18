@@ -4,7 +4,9 @@ import { Cart } from "../pages/Cart/Cart";
 import Catalogo from "../pages/Catalog/Catalogo";
 import Layout from "../components/Layout/Layout";
 import { Login } from "../pages/Login/Login";
-import { Register } from "../pages/Register/Register"; // Importamos el componente de registro
+import { Register } from "../pages/Register/Register"; 
+import CreateProduct from "../pages/CreateProduct/CreateProduct";
+
 
 export const AppRouter = () => {
     return (
@@ -13,7 +15,8 @@ export const AppRouter = () => {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Navigate to="Home" />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} /> {/* Nueva ruta para el registro */}
+                     <Route path="/crear-producto" element={<CreateProduct />} />
+                    <Route path="/register" element={<Register />} />
                     <Route path="Home" element={<Home />} />
                     <Route path="Cart" element={<Cart />} />
                     <Route path="Catalogo" element={<Catalogo />} />
