@@ -1,5 +1,5 @@
+import styles from './CarouselCategory.module.css';
 import { useRef } from 'react';
-import styles from './Trending.module.css';
 
 interface Category {
   label: string;
@@ -14,7 +14,7 @@ const categories: Category[] = [
   { label: "Basquet", img: "src/assets/basquet.png" },
 ];
 
-const Trending = () => {
+const CarouselCategory = () => {
   const carouselRef = useRef<HTMLDivElement>(null); //para acceder al contenedor del carrusel
 
   const scrollLeft = () => {
@@ -58,4 +58,4 @@ const Trending = () => {
   );
 };
 
-export default Trending;
+export default CarouselCategory;

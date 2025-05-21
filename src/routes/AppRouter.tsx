@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Home from "../pages/Home";
+import Home from "../pages/Home/Home";
 import { Cart } from "../pages/Cart/Cart";
 import Catalogo from "../pages/Catalog/Catalogo";
 import Layout from "../components/Layout/Layout";
 import { Login } from "../pages/Login/Login";
 import { Register } from "../pages/Register/Register"; 
-import CreateProduct from "../pages/CreateProduct/CreateProduct";
+import CreateProduct from "../pages/Admin/CreateProduct/CreateProduct";
 import { Product } from "../pages/Product/Product";
 
 

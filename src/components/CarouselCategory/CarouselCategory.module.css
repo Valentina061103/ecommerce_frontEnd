@@ -1,0 +1,85 @@
+.trending {
+    width: 100%;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.trending h2 {
+    font-family: var(--font-inter);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    margin-left: 1.5rem;
+    text-align: left;
+}
+
+.carouselContainer {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.trending_carousel {
+    display: flex;
+    gap: 1.4rem;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex-grow: 1;
+    padding: 10px 0;
+}
+
+.carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.card {
+    flex: 0 0 22%; /* ajusta el ancho de las tarjetas */
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+  /* que se agrande un poco cuando nos podsicionamos encima */
+.card:hover {
+    transform: scale(1.01);
+}
+
+.card img {
+    width: 100%;
+    height: 56vh;
+    object-fit: cover;
+}
+
+.card p {
+    font-size: 1.2rem;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.arrow {
+    background-color: #c4c4c4;
+    color: #ffffff;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+    z-index: 1;
+}
+
+.arrow:hover {
+    background-color: #555;
+}
+
+.arrow:first-of-type {
+    margin-right: -50px;
+}
+
+.arrow:last-of-type {
+    margin-left: -50px;
+}
