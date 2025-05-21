@@ -25,6 +25,7 @@ const Catalogo = () => {
           {productos.map((producto) => (
             <CardProductCatalog
               key={producto.id}
+              id ={producto.id}
               nombre={producto.nombre}
               descripcion={producto.descripcion}
               precio={producto.precio}

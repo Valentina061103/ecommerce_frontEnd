@@ -6,6 +6,7 @@ import Layout from "../components/Layout/Layout";
 import { Login } from "../pages/Login/Login";
 import { Register } from "../pages/Register/Register"; 
 import CreateProduct from "../pages/CreateProduct/CreateProduct";
+import { Product } from "../pages/Product/Product";
 
 
 export const AppRouter = () => {
@@ -15,12 +16,12 @@ export const AppRouter = () => {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Navigate to="Home" />} />
                     <Route path="/login" element={<Login />} />
-                     <Route path="/crear-producto" element={<CreateProduct />} />
+                    <Route path="/crear-producto" element={<CreateProduct />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="Home" element={<Home />} />
                     <Route path="Cart" element={<Cart />} />
                     <Route path="Catalogo" element={<Catalogo />} />
-                    <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
+                    <Route path="/producto/:id" element={<Product />} />
                 </Route>
             </Routes>
         </BrowserRouter>
