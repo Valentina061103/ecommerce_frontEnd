@@ -25,11 +25,12 @@ const Catalogo = () => {
           {productos.map((producto) => (
             <CardProductCatalog
               key={producto.id}
-              id ={producto.id}
+              id={producto.id}
               nombre={producto.nombre}
-              descripcion={producto.descripcion}
+              marca ={producto.marca}
+              color={producto.color}
               precio={producto.precio}
-              imagen={producto.imagen}
+              imagen={producto.imagen} 
             />
           ))}
         </div>

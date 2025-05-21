@@ -3,7 +3,8 @@ import { create } from 'zustand';
 type Producto = {
   id: number;
   nombre: string;
-  descripcion: string;
+  marca: string;
+  color: string;
   precio: number;
   categoria: string;
   imagen: string;
