@@ -1,31 +1,26 @@
 
+import { useLocation } from 'react-router-dom';
 import styles from './Product.module.css'; 
 
-interface DetalleProducto {
-    marca: string;
-    nombre: string;
-    precio: number;
-    img: string;
-    sexo: string;
-}
-const Producto: DetalleProducto[] = [
-    { marca: "Nike",nombre: "Lather", precio: 179999, img: "src/assets/zapatilla1.png" , sexo:"hombre"},
-];
 
 export const Product = () => {
+    //va a recibir los datos pasados
+    const location = useLocation();
+    const producto = location.state;
+
+    if (!producto) {
+        return <div>No se encontró el producto</div>
+    }
 
     return (
         <div className={styles.ProductDetailContainer}>
-            {/* <div className={styles.}>
-
-            </div>
-            <img src={Producto.imagen} alt={producto.nombre} className={styles.ProductImage} />
+            <img src={producto.imagen} alt={producto.nombre} className={styles.ProductImage} />
             <div className={styles.ProductInfo}>
                 <h1>{producto.nombre}</h1>
                 <p className={styles.ProductPrice}>${producto.precio.toLocaleString()}</p>
-                <p>{producto.descripcion}</p>
+                <p>{producto.marca} - {producto.color}</p>
                 <button className={styles.AddToCartButton}>Agregar al Carrito</button>
-            </div> */}
+            </div>
         </div>
     );
 };

@@ -11,11 +11,21 @@ interface Props {
     imagen: string;
 }
 
-const ProductCard: React.FC<Props> = ({id, nombre, marca, color, precio, imagen }) => {
+const ProductCard: React.FC<Props> = ({ id,nombre, marca, color, precio, imagen }) => {
 
     const navigate = useNavigate();
     const toProductDetail = () => {
-        navigate(`/product/${id}`)
+        navigate(`/product/${nombre}`, {
+            //pasamos todos los datos del producto como state
+            state: {
+                id,
+                nombre,
+                marca,
+                color,
+                precio,
+                imagen,
+            }
+        })
     }
     return (
         <div className={styles.ProductCard} onClick={toProductDetail}>

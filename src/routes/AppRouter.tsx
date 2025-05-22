@@ -21,7 +21,7 @@ export const AppRouter = () => {
                     <Route path="Home" element={<Home />} />
                     <Route path="Cart" element={<Cart />} />
                     <Route path="Catalogo" element={<Catalogo />} />
-                    <Route path="/producto/:id" element={<Product />} />
+                    <Route path="/product/:nombre" element={<Product />} />
                 </Route>
             </Routes>
         </BrowserRouter>
