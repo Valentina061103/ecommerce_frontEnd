@@ -1,4 +1,4 @@
-import styles from './CardProductCart.module.css';
+import styles from './CardProductCartPage.module.css';
 
 interface Shoe {
     brand: string;
