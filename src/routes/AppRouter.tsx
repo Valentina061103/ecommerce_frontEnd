@@ -7,6 +7,7 @@ import { Login } from "../pages/Login/Login";
 import { Register } from "../pages/Register/Register"; 
 import CreateProduct from "../pages/Admin/CreateProduct/CreateProduct";
 import { Product } from "../pages/Product/Product";
+import { ModalCart } from "../components/ModalCart/ModalCart";
 
 
 export const AppRouter = () => {
@@ -20,6 +21,7 @@ export const AppRouter = () => {
                     <Route path="/register" element={<Register />} />
                     <Route path="Home" element={<Home />} />
                     <Route path="Cart" element={<Cart />} />
+                    <Route path="modalCart" element={<ModalCart />} />
                     <Route path="Catalogo" element={<Catalogo />} />
                     <Route path="/product/:nombre" element={<Product />} />
                 </Route>

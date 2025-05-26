@@ -1,4 +1,4 @@
-import { CardProductCart } from "../../components/CardProductCart/CardProductCart";
+import { CardProductCart } from "../../components/CardProductCartPage/CardProductCartPage";
 import styles from './Cart.module.css';
 
 interface Shoe {
