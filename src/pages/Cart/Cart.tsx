@@ -36,7 +36,7 @@ export const Cart = () => {
                                 <p>Free</p>
                             </div>
                             <div className={styles.detailPrice_text}>
-                                <p>Inpuestos: </p>
+                                <p>Impuestos: </p>
                                 <p>-</p>
                             </div>
                         </div>
