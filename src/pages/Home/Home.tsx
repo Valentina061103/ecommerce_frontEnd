@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.css"
 import CarouselCategory from "../../components/CarouselCategory/CarouselCategory";
 import fondo from '../../assets/imagenfondo.jpg';
+import { Footer } from "../../components/Footer/Footer";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -23,6 +24,8 @@ const Home = () => {
 
       <h3 className={styles.conteiner_corouselProducts}>Aca va un carrosusel de productos</h3>
       <Slider />
+
+      <Footer/>
     </div>
   );
 };
