@@ -37,7 +37,6 @@ const CarouselCategory = () => {
 
   return (
     <div className={styles.trending}>
-      <h2>En tendencia</h2>
       <div className={styles.carouselContainer}>
         <button className={styles.arrow} onClick={scrollLeft}>
           <span className="material-symbols-outlined">arrow_back_ios</span>
