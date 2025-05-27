@@ -3,6 +3,7 @@
     width: 100%;
     height: 68vh;
     object-fit: cover;
+    margin-top: 8vh;
 }
 .container_highlight {
     width: 100%;
