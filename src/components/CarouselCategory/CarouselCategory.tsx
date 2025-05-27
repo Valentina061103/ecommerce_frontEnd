@@ -42,7 +42,7 @@ const CarouselCategory = () => {
           <span className="material-symbols-outlined">arrow_back_ios</span>
         </button>
         <div className={styles.trending_carousel} ref={carouselRef}>
-          {categories.map((cat, i) => (
+          {[...categories, ...categories].map((cat, i) => (
             <div key={i} className={styles.card}>
               <img src={cat.img} alt={cat.label} />
               <p>{cat.label}</p>
