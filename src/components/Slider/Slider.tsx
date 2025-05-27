@@ -1,18 +1,19 @@
 import styles from './Slider.module.css';
-import zapatilla1 from '../../assets/zapatilla1.png';  // Asegúrate de que las rutas de las imágenes sean correctas
-import modelo from '../../assets/modelo.png';
-import modelo2 from '../../assets/modelo2.png';
-import zapatilla2 from '../../assets/zapatilla2.png';
-import zapatilla3 from '../../assets/zapatilla3.png';
+import hombre from '../../assets/hombrefondo.jpg';
+import mujer from '../../assets/mujerfondo.jpg';
 
 const Slider = () => {
   return (
     <div className={styles.container_slider}>
-      <img src={zapatilla1} alt="Luka 3" />
-      <img src={modelo} alt="modelo" />
-      <img src={zapatilla3} alt="Luka 3" />
-      <img src={modelo2} alt="modelo" />
-      <img src={zapatilla2} alt="Luka 3" />
+      <div className={styles.container_section}>
+        <img src={hombre} alt="imagen ilustrativa para seccion hombre" />
+        <button>Hombre</button>
+      </div>
+      <div className={styles.container_section}>
+        <img src={mujer} alt="imagen ilustrativa para seccion mujer" />
+        <button>Mujer</button>
+      </div>
+
     </div>
   );
 };

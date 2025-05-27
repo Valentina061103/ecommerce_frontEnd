@@ -33,3 +33,7 @@
     cursor: pointer;
     font-size: 20px;
 }
+
+.conteiner_corouselProducts{
+    height: 30vh;
+}

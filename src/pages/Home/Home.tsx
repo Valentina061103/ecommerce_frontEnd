@@ -8,7 +8,6 @@ const Home = () => {
   const navigate = useNavigate();
   return (
     <div>
-      {/* <Slider /> */}
       <div className={styles.container_imagen}>
         <img src={fondo} alt="" />
       </div>
@@ -22,7 +21,8 @@ const Home = () => {
 
       <CarouselCategory />
 
-      <h3>Aca va un carrosusel de productos</h3>
+      <h3 className={styles.conteiner_corouselProducts}>Aca va un carrosusel de productos</h3>
+      <Slider />
     </div>
   );
 };
