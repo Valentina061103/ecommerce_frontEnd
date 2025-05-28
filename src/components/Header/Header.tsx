@@ -2,11 +2,13 @@ import styles from './Header.module.css';
 import logoblanco from '../../assets/logo-blanco.png';
 import { useNavigate } from 'react-router-dom';
 
-export const Header = () => {
+interface HeaderProps {
+    CartClick: () => void;
+}
+
+export const Header = ({ CartClick }: HeaderProps) => {
     const navigate = useNavigate();
-    const toCart = () => {
-        navigate(`/Cart`)
-    }
+
     const toHome = () => {
         navigate(`/Home`)
     }
@@ -28,7 +30,7 @@ export const Header = () => {
                         </span>
                         <input type="text" placeholder="Buscar" />
                     </div>
-                    <span className="material-symbols-outlined" onClick={toCart}>shopping_cart</span>
+                    <span className="material-symbols-outlined" onClick={CartClick}>shopping_cart</span>
                     <span className="material-symbols-outlined">menu</span>
                 </div>
             </div>
