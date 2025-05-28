@@ -12,6 +12,11 @@ export const Header = ({ CartClick }: HeaderProps) => {
     const toHome = () => {
         navigate(`/Home`)
     }
+
+    const toLogin = () => {
+        navigate(`\login`);
+    }
+
     return (
         <div className={styles.conteiner_header}> 
             <div className={styles.content_header}>
@@ -24,13 +29,8 @@ export const Header = ({ CartClick }: HeaderProps) => {
                     <p>Deporte</p>
                 </div>
                 <div className={styles.containerButtons_header}>
-                    <div className={styles.searchContainer}>
-                        <span className="material-symbols-outlined">
-                            search
-                        </span>
-                        <input type="text" placeholder="Buscar" />
-                    </div>
                     <span className="material-symbols-outlined" onClick={CartClick}>shopping_cart</span>
+                    <span className="material-symbols-outlined" onClick={toLogin}>person</span>
                     <span className="material-symbols-outlined">menu</span>
                 </div>
             </div>
