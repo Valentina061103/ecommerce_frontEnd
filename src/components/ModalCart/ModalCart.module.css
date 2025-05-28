@@ -10,22 +10,80 @@
     z-index: 1000;
 }
 .modalContent {
+    position: relative; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
     background: #ffffff;
     width: 30%;
     height: 100%;
     text-align: center;
 }
-.modalContent h2 {
-    text-transform: uppercase;
+.container_titulo {
     margin: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 7rem;
 }
+.container_titulo h2 {
+    text-transform: uppercase;
+    font-size: 1.2rem;
+}
+.container_contentCard {
+    flex: 1; /* Toma todo el espacio disponible entre header y actions */
+    overflow-y: auto; 
+}
+
 
 @media (min-width: 1444px) {
     .modalContent {
         width: 22%;
     }
-    .modalContent h2 {
-        margin: 2rem;
-        font-size: 2rem;
+    .container_titulo {
+        margin: 1.5rem;
+        gap: 7rem;
     }
+    .container_titulo h2 {
+        text-transform: uppercase;
+        font-size: 1.2rem;
+    }
+}
+
+.container_actions{
+    position: sticky;
+    bottom: 0;
+    padding-bottom: 1rem;
+    border-top: 1px solid #ccc;
+}
+
+.container_price {
+    margin: 1.5rem 2rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.container_button_black {
+    width: 84%;
+    background-color: black;
+    color: white;
+    font-family: var(--font--abel);
+    font-size: 1rem;
+    letter-spacing: 1px;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 2rem;
+    cursor: pointer;
+    margin-bottom: 0.8rem;
+}
+.container_buttons{
+    margin: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+.container_buttons p {
+    display: flex;
+    align-items: center;
 }
