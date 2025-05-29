@@ -22,11 +22,10 @@ export const Header = ({ CartClick }: HeaderProps) => {
             <div className={styles.content_header}>
                 <img src={logoblanco} alt="logo" onClick={toHome} />
                 <div className={styles.containerCategories_header}>
-                    <p>Nuevo</p>
-                    <p>Mujer</p>
                     <p>Hombre</p>
-                    <p>Jordan</p>
-                    <p>Deporte</p>
+                    <p>Mujer</p>
+                    <p>Unisex</p>
+                    <p>Accesorios</p>
                 </div>
                 <div className={styles.containerButtons_header}>
                     <span className="material-symbols-outlined" onClick={CartClick}>shopping_cart</span>

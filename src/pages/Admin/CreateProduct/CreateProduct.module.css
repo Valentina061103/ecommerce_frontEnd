@@ -1,14 +1,23 @@
 /* Contenedor principal centrado */
-.containerForm {
-  max-width: 500px;       /* Ancho máximo razonable para el formulario */
-  margin: 40px auto;      /* Centrado horizontal y algo de margen arriba y abajo */
-  padding: 20px 30px;     /* Espaciado interno para que no quede pegado */
-  border-radius: 8px;     /* Bordes redondeados para estética */
+.containerPage {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 8vh;
 }
-
+.containerTitlePage {
+  border-bottom: solid #000 2px;
+  width: 90vw;
+  display: flex;
+  align-items: center;
+  padding: 2rem 1rem 1rem;
+  margin-bottom: 1.2rem;
+}
+.containerTitlePage h2 {
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  margin-left: 2rem;
+}
 /* Tarjeta de formulario */
 .form {
   background-color: #fff;

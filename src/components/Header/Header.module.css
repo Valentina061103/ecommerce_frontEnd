@@ -25,6 +25,7 @@
 }
 .containerCategories_header p {
     cursor: pointer;
+    font-size: 0.9rem;
 }
 .containerButtons_header {
     display: flex;

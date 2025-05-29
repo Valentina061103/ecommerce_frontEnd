@@ -6,6 +6,7 @@ enum ProductType {
   ZAPATILLAS = "ZAPATILLAS",
   REMERAS = "REMERAS",
   BUZO = "BUZO",
+  CAMPERA = "CAMPERA",
   SHORTS = "SHORTS",
   PANTALON = "PANTALÓN",
   ACCESORIOS = "ACCESORIOS",
@@ -190,8 +191,11 @@ const CreateProduct = () => {
   };
 
   return (
-    <div className={styles.containerForm}>
-      <h2>Crear nuevo producto</h2>
+    <div className={styles.containerPage}>
+      <div className={styles.containerTitlePage}>
+        <span className="material-symbols-outlined">arrow_back_ios</span>
+        <h2>Crear producto</h2>
+      </div>
       <form onSubmit={handleSubmit}>
         {/* Tipo de Producto */}
         <div className={styles.formGroup}>

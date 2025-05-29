@@ -8,6 +8,7 @@ import { Register } from "../pages/Register/Register";
 import CreateProduct from "../pages/Admin/CreateProduct/CreateProduct";
 import { Product } from "../pages/Product/Product";
 import { ModalCart } from "../components/modals/ModalCart/ModalCart";
+import { ControlStock } from "../pages/Admin/ControlStock/ControlStock";
 
 
 export const AppRouter = () => {
@@ -19,6 +20,7 @@ export const AppRouter = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/crear-producto" element={<CreateProduct />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="stock-productos" element={<ControlStock/>} />
                     <Route path="Home" element={<Home />} />
                     <Route path="Cart" element={<Cart />} />
                     <Route path="modalCart" element={<ModalCart onClose={function (): void {
