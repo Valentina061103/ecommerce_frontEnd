@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import {Header} from '../Header/Header';
 import { useState } from 'react';
-import { ModalCart } from '../ModalCart/ModalCart';
+import { ModalCart } from '../modals/ModalCart/ModalCart';
 
 const Layout = () => {
     //lo guardamos como un estado local

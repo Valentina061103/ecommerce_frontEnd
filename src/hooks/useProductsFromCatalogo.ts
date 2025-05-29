@@ -14,11 +14,11 @@ export const useProductsFromCatalogo = () => {
         const productosAdaptados: ProductoCatalogo[] = data.map((p: any) => ({
           id: p.id,
           nombre: p.nombre,
-          marca: p.detalles?.[0]?.marca ?? '',
-          color: p.detalles?.[0]?.color ?? '',
-          precio: p.detalles?.[0]?.precio?.precioVenta ?? 0,
-          categoria: p.categoria?.nombre ?? '',
-          imagen: p.detalles?.[0]?.imagenes?.[0]?.url ?? '',
+          marca: p.marca ,
+          color: p.color,
+          precio: p.precio,
+          categoria: p.categoria,
+          imagen: p.imagenUrl,
         }));
 
         setProductos(productosAdaptados);

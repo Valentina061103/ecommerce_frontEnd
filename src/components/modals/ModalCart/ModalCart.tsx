@@ -1,5 +1,5 @@
 import styles from "./ModalCart.module.css"
-import { CardProductCartModal } from '../CardProductCartModal/CardProductCartModal';
+import { CardProductCartModal } from '../../CardProductCartModal/CardProductCartModal';
 import { useNavigate } from "react-router-dom";
 
 interface Shoe {
