@@ -64,6 +64,7 @@ const CreateProduct = () => {
   const [modelo, setModelo] = useState('');
   const [color, setColor] = useState('');
   const [estado, setEstado] = useState('');
+  const [marca, setMarca] = useState("");
   const [tipoProducto, setTipoProducto] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -148,6 +149,7 @@ const CreateProduct = () => {
         category,
         genero,
         modelo,
+        marca,
         color,
         imageUrl,
         talles: tallesStock,
@@ -174,6 +176,7 @@ const CreateProduct = () => {
       setCategory('');
       setGenero('');
       setModelo('');
+      setMarca('');
       setColor('');
       setImageFile(null);
       setImagePreview(null);
@@ -259,6 +262,17 @@ const CreateProduct = () => {
         <div className={styles.formGroup}>
           <label htmlFor="modelo">Modelo</label>
           <input type="text" id="modelo" value={modelo} onChange={(e) => setModelo(e.target.value)} />
+        </div>
+        
+        <div className={styles.formGroup}>
+          <label htmlFor="marca">Marca</label>
+          <input
+            type="text"
+            id="marca"
+            value={marca}
+            onChange={(e) => setMarca(e.target.value)}
+            required
+          />
         </div>
 
         {/* Color */}
