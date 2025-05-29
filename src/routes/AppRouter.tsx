@@ -21,7 +21,9 @@ export const AppRouter = () => {
                     <Route path="/register" element={<Register />} />
                     <Route path="Home" element={<Home />} />
                     <Route path="Cart" element={<Cart />} />
-                    <Route path="modalCart" element={<ModalCart />} />
+                    <Route path="modalCart" element={<ModalCart onClose={function (): void {
+                        throw new Error("Function not implemented.");
+                    } } />} />
                     <Route path="Catalogo" element={<Catalogo />} />
                     <Route path="/product/:nombre" element={<Product />} />
                 </Route>

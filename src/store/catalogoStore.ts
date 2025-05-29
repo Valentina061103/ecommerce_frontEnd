@@ -1,25 +1,15 @@
 import { create } from 'zustand';
-
-type Producto = {
-  id: number;
-  nombre: string;
-  marca: string;
-  color: string;
-  precio: number;
-  categoria: string;
-  imagen: string;
-};
-
+import { ProductoCatalogo } from "../types/IProduct";
 
 type Store = {
-  productos: Producto[];
+  productos: ProductoCatalogo[];
   filtroCategoria: string[];
   toggleCategoria: (categoria: string) => void;
-  productosFiltrados: () => Producto[];
-  setProductos: (productos: Producto[]) => void;
+  productosFiltrados: () => ProductoCatalogo[];
+  setProductos: (productos: ProductoCatalogo[]) => void;
 };
 
-export const useCatalogoStore = create<Store>((set, get) => ({
+export const useCatalogoPublicoStore = create<Store>((set, get) => ({
   productos: [],
   filtroCategoria: [],
   toggleCategoria: (categoria) => {

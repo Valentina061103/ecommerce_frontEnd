@@ -34,11 +34,11 @@ const CreateProduct = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-   const [sizeOptions, setSizeOptions] = useState<string[]>(defaultSizes);
+  const [sizeOptions, setSizeOptions] = useState<string[]>(defaultSizes);
 
 
 
- const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCategory = e.target.value as ProductCategory;
     setCategory(selectedCategory);
 
@@ -104,7 +104,7 @@ const CreateProduct = () => {
       };
 
       // Llamada al back
-      const response = await fetch('http://localhost:8080/api/products', {
+      const response = await fetch('http://localhost:8080/api/productos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -118,7 +118,6 @@ const CreateProduct = () => {
 
       alert('Producto creado correctamente');
 
-     
       setName('');
       setDescription('');
       setPrice('');

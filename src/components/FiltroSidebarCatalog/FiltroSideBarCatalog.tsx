@@ -1,10 +1,10 @@
 import styles from './FiltroSideBarCatalog.module.css';
-import { useCatalogoStore } from '../../store/catalogoStore';
+import { useCatalogoPublicoStore } from '../../store/catalogoStore';
 
 const categorias = ['Calzado', 'Ropa', 'Accesorios'];
 
 const FiltroSidebar = () => {
-    const { filtroCategoria, toggleCategoria } = useCatalogoStore();
+    const { filtroCategoria, toggleCategoria } = useCatalogoPublicoStore();
 
     return (
         <div className={styles.FiltroSideBar}>

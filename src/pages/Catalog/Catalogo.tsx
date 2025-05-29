@@ -1,13 +1,13 @@
 import styles from './Catalogo.module.css';
 import FiltroSidebarCatalog from '../../components/FiltroSidebarCatalog/FiltroSideBarCatalog';
 import CardProductCatalog from '../../components/CardProductCatalog/CardProductCatalog';
-import { useCatalogoStore } from '../../store/catalogoStore';
-import { useProductsFromApi } from '../../hooks/useProductsFromApi';
+import { useCatalogoPublicoStore } from '../../store/catalogoStore';
+import { useProductsFromCatalogo } from '../../hooks/useProductsFromCatalogo';
 
 const Catalogo = () => {
-  useProductsFromApi();
+  useProductsFromCatalogo();
 
-  const productos = useCatalogoStore((state) => state.productosFiltrados());
+  const productos = useCatalogoPublicoStore((state) => state.productosFiltrados());
 
   if (!productos || productos.length === 0) {
     return <div className={styles.CatalogoVacio}>No hay productos disponibles</div>;
