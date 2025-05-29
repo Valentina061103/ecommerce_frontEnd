@@ -15,28 +15,38 @@ const Catalogo = () => {
 
   return (
     <div className={styles.CatalogoContainer}>
-      <aside className={styles.CatlogoSideBar}>
-        <FiltroSidebarCatalog />
-      </aside>
-
-      <section className={styles.CatalogoMain}>
+      <div className={styles.CatalogoTopBar}>
         <h1 className={styles.CatalogoTitle}>Catálogo</h1>
-        <div className={styles.CatalogoGrid}>
-          {productos.map((producto) => (
-            <CardProductCatalog
-              key={producto.id}
-              id={producto.id}
-              nombre={producto.nombre}
-              marca ={producto.marca}
-              color={producto.color}
-              precio={producto.precio}
-              imagen={producto.imagen} 
-            />
-          ))}
+        <div className={styles.SearchContainer}>
+            <span className="material-symbols-outlined">
+              search
+            </span>
+            <input type="text" placeholder="Buscar" />
         </div>
-      </section>
+      </div>
+      <div className={styles.Separator}></div>
+
+    <div className={styles.CatalogoContent}>
+            <aside className={styles.CatalogoSideBar}>
+              <FiltroSidebarCatalog />
+            </aside>
+          <section className={styles.CatalogoMain}>
+            <div className={styles.CatalogoGrid}>
+              {productos.map((producto) => (
+                <CardProductCatalog
+                  key={producto.id}
+                  id={producto.id}
+                  nombre={producto.nombre}
+                  marca ={producto.marca}
+                  color={producto.color}
+                  precio={producto.precio}
+                  imagen={producto.imagen} 
+                />
+              ))}
+            </div>
+          </section>
+      </div>
     </div>
   );
 };
-
 export default Catalogo;

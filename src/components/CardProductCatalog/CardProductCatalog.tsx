@@ -1,4 +1,5 @@
 import React from 'react';
+import logoblanco from '../../assets/logo-blanco.png';
 import styles from './CardProductCatalog.module.css';
 import { useNavigate } from 'react-router-dom';
 

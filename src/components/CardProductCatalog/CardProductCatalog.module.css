@@ -1,14 +1,18 @@
     .ProductCard {
-    background-color: #fff;
+    background-color: #1F1F1F;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.2s ease;
+    box-shadow: 0 0 8px rgba(190, 188, 188, 0.263);
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
     }
 
-    .product-card:hover {
-    transform: translateY(-4px);
+    .ProductCard:hover{
+        background-color: white;
+    }
+    .ProductCard:hover .ProductInfo  h3,
+    .ProductCard:hover .ProductInfo p{
+        color: black;
     }
 
     .ProductImage {
@@ -26,6 +30,7 @@
     }
 
     .ProductInfo h3 {
+    color: white;
     font-size: 16px;
     margin: 0 0 0.5rem;
     }
@@ -33,7 +38,7 @@
     .ProductInfo p {
     margin: 0;
     font-size: 14px;
-    color: #555;
+    color: white;
     }
 
     .ProductPrice {
