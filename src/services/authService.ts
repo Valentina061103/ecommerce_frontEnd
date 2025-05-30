@@ -1,23 +1,31 @@
-const API_URL = 'http://localhost:8080/api/auth'; 
+import { ILogin, IRegister, IToken } from '../types/IAuth';
 
-export const loginUser = async (credentials: { email: string, password: string }) => {
-    const res = await fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
-    });
+const API_URL = 'http://localhost:8080/api/auth';
 
-    if (!res.ok) throw new Error('Error al iniciar sesión');
-    return res.json(); // Debe devolver: { token, user: { id, email, rol, ... } }
-};
-
-export const registerUser = async (data: { email: string, password: string, nombre: string, dni: string }) => {
-    const res = await fetch(`${API_URL}/register`, {
+export const login = async (data: ILogin): Promise<IToken> => {
+    const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
     });
 
-    if (!res.ok) throw new Error('Error al registrarse');
-    return res.json();
+    if (!response.ok) {
+        throw new Error('Login failed');
+    }
+
+    return await response.json(); // debe devolver { token: string }
+};
+
+export const register = async (data: IRegister): Promise<IToken> => {
+    const response = await fetch(`${API_URL}/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+        throw new Error('Registro fallido');
+    }
+
+    return await response.json(); // debe devolver { token: string }
 };

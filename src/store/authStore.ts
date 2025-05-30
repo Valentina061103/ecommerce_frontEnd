@@ -1,15 +1,18 @@
 import { create } from 'zustand';
+import { IUser } from '../types/IUser';
 
-type AuthState = {
-  isAuthenticated: boolean;
-  user: string | null;
-  login: (username: string) => void;
+interface AuthStore {
+  user: Partial<IUser> | null; //solo guarda algunos datos
+  token: string;
+  setUser: (user: Partial<IUser>) => void;
+  setToken: (token: string) => void;
   logout: () => void;
-};
+}
 
-export const useAuthStore = create<AuthState>((set) => ({
-  isAuthenticated: false,
+export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
-  login: (username: string) => set({ isAuthenticated: true, user: username }),
-  logout: () => set({ isAuthenticated: false, user: null }),
+  token: '',
+  setUser: (user) => set({ user }),
+  setToken: (token) => set({ token }),
+  logout: () => set({ user: null, token: '' }),
 }));

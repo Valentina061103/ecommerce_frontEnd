@@ -1,56 +1,59 @@
-import { FormEvent, useState } from 'react';
 import styles from '../Login/Login.module.css';
-import { useForm } from '../../hooks/useForm';
+import { FormEvent, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useAuthStore } from '../../store/authStore';
+import { register } from '../../services/authService';
 
 export const Register = () => {
+  const [nombre, setNombre] = useState('');
+  const [email, setEmail] = useState('');
+  const [dni, setDni] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
 
-  const { values, handleChange } = useForm({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
-
-  const { username, email, password, confirmPassword } = values;
+  const setToken = useAuthStore((state) => state.setToken);
+  const setUser = useAuthStore((state) => state.setUser);
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (!nombre.trim()) newErrors.nombre = 'El nombre es obligatorio.';
+    if (!dni.trim()) newErrors.dni = 'El DNI es obligatorio.';
+    if (!email.trim()) {
+      newErrors.email = 'El correo es obligatorio.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = 'El correo no es válido.';
+    }
+    if (!password) newErrors.password = 'La contraseña es obligatoria.';
+    if (password !== confirmPassword) newErrors.confirmPassword = 'Las contraseñas no coinciden.';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // Validar que las contraseñas coincidan
-    if (password !== confirmPassword) {
-      alert('Las contraseñas no coinciden');
-      return;
-    }
-
-    // Aquí irían las validaciones adicionales y la lógica para guardar el usuario
-    // Por ahora simularemos un registro exitoso
-
+  
+    if (!validateForm()) return;
+  
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, email, password }),
-      });
+      const { token } = await register({ nombre, email, password, dni });
   
-      if (response.ok) {
-        alert('Registro exitoso');
-        navigate('/login');
-      } else {
-        const data = await response.json();
-        alert(data.message || 'Error en el registro');
-      }
+      setToken(token);
+      setUser({ nombre, email, dni }); // coincide con IUser , porque guada datos parciales
   
+      navigate('/home');
     } catch (error) {
       console.error('Error al registrar:', error);
       alert('Error al registrar');
     }
   };
+  
 
   return (
     <div className={styles.containerLogin}>
@@ -66,12 +69,23 @@ export const Register = () => {
             <input
               type="text"
               id="username"
-              name="username"
-              value={username}
-              onChange={handleChange}
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
               placeholder="Nombre de usuario"
               required
             />
+            {errors.nombre && <span className={styles.error}>{errors.nombre}</span>}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>DNI</label>
+            <input
+              type="text"
+              value={dni}
+              onChange={(e) => setDni(e.target.value)}
+              required
+            />
+            {errors.dni && <span className={styles.error}>{errors.dni}</span>}
           </div>
 
           <div className={styles.formGroup}>
@@ -79,12 +93,12 @@ export const Register = () => {
             <input
               type="email"
               id="email"
-              name="email"
               value={email}
-              onChange={handleChange}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="correo@ejemplo.com"
               required
             />
+            {errors.email && <span className={styles.error}>{errors.email}</span>}
           </div>
 
           <div className={styles.formGroup}>
@@ -92,12 +106,11 @@ export const Register = () => {
             <input
               type={showPass ? 'text' : 'password'}
               id="password"
-              name="password"
               value={password}
-              onChange={handleChange}
-              placeholder="Contraseña"
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
+            {errors.password && <span className={styles.error}>{errors.password}</span>}
           </div>
 
           <div className={styles.showPasswordContainer}>
@@ -107,7 +120,9 @@ export const Register = () => {
               onChange={() => setShowPass(!showPass)}
               className={styles.checkbox}
             />
-            <label htmlFor="showPassword" className={styles.showPasswordText}>Mostrar contraseña</label>
+            <label htmlFor="showPassword" className={styles.showPasswordText}>
+              Mostrar contraseña
+            </label>
           </div>
 
           <div className={styles.formGroup}>
@@ -115,12 +130,13 @@ export const Register = () => {
             <input
               type={showConfirmPass ? 'text' : 'password'}
               id="confirmPassword"
-              name="confirmPassword"
               value={confirmPassword}
-              onChange={handleChange}
-              placeholder="Confirmar contraseña"
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
+            {errors.confirmPassword && (
+              <span className={styles.error}>{errors.confirmPassword}</span>
+            )}
           </div>
 
           <div className={styles.showPasswordContainer}>
@@ -130,19 +146,18 @@ export const Register = () => {
               onChange={() => setShowConfirmPass(!showConfirmPass)}
               className={styles.checkbox}
             />
-            <label htmlFor="showConfirmPassword" className={styles.showPasswordText}>Mostrar contraseña</label>
+            <label htmlFor="showConfirmPassword" className={styles.showPasswordText}>
+              Mostrar contraseña
+            </label>
           </div>
 
-          <div className={styles.submitContainer}>
-            <button type="submit">Registrarse</button>
-          </div>
-          
-          <div className={styles.loginLinkContainer}>
-            <p>¿Ya tienes una cuenta?</p>
-            <Link to="/login" className={styles.loginLink}>
-              Iniciar Sesión
-            </Link>
-          </div>
+          <button type="submit" className={styles.buttonLogin}>
+            Registrarme
+          </button>
+
+          <p className={styles.registerText}>
+            ¿Ya tenés cuenta? <Link to="/">Iniciá sesión</Link>
+          </p>
         </form>
       </div>
     </div>
