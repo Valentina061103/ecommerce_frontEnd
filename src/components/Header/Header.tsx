@@ -17,6 +17,10 @@ export const Header = ({ CartClick }: HeaderProps) => {
         navigate(`\login`);
     }
 
+    const rol = localStorage.getItem('rol');
+
+
+
     return (
         <div className={styles.conteiner_header}> 
             <div className={styles.content_header}>
@@ -31,7 +35,9 @@ export const Header = ({ CartClick }: HeaderProps) => {
                 <div className={styles.containerButtons_header}>
                     <span className="material-symbols-outlined" onClick={CartClick}>shopping_cart</span>
                     <span className="material-symbols-outlined" onClick={toLogin}>person</span>
-                    <span className="material-symbols-outlined">menu</span>
+                    {rol === 'ROLE_ADMIN' && (
+                        <span className="material-symbols-outlined">menu</span>
+                    )}
                 </div>
             </div>
         </div>

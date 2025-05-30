@@ -30,19 +30,25 @@ export const Register = () => {
     // Por ahora simularemos un registro exitoso
 
     try {
-      // Simulamos un fetch para registro (esto se reemplazaría con tu lógica real)
-      // const response = await fetch('/api/register', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ username, email, password })
-      // });
-
-      // Simulamos una respuesta exitosa
-      alert('Registro exitoso');
-      navigate('/login'); // Redirigir al login después de un registro exitoso
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
+  
+      if (response.ok) {
+        alert('Registro exitoso');
+        navigate('/login');
+      } else {
+        const data = await response.json();
+        alert(data.message || 'Error en el registro');
+      }
+  
     } catch (error) {
-      console.error('Error en el registro:', error);
-      alert('Error en el registro. Inténtalo de nuevo.');
+      console.error('Error al registrar:', error);
+      alert('Error al registrar');
     }
   };
 
