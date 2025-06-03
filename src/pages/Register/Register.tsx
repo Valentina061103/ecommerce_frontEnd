@@ -1,22 +1,22 @@
-import styles from '../Login/Login.module.css';
 import { FormEvent, useState } from 'react';
+import styles from '../Login/Login.module.css';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuthStore } from '../../store/authStore';
 import { register } from '../../services/authService';
+import { useAuth } from '../../store/authContext';
 
-export const Register = () => {
+export const RegisterPage = () => {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [dni, setDni] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [generalError, setGeneralError] = useState('');
 
-  const setToken = useAuthStore((state) => state.setToken);
-  const setUser = useAuthStore((state) => state.setUser);
+  const { setToken } = useAuth();
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -38,22 +38,19 @@ export const Register = () => {
 
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+    setGeneralError('');
+
     if (!validateForm()) return;
-  
+
     try {
-      const { token } = await register({ nombre, email, password, dni });
-  
-      setToken(token);
-      setUser({ nombre, email, dni }); // coincide con IUser , porque guada datos parciales
-  
-      navigate('/home');
-    } catch (error) {
-      console.error('Error al registrar:', error);
-      alert('Error al registrar');
+      const res = await register({ nombre, email, password, dni });
+      setToken(res.jwt);
+      navigate('/');
+    } catch (err: any) {
+      console.error('Error al registrar:', err);
+      setGeneralError(err.message || 'Error al registrar. Intenta de nuevo.');
     }
   };
-  
 
   return (
     <div className={styles.containerLogin}>
@@ -65,24 +62,26 @@ export const Register = () => {
 
         <form onSubmit={handleSubmitForm}>
           <div className={styles.formGroup}>
-            <label htmlFor="username">Nombre de Usuario</label>
+            <label htmlFor="nombre">Nombre</label>
             <input
               type="text"
-              id="username"
+              id="nombre"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
-              placeholder="Nombre de usuario"
+              placeholder="Nombre completo"
               required
             />
             {errors.nombre && <span className={styles.error}>{errors.nombre}</span>}
           </div>
 
           <div className={styles.formGroup}>
-            <label>DNI</label>
+            <label htmlFor="dni">DNI</label>
             <input
               type="text"
+              id="dni"
               value={dni}
               onChange={(e) => setDni(e.target.value)}
+              placeholder="DNI"
               required
             />
             {errors.dni && <span className={styles.error}>{errors.dni}</span>}
@@ -108,6 +107,7 @@ export const Register = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="Contraseña"
               required
             />
             {errors.password && <span className={styles.error}>{errors.password}</span>}
@@ -132,6 +132,7 @@ export const Register = () => {
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirmar contraseña"
               required
             />
             {errors.confirmPassword && (
@@ -151,13 +152,18 @@ export const Register = () => {
             </label>
           </div>
 
-          <button type="submit" className={styles.buttonLogin}>
-            Registrarme
-          </button>
+          {generalError && <p className={styles.error}>{generalError}</p>}
 
-          <p className={styles.registerText}>
-            ¿Ya tenés cuenta? <Link to="/">Iniciá sesión</Link>
-          </p>
+          <div className={styles.submitContainer}>
+            <button type="submit">Registrarme</button>
+          </div>
+
+          <div className={styles.registerContainer}>
+            <p>¿Ya tienes una cuenta?</p>
+            <Link to="/login" className={styles.registerButton}>
+              Iniciar sesión
+            </Link>
+          </div>
         </form>
       </div>
     </div>

@@ -1,16 +1,15 @@
-
-export interface ILogin {
+export interface LoginRequest {
     email: string;
     password: string;
 }
 
-export interface IRegister {
+export interface RegisterRequest {
     nombre: string;
     email: string;
     password: string;
     dni: string;
 }
 
-export interface IToken {
-    token: string;
+export interface AuthResponse {
+    jwt: string;
 }

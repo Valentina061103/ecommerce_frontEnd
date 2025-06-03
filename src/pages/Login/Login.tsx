@@ -1,25 +1,27 @@
 import { FormEvent, useState } from 'react';
 import styles from './Login.module.css';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth'; 
-export const Login = () => {
+import { useAuth } from '../../store/authContext';
+import { login } from '../../services/authService';
+
+export const LoginPage = () => {
   const [showPass, setShowPass] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useAuth(); 
+  const { setToken } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const success = await login({ email, password }); 
-    if (success) {
-      navigate('/Home');
-    } else {
-      alert('Error al iniciar sesión. Inténtalo de nuevo.');
+    try {
+      const res = await login({ email, password });
+      setToken(res.jwt);
+      navigate('/');
+    } catch (err: any) {
+      setError(err.message || 'Error al iniciar sesión. Inténtalo de nuevo.');
     }
   };
-  
 
   return (
     <div className={styles.containerLogin}>
@@ -31,7 +33,7 @@ export const Login = () => {
 
         <form onSubmit={handleSubmitForm}>
           <div className={styles.formGroup}>
-            <label htmlFor="user">Usuario</label>
+            <label htmlFor="email">Usuario</label>
             <input
               type="text"
               id="email"
@@ -65,6 +67,8 @@ export const Login = () => {
             />
             <label htmlFor="showPassword" className={styles.showPasswordText}>Mostrar contraseña</label>
           </div>
+
+          {error && <p style={{ color: 'red' }}>{error}</p>}
 
           <div className={styles.submitContainer}>
             <button type="submit">Ingresar</button>
