@@ -1,0 +1,39 @@
+.modal {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    width: 250px;
+    
+}
+.modal p {
+    color: black;
+}
+
+.closeBtn {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    float: right;
+    cursor: pointer;
+}
+
+.loginBtn, .logoutBtn {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.loginBtn:hover,
+.logoutBtn:hover {
+    background: #125a9c;
+}

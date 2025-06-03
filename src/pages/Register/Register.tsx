@@ -16,6 +16,9 @@ export const RegisterPage = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [generalError, setGeneralError] = useState('');
 
+  //mensaje de exito
+  const [successMessage, setSuccessMessage] = useState('');
+
   const { setToken } = useAuth();
   const navigate = useNavigate();
 
@@ -45,7 +48,12 @@ export const RegisterPage = () => {
     try {
       const res = await register({ nombre, email, password, dni });
       setToken(res.jwt);
-      navigate('/');
+      //mensaje de exito
+      setSuccessMessage('Registro exitoso');
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
+
     } catch (err: any) {
       console.error('Error al registrar:', err);
       setGeneralError(err.message || 'Error al registrar. Intenta de nuevo.');
@@ -165,6 +173,7 @@ export const RegisterPage = () => {
             </Link>
           </div>
         </form>
+        {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
       </div>
     </div>
   );

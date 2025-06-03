@@ -1,6 +1,8 @@
 import styles from './Header.module.css';
 import logoblanco from '../../assets/logo-blanco.png';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { ModalUser } from '../modals/ModalUser/ModalUser';
 
 interface HeaderProps {
     CartClick: () => void;
@@ -13,13 +15,13 @@ export const Header = ({ CartClick }: HeaderProps) => {
         navigate(`/Home`)
     }
 
-    const toLogin = () => {
-        navigate(`\login`);
-    }
-
     const rol = localStorage.getItem('rol');
 
+    const [showUserModal, setShowUserModal] = useState(false);
 
+    const toggleModal = () => {
+        setShowUserModal((prev) => !prev);
+    };
 
     return (
         <div className={styles.conteiner_header}> 
@@ -34,9 +36,14 @@ export const Header = ({ CartClick }: HeaderProps) => {
                 </div>
                 <div className={styles.containerButtons_header}>
                     <span className="material-symbols-outlined" onClick={CartClick}>shopping_cart</span>
-                    <span className="material-symbols-outlined" onClick={toLogin}>person</span>
+                    <span className="material-symbols-outlined" 
+                    onClick={toggleModal}>person</span>
                     {rol === 'ROLE_ADMIN' && (
                         <span className="material-symbols-outlined">menu</span>
+                    )}
+
+                    {showUserModal && (
+                            <ModalUser onClose={() => setShowUserModal(false)} />
                     )}
                 </div>
             </div>

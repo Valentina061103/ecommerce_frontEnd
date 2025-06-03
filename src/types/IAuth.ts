@@ -11,5 +11,8 @@ export interface RegisterRequest {
 }
 
 export interface AuthResponse {
+    nombre: string;
+    email: string;
+    dni: string;
     jwt: string;
 }
