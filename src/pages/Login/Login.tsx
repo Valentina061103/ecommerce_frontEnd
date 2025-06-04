@@ -1,53 +1,25 @@
 import { FormEvent, useState } from 'react';
 import styles from './Login.module.css';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuthStore } from '../../store/authStore';
+import { useAuth } from '../../store/authContext';
+import { login } from '../../services/authService';
 
-
-export const Login = () => {
+export const LoginPage = () => {
   const [showPass, setShowPass] = useState(false);
-
-  const [values, setValues] = useState({
-    user: '',
-    password: '',
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({
-      ...values,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const { user, password } = values;
-
-  // Ajusta esto según la estructura de tu store
-  const login = useAuthStore((state) => state.login);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { setToken } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // Aquí iría tu lógica de autenticación
-    // Por ejemplo:
     try {
-      const response = await fetch('/user.json');
-      const usersData = await response.json();
-
-      const userFound = usersData.users.find(
-        (u: { username: string; password: string }) =>
-          u.username === user && u.password === password
-      );
-
-      if (userFound) {
-        login(user);
-        navigate('/Home');
-      } else {
-        alert('Usuario o contraseña incorrecta');
-      }
-    } catch (error) {
-      console.error('Error en el login:', error);
-      alert('Error al iniciar sesión. Inténtalo de nuevo.');
+      const res = await login({ email, password });
+      setToken(res.jwt);
+      navigate('/');
+    } catch (err: any) {
+      setError(err.message || 'Error al iniciar sesión. Inténtalo de nuevo.');
     }
   };
 
@@ -61,14 +33,14 @@ export const Login = () => {
 
         <form onSubmit={handleSubmitForm}>
           <div className={styles.formGroup}>
-            <label htmlFor="user">Usuario</label>
+            <label htmlFor="email">Usuario</label>
             <input
               type="text"
-              id="user"
-              name="user"
-              value={user}
-              onChange={handleChange}
-              placeholder="Usuario"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
               required
             />
           </div>
@@ -80,7 +52,7 @@ export const Login = () => {
               id="password"
               name="password"
               value={password}
-              onChange={handleChange}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Contraseña"
               required
             />
@@ -95,10 +67,13 @@ export const Login = () => {
             />
             <label htmlFor="showPassword" className={styles.showPasswordText}>Mostrar contraseña</label>
           </div>
+
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+
           <div className={styles.submitContainer}>
             <button type="submit">Ingresar</button>
           </div>
-          
+
           <div className={styles.registerContainer}>
             <p>¿No tienes una cuenta?</p>
             <Link to="/register" className={styles.registerButton}>

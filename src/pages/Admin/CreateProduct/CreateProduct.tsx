@@ -157,14 +157,21 @@ const CreateProduct = () => {
       };
 
       // Enviar al backend
-      const response = await fetch('http://localhost:8080/api/productos', {
+      // const response = await fetch('http://localhost:8080/api/productos', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(productData),
+      // });
+      const response = await fetch('/api/productos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(productData),
       });
-
       if (!response.ok) throw new Error('Error al crear el producto');
 
       alert('Producto creado correctamente');
