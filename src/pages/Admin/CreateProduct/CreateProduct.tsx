@@ -6,7 +6,6 @@ enum ProductType {
   ZAPATILLAS = "ZAPATILLAS",
   REMERAS = "REMERAS",
   BUZO = "BUZO",
-  CAMPERA = "CAMPERA",
   SHORTS = "SHORTS",
   PANTALON = "PANTALÓN",
   ACCESORIOS = "ACCESORIOS",
@@ -156,14 +155,6 @@ const CreateProduct = () => {
         talles: tallesStock,
       };
 
-      // Enviar al backend
-      // const response = await fetch('http://localhost:8080/api/productos', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(productData),
-      // });
       const response = await fetch('/api/productos', {
         method: 'POST',
         headers: {

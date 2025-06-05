@@ -1,5 +1,7 @@
-/* Contenedor principal centrado */
 .containerPage {
+  max-width: 500px;       /* Ancho máximo razonable para el formulario */     /* Centrado horizontal y algo de margen arriba y abajo */
+  padding: 20px 30px;     /* Espaciado interno para que no quede pegado */
+  border-radius: 8px;     /* Bordes redondeados para estética */
   display: flex;
   flex-direction: column;
   align-items: center;
