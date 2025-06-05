@@ -1,15 +1,16 @@
 .modal {
     position: absolute;
-    top: 60px;
-    right: 20px;
+    top: 8vh;
+    right: 1rem;
     background: white;
     border: 1px solid #ccc;
-    border-radius: 8px;
     padding: 1rem;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     z-index: 100;
-    width: 250px;
-    
+    /* width: 19rem; */
+    min-width: 17rem;
+    display: flex;
+    flex-direction: column;
 }
 .modal p {
     color: black;
@@ -25,8 +26,8 @@
 
 .loginBtn, .logoutBtn {
     margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background: #1976d2;
+    padding: 0.6rem 1rem;
+    background: black;
     color: white;
     border: none;
     border-radius: 5px;
@@ -35,5 +36,46 @@
 
 .loginBtn:hover,
 .logoutBtn:hover {
-    background: #125a9c;
+    background: var(--color-gris-oscuro);
+}
+
+.conteinerText {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.conteinerInicial {
+    background-color: rgb(185, 185, 185);
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.conteinerInicial p {
+    color: white;
+    font-size: 2rem;
+}
+.conteinerDescription{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.conteinerDescription  {
+    font-size: 0.9rem;
+}
+
+.descriptionTextTitle {
+    text-transform: capitalize;
+    font-size: 1.1rem;
+}
+.descriptionBoton{
+    text-decoration:underline;
+    cursor: pointer;
+}
+.conteinerAviso {
+    display: flex;
+    justify-content: center;
+    font-size: 0.9rem;
 }

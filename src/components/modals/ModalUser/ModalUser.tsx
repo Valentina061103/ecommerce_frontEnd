@@ -32,17 +32,32 @@ export const ModalUser = ({ onClose }: ModalUserProps) => {
 
     return (
         <div className={styles.modal}>
-        <button className={styles.closeBtn} onClick={onClose}>×</button>
+            <div className={styles.conteinerActions}>
+                <p> </p>
+                <button className={styles.closeBtn} onClick={onClose}>×</button>
+            </div>
 
         {!token || !user ? (
             <>
-            <p>Aún no has iniciado sesión.</p>
+            <div className={styles.conteinerAviso}>
+                <p className={styles.text}>Aún no has iniciado sesión</p>
+            </div>
             <button className={styles.loginBtn} onClick={handleLogin}>Iniciar sesión</button>
             </>
         ) : (
             <>
-                <p><strong>Nombre:</strong> {user.nombre}</p>
-                <p><strong>Email:</strong> {user.email}</p>
+                <div className={styles.conteinerText}>
+                    <div className={styles.conteinerInicial}>
+                        <p className={styles.textoinicial}>{user.nombre.split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase()}</p>
+                    </div>
+                    <div className={styles.conteinerDescription}>
+                        <div className={styles.descriptionText}>
+                            <p className={styles.descriptionTextTitle}><strong>{user.nombre}</strong></p>
+                            <p>{user.email}</p>
+                        </div>
+                        <p className={styles.descriptionBoton}>Mi perfil</p>
+                    </div>
+                </div>
 
             <button className={styles.logoutBtn} onClick={handleLogout}>Cerrar sesión</button>
             </>
