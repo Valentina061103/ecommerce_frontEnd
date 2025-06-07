@@ -14,5 +14,6 @@ export interface AuthResponse {
     nombre: string;
     email: string;
     dni: string;
+    rol: string;
     jwt: string;
 }

@@ -194,7 +194,7 @@ const CreateProduct = () => {
         <span className="material-symbols-outlined">arrow_back_ios</span>
         <h2>Crear producto</h2>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form className={styles.formulario} onSubmit={handleSubmit}>
         {/* Tipo de Producto */}
         <div className={styles.formGroup}>
           <label htmlFor="tipoProducto">Tipo de Producto</label>
