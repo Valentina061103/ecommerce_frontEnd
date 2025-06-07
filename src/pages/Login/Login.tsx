@@ -28,6 +28,7 @@ export const LoginPage = () => {
         nombre: res.nombre,
         email: res.email,
         dni: res.dni,
+        rol: res.rol,
       });
 
 

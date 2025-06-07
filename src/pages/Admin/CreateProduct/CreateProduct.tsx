@@ -3,12 +3,12 @@ import styles from './CreateProduct.module.css';
 
 // Enums para las opciones del formulario
 enum ProductType {
-  ZAPATILLAS = "ZAPATILLAS",
-  REMERAS = "REMERAS",
+  ZAPATILLAS = "ZAPATILLA",
+  REMERAS = "REMERA",
   BUZO = "BUZO",
-  SHORTS = "SHORTS",
+  SHORTS = "SHORT",
   PANTALON = "PANTALÓN",
-  ACCESORIOS = "ACCESORIOS",
+  ACCESORIOS = "ACCESORIO",
 }
 
 enum ProductCategory {
@@ -51,7 +51,7 @@ type StockPorTalle = {
 };
 
 // Listas de talles según el producto
-const zapatillaSizes = ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45"];
+const zapatillaSizes = ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44"];
 const defaultSizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
 
 const CreateProduct = () => {

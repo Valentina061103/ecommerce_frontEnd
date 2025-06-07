@@ -14,6 +14,7 @@ interface Usuario {
   nombre: string;
   email: string;
   dni: string;
+  rol: string;
 }
 
 
