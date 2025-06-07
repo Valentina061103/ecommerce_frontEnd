@@ -226,18 +226,6 @@ const CreateProduct = () => {
           <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
         </div>
 
-        {/* Descripción */}
-        <div className={styles.formGroup}>
-          <label htmlFor="description">Descripción</label>
-          <input type="text" id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
-        </div>
-
-        {/* Precio */}
-        <div className={styles.formGroup}>
-          <label htmlFor="price">Precio</label>
-          <input type="number" id="price" value={price} onChange={(e) => setPrice(e.target.value)} min="0" step="0.01" required />
-        </div>
-
         {/* Categoría */}
         <div className={styles.formGroup}>
           <label htmlFor="category">Categoría</label>
@@ -249,6 +237,18 @@ const CreateProduct = () => {
           </select>
         </div>
 
+        {/* Modelo */}
+        <div className={styles.formGroup}>
+          <label htmlFor="modelo">Modelo</label>
+          <input type="text" id="modelo" value={modelo} onChange={(e) => setModelo(e.target.value)} />
+        </div>
+
+        {/* Descripción */}
+        <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+          <label htmlFor="description">Descripción</label>
+          <input type="text" id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
+        </div>
+
         {/* Género */}
         <div className={styles.formGroup}>
           <label htmlFor="genero">Género</label>
@@ -258,12 +258,6 @@ const CreateProduct = () => {
               <option key={gen} value={gen}>{gen}</option>
             ))}
           </select>
-        </div>
-
-        {/* Modelo */}
-        <div className={styles.formGroup}>
-          <label htmlFor="modelo">Modelo</label>
-          <input type="text" id="modelo" value={modelo} onChange={(e) => setModelo(e.target.value)} />
         </div>
         
         <div className={styles.formGroup}>
@@ -288,16 +282,22 @@ const CreateProduct = () => {
           </select>
         </div>
 
-        {/* Imagen */}
+        {/* Precio */}
         <div className={styles.formGroup}>
+          <label htmlFor="price">Precio</label>
+          <input type="number" id="price" value={price} onChange={(e) => setPrice(e.target.value)} min="0" step="0.01" required />
+        </div>
+
+        {/* Imagen */}
+        <div className={`${styles.formGroup} ${styles.fullWidth}`}>
           <label htmlFor="image">Imagen</label>
           <input type="file" id="image" accept="image/*" onChange={handleImageChange} />
           {imagePreview && <img src={imagePreview} alt="Vista previa" width="100" />}
         </div>
 
         {/* Talle y cantidad */}
-        <div className={styles.formGroup}>
-          <label>Talle</label>
+        <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+          <label>Talle y cantidad</label>
           <select value={talle} onChange={(e) => setTalle(e.target.value)}>
             <option value="">Seleccione un talle</option>
             {sizeOptions.map((size) => (
@@ -339,12 +339,12 @@ const CreateProduct = () => {
             ))}
           </select>
         </div>
+      </form>
 
         {/* Botón de envío */}
-        <div className={styles.formGroup}>
+        <div className={styles.botonEnviar}>
           <button type="submit">Crear producto</button>
         </div>
-      </form>
     </div>
   );
 };

@@ -9,6 +9,7 @@ import { Product } from "../pages/Product/Product";
 import { ModalCart } from "../components/modals/ModalCart/ModalCart";
 import { LoginPage } from "../pages/Login/Login";
 import { useAuth } from "../store/authContext";
+import { ControlStock } from "../pages/Admin/ControlStock/ControlStock";
 
 
 export const AppRouter = () => {
@@ -24,6 +25,7 @@ export const AppRouter = () => {
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/" element={token ? <Home /> : <Navigate to="/login" />} />
                     <Route path="/crear-producto" element={<CreateProduct />} />
+                    <Route path="/stock" element={<ControlStock />} />
                     <Route path="Home" element={<Home />} />
                     <Route path="Cart" element={<Cart />} />
                     <Route path="modalCart" element={<ModalCart onClose={function (): void {
