@@ -19,7 +19,7 @@ export const RegisterPage = () => {
   //mensaje de exito
   const [successMessage, setSuccessMessage] = useState('');
 
-  const { setToken } = useAuth();
+  const { setToken, setUser } = useAuth();
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -48,6 +48,12 @@ export const RegisterPage = () => {
     try {
       const res = await register({ nombre, email, password, dni });
       setToken(res.jwt);
+      setUser({
+        nombre: res.nombre,
+        email: res.email,
+        dni: res.dni,
+        rol: res.rol
+      })
       //mensaje de exito
       setSuccessMessage('Registro exitoso');
       setTimeout(() => {

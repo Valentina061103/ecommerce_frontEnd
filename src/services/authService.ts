@@ -33,16 +33,17 @@ export const register = async (data: RegisterRequest): Promise<AuthResponse> => 
 };
 
 //guardar los datos del usuario para usarlos en modaluser
-export const getUserFromToken = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) throw new Error('Token no encontrado');
-    
-        const response = await fetch('http://localhost:8080/api/auth/me', {
+export const getUserFromToken = async (): Promise<AuthResponse | null> => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+
+    const res = await fetch("http://localhost:8080/api/auth/me", {
         headers: {
             Authorization: `Bearer ${token}`,
         },
-        });
-    
-    if (!response.ok) throw new Error(await response.text());
-    return response.json(); // retorna { nombre, email, dni, ... }
+    });
+
+    if (!res.ok) throw new Error("Token inválido");
+
+    return await res.json();
 };

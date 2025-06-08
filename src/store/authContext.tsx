@@ -24,7 +24,10 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Componente proveedor del contexto
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setTokenState] = useState<string | null>(localStorage.getItem('token'));
-  const [user, setUserState] = useState<Usuario | null>(null);
+  const [user, setUserState] = useState<Usuario | null>(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
   const [loadingUser, setLoadingUser] = useState(true);
 

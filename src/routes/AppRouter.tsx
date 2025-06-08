@@ -24,8 +24,8 @@ export const AppRouter = () => {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/" element={token ? <Home /> : <Navigate to="/login" />} />
-                    <Route path="/crear-producto" element={<CreateProduct />} />
-                    <Route path="/stock" element={<ControlStock />} />
+                    <Route path="/crear-producto" element={token ? <CreateProduct /> : <Navigate to="/login" />} />
+                    <Route path="/stock" element={token ? <ControlStock /> : <Navigate to="/login" />} />
                     <Route path="Home" element={<Home />} />
                     <Route path="Cart" element={<Cart />} />
                     <Route path="modalCart" element={<ModalCart onClose={function (): void {

@@ -12,32 +12,18 @@ export const LoginPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState('');
 
-  //mensaje de exito
-  const [successMessage, setSuccessMessage] = useState('');
-
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const res = await login({ email, password });
       setToken(res.jwt);
-
-      console.log('Respuesta del backend al login:', res);
-
-      //devuelve los datos junto con token
       setUser({
         nombre: res.nombre,
         email: res.email,
         dni: res.dni,
-        rol: res.rol,
-      });
-
-
-      //mensaje de exito
-      setSuccessMessage('Inicio de sesión exitoso');
-      setTimeout(() => {
-        navigate('/');
-      }, 1500);
-
+        rol: res.rol
+      })
+      navigate('/');
     } catch (err: any) {
       setError(err.message || 'Error al iniciar sesión. Inténtalo de nuevo.');
     }
@@ -101,7 +87,6 @@ export const LoginPage = () => {
             </Link>
           </div>
         </form>
-        {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
       </div>
     </div>
   );

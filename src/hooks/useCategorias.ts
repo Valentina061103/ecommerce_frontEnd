@@ -1,11 +1,21 @@
 import { useEffect } from "react";
-import { fetchCategorias } from "../services/categoriaService";
 import { useCategoriaStore } from "../store/categoriaStore";
+import { fetchCategorias } from "../services/categoriaService";
 
 export const useCategorias = () => {
-    const setCategorias = useCategoriaStore((s) => s.setCategorias);
+    const setCategorias = useCategoriaStore((state) => state.setCategorias);
 
     useEffect(() => {
-        fetchCategorias().then(setCategorias).catch((e) => console.error("Error cargando categorías:", e));
+        const fetchData = async () => {
+        try {
+            const categorias = await fetchCategorias();
+            setCategorias(categorias);
+        } catch (error) {
+            console.error("Error al cargar categorías:", error);
+        }
+        };
+
+        fetchData();
     }, [setCategorias]);
 };
+

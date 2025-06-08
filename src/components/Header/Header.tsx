@@ -11,12 +11,11 @@ interface HeaderProps {
 
 export const Header = ({ CartClick }: HeaderProps) => {
     const navigate = useNavigate();
+    const { user } = useAuth(); 
 
     const toHome = () => {
         navigate(`/Home`)
     }
-
-    const {user } = useAuth();
 
     const [showUserModal, setShowUserModal] = useState(false);
 
@@ -36,9 +35,11 @@ export const Header = ({ CartClick }: HeaderProps) => {
                 </div>
                 <div className={styles.containerButtons_header}>
                     <span className="material-symbols-outlined" onClick={CartClick}>shopping_cart</span>
+
                     {user?.rol === 'ADMIN' && (
                         <span className="material-symbols-outlined">menu</span>
                     )}
+
                     <span className="material-symbols-outlined" 
                     onClick={toggleModal}>person</span>
 
