@@ -1,22 +1,46 @@
+import { useState } from "react";
+import { ProductoRequestDTO, DetalleRequestDTO } from "../types/IProduct";
+import { crearProducto, agregarDetalle, activarProducto } from "../services/productService";
 
-import { useEffect } from "react";
-import { useProductStore } from "../store/ProductStore";
+export const useProductoForm = () => {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-export const useAdminProducts = () => {
-    const setProductos = useProductStore((state) => state.setProductos);
-
-    useEffect(() => {
-        const fetchProductos = async () => {
+    const crear = async (producto: ProductoRequestDTO, token: string) => {
         try {
-            const response = await fetch("http://localhost:8080/api/productos"); 
-            const data = await response.json();
-
-            setProductos(data);
-        } catch (error) {
-            console.error("Error al obtener productos para el admin:", error);
+        setLoading(true);
+        return await crearProducto(producto, token);
+        } catch (err) {
+        setError("Error al crear producto");
+        throw err;
+        } finally {
+        setLoading(false);
         }
-        };
+    };
 
-        fetchProductos();
-    }, [setProductos]);
+    const agregar = async (id: number, detalle: DetalleRequestDTO, token: string) => {
+        try {
+        setLoading(true);
+        return await agregarDetalle(id, detalle, token);
+        } catch (err) {
+        setError("Error al agregar detalle");
+        throw err;
+        } finally {
+        setLoading(false);
+        }
+    };
+
+    const activar = async (id: number, token: string) => {
+        try {
+        setLoading(true);
+        return await activarProducto(id, token);
+        } catch (err) {
+        setError("Error al activar producto");
+        throw err;
+        } finally {
+        setLoading(false);
+        }
+    };
+
+    return { crear, agregar, activar, loading, error };
 };

@@ -9,6 +9,7 @@ export const useCategorias = () => {
         const fetchData = async () => {
         try {
             const categorias = await fetchCategorias();
+            console.log("Categorías cargadas:", categorias); // DEBUG
             setCategorias(categorias);
         } catch (error) {
             console.error("Error al cargar categorías:", error);
@@ -18,4 +19,3 @@ export const useCategorias = () => {
         fetchData();
     }, [setCategorias]);
 };
-

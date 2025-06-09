@@ -20,13 +20,13 @@
   margin-left: 2rem;
 }
 
-.formulario{
+/* .formulario{
   width: 75vw;
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 columnas iguales */
+  grid-template-columns: repeat(2, 1fr); 
   gap: 20px;
   margin-bottom: 2.5rem;
-}
+} */
 .formGroup {
   display: flex;
   flex-direction: column;

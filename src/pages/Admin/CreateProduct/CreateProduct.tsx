@@ -1,350 +1,257 @@
 import React, { useState } from 'react';
 import styles from './CreateProduct.module.css';
+import { useCategorias } from '../../../hooks/useCategorias';
+import { useCategoriaStore } from '../../../store/categoriaStore';
 
-// Enums para las opciones del formulario
-enum ProductType {
-  ZAPATILLAS = "ZAPATILLA",
-  REMERAS = "REMERA",
-  BUZO = "BUZO",
-  SHORTS = "SHORT",
-  PANTALON = "PANTALÓN",
-  ACCESORIOS = "ACCESORIO",
-}
-
-enum ProductCategory {
-  RUNNING = "RUNNING",
-  JORDAN = "JORDAN",
-  MODA = "MODA",
-  FUTBOL = "FUTBOL",
-  BASQUET = "BASQUET",
-}
-
-enum ProductGender {
-  HOMBRE = "HOMBRE",
-  MUJER = "MUJER",
-  UNISEX = "UNISEX",
-}
-
-enum ProductColor {
-  NEGRO = "NEGRO",
-  BLANCO = "BLANCO",
-  GRIS = "GRIS",
-  VERDE = "VERDE",
-  ROJO = "ROJO",
-  AZUL = "AZUL",
-  AMARILLO = "AMARILLO",
-  ROSA = "ROSA",
-  VIOLETA = "VIOLETA",
-  MULTICOLOR = "MULTICOLOR",
-}
-
-enum ProductEstado {
-  ACTIVO = "ACTIVO",
-  INACTIVO = "INACTIVO",
-}
-
-// Talles y stock
-type ProductSize = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL" | "35" | "36" | "37" | "38" | "39" | "40" | "41" | "42" | "43" | "44" | "45";
-type StockPorTalle = {
-  talle: ProductSize;
-  cantidad: number;
-};
-
-// Listas de talles según el producto
-const zapatillaSizes = ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44"];
-const defaultSizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
+const marcasDisponibles = ["Nike"];
+const coloresDisponibles = ["NEGRO", "BLANCO", "GRIS", "VERDE", "ROJO", "AZUL", "AMARILLO", "ROSA", "VIOLETA", "MULTICOLOR"];
+const tallesZapatilla = ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44"];
+const tallesRopa = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
 
 const CreateProduct = () => {
-  // Estados para cada campo del formulario
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
-  const [category, setCategory] = useState('');
-  const [genero, setGenero] = useState('');
-  const [modelo, setModelo] = useState('');
-  const [color, setColor] = useState('');
-  const [estado, setEstado] = useState('');
-  const [marca, setMarca] = useState("");
-  const [tipoProducto, setTipoProducto] = useState('');
+  const [productoId, setProductoId] = useState<number | null>(null);
+  const [detalles, setDetalles] = useState<any[]>([]);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [talle, setTalle] = useState('');
-  const [cantidad, setCantidad] = useState('');
-  const [tallesStock, setTallesStock] = useState<StockPorTalle[]>([]);
-  const [sizeOptions, setSizeOptions] = useState<string[]>(defaultSizes);
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [tallesDisponibles, setTallesDisponibles] = useState<string[]>([]);
 
-  // Cambia los talles según la categoría (si es zapatilla, se muestran números)
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedType = e.target.value as ProductType;
-    setCategory(selectedType);
+  const [formData, setFormData] = useState({
+    nombre: '',
+    sexo: '',
+    tipoProducto: '',
+    categoriaNombre: '',
+  });
 
-    if (selectedType === ProductType.ZAPATILLAS) {
-      setSizeOptions(zapatillaSizes);
-    } else {
-      setSizeOptions(defaultSizes);
-    }
-    setTalle("");
+  const [detalleData, setDetalleData] = useState({
+    talle: '',
+    stock: '',
+    precioCompra: '',
+    precioVenta: '',
+    estado: '',
+    color: '',
+    marca: '',
+  });
+
+  useCategorias();
+  const categorias = useCategoriaStore((state) => state.categorias);
+
+  const handleResetAll = () => {
+    setProductoId(null);
+    setDetalles([]);
+    setImageFile(null);
+    setImageUrl('');
+    setFormData({
+      nombre: '',
+      sexo: '',
+      tipoProducto: '',
+      categoriaNombre: '',
+    });
+    setDetalleData({
+      talle: '',
+      stock: '',
+      precioCompra: '',
+      precioVenta: '',
+      estado: '',
+      color: '',
+      marca: '',
+    });
+    setTallesDisponibles([]);
   };
 
-  // Carga de imagen y vista previa
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setImageFile(e.target.files[0]);
-      setImagePreview(URL.createObjectURL(e.target.files[0]));
-    }
+  const handleTipoProductoChange = (tipo: string) => {
+    setFormData({ ...formData, tipoProducto: tipo });
+    setTallesDisponibles(tipo === "ZAPATILLA" ? tallesZapatilla : tallesRopa);
   };
 
-  // Agrega talle y cantidad al stock
-  const handleAddTalleStock = () => {
-    if (!talle || !cantidad) return;
-    if (tallesStock.some((item) => item.talle === talle)) {
-      alert("Este talle ya fue agregado.");
-      return;
-    }
-
-    setTallesStock((prev) => [
-      ...prev,
-      { talle: talle as ProductSize, cantidad: parseInt(cantidad) }
-    ]);
-    setTalle('');
-    setCantidad('');
-  };
-
-  // Elimina un talle del stock
-  const handleRemoveTalle = (talleToRemove: string) => {
-    setTallesStock((prev) => prev.filter((item) => item.talle !== talleToRemove));
-  };
-
-  // Enviar formulario
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!imageFile) {
-      alert('Por favor selecciona una imagen');
-      return;
-    }
-
+  const handleImageUpload = async () => {
+    if (!imageFile) return alert('Selecciona una imagen');
     const data = new FormData();
     data.append('file', imageFile);
     data.append('upload_preset', 'ramardoh');
 
-    try {
-      // Subida a Cloudinary
-      const res = await fetch('https://api.cloudinary.com/v1_1/cloudrama/image/upload', {
-        method: 'POST',
-        body: data,
-      });
+    const res = await fetch('https://api.cloudinary.com/v1_1/cloudrama/image/upload', {
+      method: 'POST',
+      body: data,
+    });
 
-      if (!res.ok) throw new Error('Error al subir la imagen');
+    const result = await res.json();
+    setImageUrl(result.secure_url);
+    alert('Imagen subida correctamente');
+  };
 
-      const cloudinaryData = await res.json();
-      const imageUrl = cloudinaryData.secure_url;
+  const handleCrearProducto = async () => {
+    console.log(formData)
+    const res = await fetch('http://localhost:8080/api/productos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(formData),
+    });
 
-      // Datos finales del producto
-      const productData = {
-        name,
-        description,
-        price: parseFloat(price),
-        estado,
-        category,
-        genero,
-        modelo,
-        marca,
-        color,
-        imageUrl,
-        talles: tallesStock,
-      };
+    if (!res.ok) return alert('Error al crear producto');
+    const prod = await res.json();
+    setProductoId(prod.id);
+    alert('Producto creado');
+  };
 
-      const response = await fetch('/api/productos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify(productData),
-      });
-      if (!response.ok) throw new Error('Error al crear el producto');
+  const handleAgregarDetalle = async () => {
+    if (!productoId || !imageUrl) return alert('Falta imagen o producto');
 
-      alert('Producto creado correctamente');
+    const detallePayload = {
+      ...detalleData,
+      precioCompra: parseFloat(detalleData.precioCompra),
+      precioVenta: parseFloat(detalleData.precioVenta),
+      estado: detalleData.estado === 'ACTIVO',
+      imagenesUrls: [imageUrl],
+    };
 
-      // Resetear formulario
-      setName('');
-      setDescription('');
-      setPrice('');
-      setEstado('');
-      setCategory('');
-      setGenero('');
-      setModelo('');
-      setMarca('');
-      setColor('');
-      setImageFile(null);
-      setImagePreview(null);
-      setTalle('');
-      setCantidad('');
-      setTallesStock([]);
+    const res = await fetch(`http://localhost:8080/api/productos/${productoId}/detalles`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(detallePayload),
+    });
 
-    } catch (error: any) {
-      alert(error.message || 'Ocurrió un error');
-    }
+    if (!res.ok) return alert('Error al agregar detalle');
+    const nuevoDetalle = await res.json();
+    setDetalles((prev) => [...prev, nuevoDetalle]);
+    alert('Detalle agregado');
+  };
+
+  const handleActivarProducto = async () => {
+    if (!productoId) return;
+    const res = await fetch(`http://localhost:8080/api/productos/${productoId}/activar`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    if (res.ok) alert('Producto activado');
   };
 
   return (
     <div className={styles.containerPage}>
-      <div className={styles.containerTitlePage}>
-        <span className="material-symbols-outlined">arrow_back_ios</span>
-        <h2>Crear producto</h2>
-      </div>
-      <form className={styles.formulario} onSubmit={handleSubmit}>
-        {/* Tipo de Producto */}
-        <div className={styles.formGroup}>
-          <label htmlFor="tipoProducto">Tipo de Producto</label>
-          <select
-            id="tipoProducto"
-            value={tipoProducto}
-            onChange={(e) => {
-              const selectedType = e.target.value as ProductType;
-              setTipoProducto(selectedType);
-              if (selectedType === ProductType.ZAPATILLAS) {
-                setSizeOptions(zapatillaSizes);
-              } else {
-                setSizeOptions(defaultSizes);
-              }
-              setTalle("");
-            }}
-            required
-          >
-            <option value="">Seleccione un tipo</option>
-            {Object.values(ProductType).map((type) => (
-              <option key={type} value={type}>{type}</option>
-            ))}
-          </select>
-        </div>
+      <h2>Crear producto</h2>
 
-        {/* Nombre */}
-        <div className={styles.formGroup}>
-          <label htmlFor="name">Nombre</label>
-          <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
-        </div>
+      {/* Paso 1: Crear Producto */}
+      <section className={styles.formulario}>
+        <h3>Datos del producto</h3>
+        <label>Nombre</label>
+        <input value={formData.nombre} onChange={(e) => setFormData({ ...formData, nombre: e.target.value })} />
 
-        {/* Categoría */}
-        <div className={styles.formGroup}>
-          <label htmlFor="category">Categoría</label>
-          <select id="category" value={category} onChange={handleCategoryChange} required>
-            <option value="">Seleccione una categoría</option>
-            {Object.values(ProductCategory).map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-        </div>
+        <label>Sexo</label>
+        <select value={formData.sexo} onChange={(e) => setFormData({ ...formData, sexo: e.target.value })}>
+          <option value="">Sexo</option>
+          <option value="HOMBRE">HOMBRE</option>
+          <option value="MUJER">MUJER</option>
+          <option value="UNISEX">UNISEX</option>
+        </select>
 
-        {/* Modelo */}
-        <div className={styles.formGroup}>
-          <label htmlFor="modelo">Modelo</label>
-          <input type="text" id="modelo" value={modelo} onChange={(e) => setModelo(e.target.value)} />
-        </div>
+        <label>Tipo de Producto</label>
+        <select value={formData.tipoProducto} onChange={(e) => handleTipoProductoChange(e.target.value)}>
+          <option value="">Tipo</option>
+          <option value="ZAPATILLA">ZAPATILLA</option>
+          <option value="REMERA">REMERA</option>
+          <option value="BUZO">BUZO</option>
+          <option value="SHORT">SHORT</option>
+          <option value="PANTALON">PANTALON</option>
+          <option value="ACCESORIO">ACCESORIO</option>
+        </select>
 
-        {/* Descripción */}
-        <div className={`${styles.formGroup} ${styles.fullWidth}`}>
-          <label htmlFor="description">Descripción</label>
-          <input type="text" id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
-        </div>
+        <label>Categoría</label>
+        <select value={formData.categoriaNombre} onChange={(e) => setFormData({ ...formData, categoriaNombre: e.target.value })}>
+          <option value="">Categoría</option>
+          {categorias.map((cat) => (
+            <option key={cat.id} value={cat.nombre}>{cat.nombre}</option>
+          ))}
+        </select>
 
-        {/* Género */}
-        <div className={styles.formGroup}>
-          <label htmlFor="genero">Género</label>
-          <select id="genero" value={genero} onChange={(e) => setGenero(e.target.value as ProductGender)} required>
-            <option value="">Seleccione un género</option>
-            {Object.values(ProductGender).map((gen) => (
-              <option key={gen} value={gen}>{gen}</option>
-            ))}
-          </select>
-        </div>
-        
-        <div className={styles.formGroup}>
-          <label htmlFor="marca">Marca</label>
-          <input
-            type="text"
-            id="marca"
-            value={marca}
-            onChange={(e) => setMarca(e.target.value)}
-            required
-          />
-        </div>
+        <button onClick={handleCrearProducto}>Crear producto</button>
+      </section>
 
-        {/* Color */}
-        <div className={styles.formGroup}>
-          <label htmlFor="color">Color</label>
-          <select id="color" value={color} onChange={(e) => setColor(e.target.value as ProductColor)} required>
-            <option value="">Seleccione un color</option>
-            {Object.values(ProductColor).map((col) => (
-              <option key={col} value={col}>{col}</option>
-            ))}
-          </select>
-        </div>
+      {productoId && (
+        <>
+          {/* Paso 2: Subir Imagen */}
+          <section className={styles.formulario}>
+            <h3>Subir imagen</h3>
+            <label>Imagen</label>
+            <input type="file" onChange={(e) => setImageFile(e.target.files?.[0] || null)} />
+            <button onClick={handleImageUpload}>Subir a Cloudinary</button>
+            {imageUrl && <img src={imageUrl} width="100" />}
+          </section>
 
-        {/* Precio */}
-        <div className={styles.formGroup}>
-          <label htmlFor="price">Precio</label>
-          <input type="number" id="price" value={price} onChange={(e) => setPrice(e.target.value)} min="0" step="0.01" required />
-        </div>
+          {/* Paso 3: Agregar Detalle */}
+          <section className={styles.formulario}>
+            <h3>Agregar detalle</h3>
 
-        {/* Imagen */}
-        <div className={`${styles.formGroup} ${styles.fullWidth}`}>
-          <label htmlFor="image">Imagen</label>
-          <input type="file" id="image" accept="image/*" onChange={handleImageChange} />
-          {imagePreview && <img src={imagePreview} alt="Vista previa" width="100" />}
-        </div>
-
-        {/* Talle y cantidad */}
-        <div className={`${styles.formGroup} ${styles.fullWidth}`}>
-          <label>Talle y cantidad</label>
-          <select value={talle} onChange={(e) => setTalle(e.target.value)}>
-            <option value="">Seleccione un talle</option>
-            {sizeOptions.map((size) => (
-              <option key={size} value={size}>{size}</option>
-            ))}
-          </select>
-          <input
-            type="number"
-            placeholder="Cantidad"
-            value={cantidad}
-            onChange={(e) => setCantidad(e.target.value)}
-            min="0"
-          />
-          <button type="button" onClick={handleAddTalleStock}>Agregar</button>
-        </div>
-
-        {/* Lista de talles agregados */}
-        {tallesStock.length > 0 && (
-          <div className={styles.formGroup}>
-            <h4>Talles agregados:</h4>
-            <ul>
-              {tallesStock.map(({ talle, cantidad }) => (
-                <li key={talle}>
-                  {talle}: {cantidad}
-                  <button type="button" onClick={() => handleRemoveTalle(talle)}>Eliminar</button>
-                </li>
+            <label>Talle</label>
+            <select value={detalleData.talle} onChange={(e) => setDetalleData({ ...detalleData, talle: e.target.value })}>
+              <option value="">Talle</option>
+              {tallesDisponibles.map((t) => (
+                <option key={t} value={t}>{t}</option>
               ))}
-            </ul>
+            </select>
+
+            <label>Stock</label>
+            <input type="number" value={detalleData.stock} onChange={(e) => setDetalleData({ ...detalleData, stock: e.target.value })} />
+
+            <label>Precio compra</label>
+            <input value={detalleData.precioCompra} onChange={(e) => setDetalleData({ ...detalleData, precioCompra: e.target.value })} />
+
+            <label>Precio venta</label>
+            <input value={detalleData.precioVenta} onChange={(e) => setDetalleData({ ...detalleData, precioVenta: e.target.value })} />
+
+            <label>Color</label>
+            <select value={detalleData.color} onChange={(e) => setDetalleData({ ...detalleData, color: e.target.value })}>
+              <option value="">Seleccione un color</option>
+              {coloresDisponibles.map((color) => (
+                <option key={color} value={color}>{color}</option>
+              ))}
+            </select>
+
+            <label>Marca</label>
+            <select value={detalleData.marca} onChange={(e) => setDetalleData({ ...detalleData, marca: e.target.value })}>
+              <option value="">Marca</option>
+              {marcasDisponibles.map((m) => (
+                <option key={m} value={m}>{m}</option>
+              ))}
+            </select>
+
+            <label>Estado</label>
+            <select value={detalleData.estado} onChange={(e) => setDetalleData({ ...detalleData, estado: e.target.value })}>
+              <option value="">Estado</option>
+              <option value="ACTIVO">ACTIVO</option>
+              <option value="INACTIVO">INACTIVO</option>
+            </select>
+
+            <button onClick={handleAgregarDetalle}>Agregar detalle</button>
+          </section>
+
+          {/* Detalles */}
+          {detalles.length > 0 && (
+            <section>
+              <h4>Detalles agregados</h4>
+              <ul>
+                {detalles.map((d, i) => (
+                  <li key={i}>
+                    Talle: {d.talle?.talle || '—'} - Marca: {d.marca} - Precio: ${d.precio?.precioVenta || 0}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* Paso 4: Activar / Resetear */}
+          <div className={styles.botonEnviar}>
+            <button onClick={handleActivarProducto}>Activar producto</button>
+            <button type="button" onClick={handleResetAll} className={styles.resetBtn}>Resetear todo</button>
           </div>
-        )}
-
-        {/* Estado */}
-        <div className={styles.formGroup}>
-          <label htmlFor="estado">Estado</label>
-          <select id="estado" value={estado} onChange={(e) => setEstado(e.target.value as ProductEstado)} required>
-            <option value="">Seleccione un estado</option>
-            {Object.values(ProductEstado).map((est) => (
-              <option key={est} value={est}>{est}</option>
-            ))}
-          </select>
-        </div>
-      </form>
-
-        {/* Botón de envío */}
-        <div className={styles.botonEnviar}>
-          <button type="submit">Crear producto</button>
-        </div>
+        </>
+      )}
     </div>
   );
 };

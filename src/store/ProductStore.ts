@@ -1,8 +1,7 @@
 import { create } from 'zustand';
-import { Producto } from "../types/IProduct"
+import { Producto } from "../types/IProduct";
 
-
-type Store = {
+type ProductosStore = {
     productos: Producto[];
     filtroCategoria: string[];
     toggleCategoria: (categoria: string) => void;
@@ -10,7 +9,7 @@ type Store = {
     setProductos: (productos: Producto[]) => void;
 };
 
-export const useProductStore = create<Store>((set, get) => ({
+export const useProductosStore = create<ProductosStore>((set, get) => ({
     productos: [],
     filtroCategoria: [],
     toggleCategoria: (categoria) => {
@@ -28,3 +27,4 @@ export const useProductStore = create<Store>((set, get) => ({
     },
     setProductos: (productos) => set({ productos }),
 }));
+

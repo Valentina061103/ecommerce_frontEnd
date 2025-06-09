@@ -12,8 +12,12 @@ export interface Precio {
     id: number;
     precioCompra: number;
     precioVenta: number;
-    preciosDescuento: any[]; //revisar
+    //preciosDescuento: any[]; //revisar
 }
+
+export type Sexo = "HOMBRE" | "MUJER" | "UNISEX";
+export type TipoProducto = "ZAPATILLA" | "REMERA" | "BUZO" | "SHORT" | "PANTALON" | "ACCESORIO";
+
 
 export interface DetalleProducto {
     id: number;
@@ -36,7 +40,7 @@ export interface Producto {
     nombre: string;
     sexo: string;
     tipoProducto: string;
-    categoria: Categoria | null;
+    categoria: Categoria ;
     detalles: DetalleProducto[];
 }
 
@@ -50,3 +54,26 @@ export interface ProductoCatalogo{
     categoria: string;
     imagen: string;
 }
+
+export interface DetalleRequestDTO {
+    precioCompra: number;
+    precioVenta: number;
+    talle: string;
+    stock: number;
+    estado: boolean;
+    color: string;
+    marca: string;
+    imagenesUrls: string[];
+}
+
+export interface ProductoRequestDTO {
+    nombre: string;
+    sexo: Sexo;
+    tipoProducto: TipoProducto;
+    categoriaNombre: string;
+    color: string;
+    marca: string;
+    imagenesUrls: string[];
+    detalles: DetalleRequestDTO[];
+}
+
