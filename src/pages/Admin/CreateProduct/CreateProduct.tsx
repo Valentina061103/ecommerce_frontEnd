@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './CreateProduct.module.css';
 import { useCategorias } from '../../../hooks/useCategorias';
 import { useCategoriaStore } from '../../../store/categoriaStore';
@@ -135,42 +135,56 @@ const CreateProduct = () => {
 
   return (
     <div className={styles.containerPage}>
-      <h2>Crear producto</h2>
+      <div className={styles.containerTitlePage}>
+        <span className="material-symbols-outlined">arrow_back_ios</span>
+        <h2>Crear producto</h2>
+      </div>
 
       {/* Paso 1: Crear Producto */}
       <section className={styles.formulario}>
         <h3>Datos del producto</h3>
-        <label>Nombre</label>
-        <input value={formData.nombre} onChange={(e) => setFormData({ ...formData, nombre: e.target.value })} />
+        <div className={styles.conteinerForm}>
+          <div className={styles.formGroup}>
+            <label>Nombre</label>
+            <input value={formData.nombre} onChange={(e) => setFormData({ ...formData, nombre: e.target.value })} />
+          </div>
 
-        <label>Sexo</label>
-        <select value={formData.sexo} onChange={(e) => setFormData({ ...formData, sexo: e.target.value })}>
-          <option value="">Sexo</option>
-          <option value="HOMBRE">HOMBRE</option>
-          <option value="MUJER">MUJER</option>
-          <option value="UNISEX">UNISEX</option>
-        </select>
+          <div className={styles.formGroup}>
+            <label>Sexo</label>
+            <select value={formData.sexo} onChange={(e) => setFormData({ ...formData, sexo: e.target.value })}>
+              <option value="">Sexo</option>
+              <option value="HOMBRE">HOMBRE</option>
+              <option value="MUJER">MUJER</option>
+              <option value="UNISEX">UNISEX</option>
+            </select>
+          </div>
 
-        <label>Tipo de Producto</label>
-        <select value={formData.tipoProducto} onChange={(e) => handleTipoProductoChange(e.target.value)}>
-          <option value="">Tipo</option>
-          <option value="ZAPATILLA">ZAPATILLA</option>
-          <option value="REMERA">REMERA</option>
-          <option value="BUZO">BUZO</option>
-          <option value="SHORT">SHORT</option>
-          <option value="PANTALON">PANTALON</option>
-          <option value="ACCESORIO">ACCESORIO</option>
-        </select>
+          <div className={styles.formGroup}>
+            <label>Tipo de Producto</label>
+            <select value={formData.tipoProducto} onChange={(e) => handleTipoProductoChange(e.target.value)}>
+              <option value="">Tipo</option>
+              <option value="ZAPATILLA">ZAPATILLA</option>
+              <option value="REMERA">REMERA</option>
+              <option value="BUZO">BUZO</option>
+              <option value="SHORT">SHORT</option>
+              <option value="PANTALON">PANTALON</option>
+              <option value="ACCESORIO">ACCESORIO</option>
+            </select>
+          </div>
 
-        <label>Categoría</label>
-        <select value={formData.categoriaNombre} onChange={(e) => setFormData({ ...formData, categoriaNombre: e.target.value })}>
-          <option value="">Categoría</option>
-          {categorias.map((cat) => (
-            <option key={cat.id} value={cat.nombre}>{cat.nombre}</option>
-          ))}
-        </select>
-
-        <button onClick={handleCrearProducto}>Crear producto</button>
+          <div className={styles.formGroup}>
+            <label>Categoría</label>
+            <select value={formData.categoriaNombre} onChange={(e) => setFormData({ ...formData, categoriaNombre: e.target.value })}>
+              <option value="">Categoría</option>
+              {categorias.map((cat) => (
+                <option key={cat.id} value={cat.nombre}>{cat.nombre}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className={styles.conteinerActions}>
+          <button onClick={handleCrearProducto}>Crear producto</button>
+        </div>
       </section>
 
       {productoId && (
@@ -180,68 +194,88 @@ const CreateProduct = () => {
             <h3>Subir imagen</h3>
             <label>Imagen</label>
             <input type="file" onChange={(e) => setImageFile(e.target.files?.[0] || null)} />
-            <button onClick={handleImageUpload}>Subir a Cloudinary</button>
             {imageUrl && <img src={imageUrl} width="100" />}
+            <div className={styles.conteinerActions}>
+              <button onClick={handleImageUpload}>Subir a Cloudinary</button>
+            </div>
           </section>
 
           {/* Paso 3: Agregar Detalle */}
           <section className={styles.formulario}>
             <h3>Agregar detalle</h3>
 
-            <label>Talle</label>
-            <select value={detalleData.talle} onChange={(e) => setDetalleData({ ...detalleData, talle: e.target.value })}>
-              <option value="">Talle</option>
-              {tallesDisponibles.map((t) => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </select>
+            <div className={styles.conteinerForm}>
+              <div className={styles.formGroup}>
+                <label>Talle</label>
+                <select value={detalleData.talle} onChange={(e) => setDetalleData({ ...detalleData, talle: e.target.value })}>
+                  <option value="">Talle</option>
+                  {tallesDisponibles.map((t) => (
+                    <option key={t} value={t}>{t}</option>
+                  ))}
+                </select>
+              </div>
 
-            <label>Stock</label>
-            <input type="number" value={detalleData.stock} onChange={(e) => setDetalleData({ ...detalleData, stock: e.target.value })} />
+              <div className={styles.formGroup}>
+                <label>Stock</label>
+                <input type="number" value={detalleData.stock} onChange={(e) => setDetalleData({ ...detalleData, stock: e.target.value })} />
+              </div>
 
-            <label>Precio compra</label>
-            <input value={detalleData.precioCompra} onChange={(e) => setDetalleData({ ...detalleData, precioCompra: e.target.value })} />
+              <div className={styles.formGroup}>
+                <label>Precio compra</label>
+                <input value={detalleData.precioCompra} onChange={(e) => setDetalleData({ ...detalleData, precioCompra: e.target.value })} />
+              </div>
 
-            <label>Precio venta</label>
-            <input value={detalleData.precioVenta} onChange={(e) => setDetalleData({ ...detalleData, precioVenta: e.target.value })} />
+              <div className={styles.formGroup}>
+                <label>Precio venta</label>
+                <input value={detalleData.precioVenta} onChange={(e) => setDetalleData({ ...detalleData, precioVenta: e.target.value })} />
+              </div>
 
-            <label>Color</label>
-            <select value={detalleData.color} onChange={(e) => setDetalleData({ ...detalleData, color: e.target.value })}>
-              <option value="">Seleccione un color</option>
-              {coloresDisponibles.map((color) => (
-                <option key={color} value={color}>{color}</option>
-              ))}
-            </select>
+              <div className={styles.formGroup}>
+                <label>Color</label>
+                <select value={detalleData.color} onChange={(e) => setDetalleData({ ...detalleData, color: e.target.value })}>
+                  <option value="">Seleccione un color</option>
+                  {coloresDisponibles.map((color) => (
+                    <option key={color} value={color}>{color}</option>
+                  ))}
+                </select>
+              </div>
 
-            <label>Marca</label>
-            <select value={detalleData.marca} onChange={(e) => setDetalleData({ ...detalleData, marca: e.target.value })}>
-              <option value="">Marca</option>
-              {marcasDisponibles.map((m) => (
-                <option key={m} value={m}>{m}</option>
-              ))}
-            </select>
+              <div className={styles.formGroup}>
+                <label>Marca</label>
+                <select value={detalleData.marca} onChange={(e) => setDetalleData({ ...detalleData, marca: e.target.value })}>
+                  <option value="">Marca</option>
+                  {marcasDisponibles.map((m) => (
+                    <option key={m} value={m}>{m}</option>
+                  ))}
+                </select>
+              </div>
 
-            <label>Estado</label>
-            <select value={detalleData.estado} onChange={(e) => setDetalleData({ ...detalleData, estado: e.target.value })}>
-              <option value="">Estado</option>
-              <option value="ACTIVO">ACTIVO</option>
-              <option value="INACTIVO">INACTIVO</option>
-            </select>
+              <div className={styles.formGroup}>
+                <label>Estado</label>
+                <select value={detalleData.estado} onChange={(e) => setDetalleData({ ...detalleData, estado: e.target.value })}>
+                  <option value="">Estado</option>
+                  <option value="ACTIVO">ACTIVO</option>
+                  <option value="INACTIVO">INACTIVO</option>
+                </select>
+              </div>
+            </div>
 
-            <button onClick={handleAgregarDetalle}>Agregar detalle</button>
+            <div className={styles.conteinerActions}>
+              <button onClick={handleAgregarDetalle}>Agregar detalle</button>
+            </div>
           </section>
 
           {/* Detalles */}
           {detalles.length > 0 && (
-            <section>
+            <section className={styles.formulario}>
               <h4>Detalles agregados</h4>
-              <ul>
+              <ol>
                 {detalles.map((d, i) => (
                   <li key={i}>
-                    Talle: {d.talle?.talle || '—'} - Marca: {d.marca} - Precio: ${d.precio?.precioVenta || 0}
+                    Talle: {d.talle?.talle || '—'} - Stock: {d.stock} - Marca: {d.marca} - Precio: ${d.precio?.precioVenta || 0}
                   </li>
                 ))}
-              </ul>
+              </ol>
             </section>
           )}
 
