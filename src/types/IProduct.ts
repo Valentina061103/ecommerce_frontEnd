@@ -2,24 +2,25 @@ export interface Imagen {
     id: number;
     url: string;
 }
-
 export interface Talle {
     id: number;
     talle: string | null;
 }
-
 export interface Precio {
     id: number;
     precioCompra: number;
     precioVenta: number;
     //preciosDescuento: any[]; //revisar
 }
-
 export type Sexo = "MASCULINO" | "FEMENINO" | "UNISEX";
 export type TipoProducto = "ZAPATILLA" | "REMERA" | "BUZO" | "SHORT" | "PANTALON" | "ACCESORIO";
 
+export interface Categoria {
+    id: number;
+    nombre: string;
+}
 
-export interface DetalleProducto {
+export interface Detalle {
     id: number;
     estado: boolean;
     color: string;
@@ -30,19 +31,15 @@ export interface DetalleProducto {
     imagenes: Imagen[];
 }
 
-export interface Categoria {
-    id: number;
-    nombre: string;
-}
-
 export interface Producto {
     id: number;
     nombre: string;
-    sexo: string;
-    tipoProducto: string;
-    categoria: Categoria ;
-    detalles: DetalleProducto[];
+    sexo: 'MASCULINO' | 'FEMENINO' | 'UNISEX';
+    tipoProducto: 'ZAPATILLA' | 'REMERA' | 'BUZO' | 'SHORT' | 'PANTALON' | 'ACCESORIO';
+    categoria: Categoria | null;
+    detalles: Detalle[];
 }
+
 
 //agregar tipo de tproducto
 export interface ProductoCatalogo{
@@ -54,7 +51,6 @@ export interface ProductoCatalogo{
     categoria: string;
     imagen: string;
 }
-
 export interface DetalleRequestDTO {
     precioCompra: number;
     precioVenta: number;
@@ -76,4 +72,3 @@ export interface ProductoRequestDTO {
     imagenesUrls: string[];
     detalles: DetalleRequestDTO[];
 }
-
