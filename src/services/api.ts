@@ -1,7 +1,4 @@
-
-
-
-const API_BASE_URL = 'http://localhost:8080/api'; // La base para todos tus endpoints REST
+const API_BASE_URL = 'http://localhost:8080/api'; // La base para todos tus endpoints RESTAdd commentMore actions
 
 interface RequestOptions extends RequestInit {
     token?: string; // Permitir pasar un token explícitamente, aunque el interceptor lo agregaría

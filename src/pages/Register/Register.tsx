@@ -49,6 +49,7 @@ export const RegisterPage = () => {
       const res = await register({ nombre, email, password, dni });
       setToken(res.jwt);
       setUser({
+        id: res.id,
         nombre: res.nombre,
         email: res.email,
         dni: res.dni,
