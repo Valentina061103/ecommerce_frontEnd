@@ -11,6 +11,7 @@ interface AuthContextType {
   logout: () => void;
 }
 interface Usuario {
+  id: number;
   nombre: string;
   email: string;
   dni: string;

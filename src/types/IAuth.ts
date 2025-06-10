@@ -11,6 +11,7 @@ export interface RegisterRequest {
 }
 
 export interface AuthResponse {
+    id: number;
     nombre: string;
     email: string;
     dni: string;

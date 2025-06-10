@@ -16,13 +16,16 @@ export const LoginPage = () => {
     e.preventDefault();
     try {
       const res = await login({ email, password });
+      console.log("Token recibido:", res.jwt);
       setToken(res.jwt);
       setUser({
+        id: res.id,
         nombre: res.nombre,
         email: res.email,
         dni: res.dni,
         rol: res.rol
       })
+      localStorage.setItem('userId', res.id.toString());
       navigate('/');
     } catch (err: any) {
       setError(err.message || 'Error al iniciar sesión. Inténtalo de nuevo.');

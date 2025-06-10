@@ -2,7 +2,7 @@ import { CardProductCart } from "../../components/CardProductCartPage/CardProduc
 import styles from './Cart.module.css';
 import { useState } from "react";
 import { useCartStore } from "../../store/cartStore";
-import { PaymentRequest } from "../../types/cart";
+import { PaymentRequest } from "../../types/cart"; 
 
 export const Cart = () => {
   const { items, getTotalPrice, clearCart } = useCartStore();
@@ -19,22 +19,29 @@ export const Cart = () => {
 
     setError(null);
     setIsLoading(true);
-
-    // Simulo usuarioId = 1; reemplazar con usuario real del contexto/auth
-    const usuarioId = 1;
+    const usuarioId = localStorage.getItem('userId');
+    if (!usuarioId) {
+      setError("No se pudo obtener el ID del usuario");
+      return;
+    }
+    
+   
 
     const paymentData: PaymentRequest = {
-      usuarioId,
+     
       productos: items.map((item) => ({
         detalleId: item.detalleId,
+       
         nombre: `${item.producto.nombre} - ${item.detalle.marca} ${item.detalle.color} Talle ${item.detalle.talle}`,
-        precioVenta: item.detalle.precio,
+        precioVenta: item.detalle.precio, 
         cantidad: item.cantidad,
       })),
     };
 
+  
     try {
-      const response = await fetch('http://localhost:8080/api/payments/create-preference', {
+    
+      const response = await fetch(`http://localhost:8080/api/payments/create-checkout?userId=${usuarioId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -42,29 +49,40 @@ export const Cart = () => {
         body: JSON.stringify(paymentData)
       });
 
+     
+      console.log('Solicitud enviada al backend:', { url: `http://localhost:8080/api/payments/create-checkout?userId=${usuarioId}`, method: 'POST', body: paymentData });
+
+      if (!response.ok) {
+       
+        const errorData = await response.json().catch(() => null); 
+        const errorMessage = errorData && errorData.message ? errorData.message : `Error HTTP: ${response.status} ${response.statusText}`;
+        console.error('Error en la respuesta del backend:', response, errorData);
+        setError(`Error al iniciar el pago: ${errorMessage}`);
+        setIsLoading(false);
+        return; 
+      }
+
       const data = await response.json();
+      console.log('Respuesta recibida del backend:', data);
 
       if (data.initPoint) {
-        // Limpiar carrito antes de redirigir (opcional)
-        // clearCart();
-        // Redirijo al checkout de MercadoPago
-        window.location.href = data.initPoint;
+       
+        console.log('Redirigiendo a MercadoPago:', data.initPoint);
+        window.location.href = data.initPoint; 
       } else {
         setError("No se pudo obtener el initPoint para el pago.");
         console.error('No se pudo obtener el initPoint:', data);
       }
     } catch (error) {
-      setError("Error al iniciar el pago. Revisa la consola.");
-      console.error('Error al iniciar el pago:', error);
+      setError("Error de red o inesperado al iniciar el pago. Revisa la consola.");
+      console.error('Error en la llamada fetch:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleContinueShopping = () => {
-    // Navegar a la tienda o catálogo
-    // Si usas React Router: navigate('/catalogo')
-    window.location.href = '/catalogo'; // O la ruta que corresponda
+    window.location.href = '/catalogo';
   };
 
   const handleClearCart = () => {
@@ -93,8 +111,8 @@ export const Cart = () => {
         <div className={styles.container_cardsProducts}>
           <div className={styles.cart_header}>
             <h2>Mi Carrito ({items.length} producto{items.length !== 1 ? 's' : ''})</h2>
-            <button 
-              onClick={handleClearCart} 
+            <button
+              onClick={handleClearCart}
               className={styles.clear_cart}
               title="Vaciar carrito"
             >
@@ -102,13 +120,13 @@ export const Cart = () => {
             </button>
           </div>
           {items.map((item) => (
-            <CardProductCart 
-              key={item.detalleId} 
-              cartItem={item} 
+            <CardProductCart
+              key={item.detalleId}
+              cartItem={item}
             />
           ))}
         </div>
-        
+
         <div className={styles.container_price}>
           <div className={styles.container_detailPrice}>
             <div className={styles.detailPrice_description}>
@@ -130,17 +148,17 @@ export const Cart = () => {
               <p>${subtotal.toLocaleString()}</p>
             </div>
           </div>
-          
+
           <div className={styles.container_actions}>
-            <button 
-              onClick={handlePay} 
+            <button
+              onClick={handlePay}
               disabled={isLoading}
               className={styles.pay_button}
             >
               {isLoading ? 'Procesando...' : 'Iniciar pago'}
             </button>
             {error && <p className={styles.error_message}>{error}</p>}
-            <button 
+            <button
               onClick={handleContinueShopping}
               className={styles.continue_shopping_link}
             >

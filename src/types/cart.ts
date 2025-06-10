@@ -20,7 +20,7 @@ export interface CartItem {
 }
 
 export interface PaymentRequest {
-  usuarioId: number;
+  
   productos: {
     detalleId: number;
     nombre: string;
