@@ -43,6 +43,7 @@ const Catalogo = () => {
     precioMin: '',
     precioMax: '',
     talles:[],
+
   });
 
   
@@ -122,7 +123,7 @@ const Catalogo = () => {
                 color={producto.color}
                 precio={producto.precio}
                 imagen={producto.imagen} 
-                tipoProducto={producto.tipoProducto}            />
+                tipoProducto={producto.tipoProducto}/>
             ))}
           </div>
         </section>

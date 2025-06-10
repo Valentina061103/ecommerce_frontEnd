@@ -9,7 +9,7 @@ interface Props {
     color: string;
     precio: number;
     imagen: string;
-    tipoProducto: string; // <-- ¡Asegúrate de que este campo se pase desde donde renderizas ProductCard!
+    tipoProducto: string; 
 }
 
 const ProductCard: React.FC<Props> = ({ id, nombre, marca, color, precio, imagen, tipoProducto }) => {
@@ -26,7 +26,7 @@ const ProductCard: React.FC<Props> = ({ id, nombre, marca, color, precio, imagen
                 color,
                 precio,
                 imagen,
-                tipoProducto, // <-- ¡Ahora `tipoProducto` se está enviando!
+                tipoProducto
             }
         });
     };

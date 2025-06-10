@@ -71,6 +71,7 @@ export const useProductsFromCatalogo = (filters: Filters) => {
               precio: p.precio,
               categoria: p.categoria ?? '',
               imagen: p.imagenUrl ?? '/assets/placeholder.jpg',
+              tipoProducto: p.tipoProducto ?? '',
             };
           } else {
             console.log("Producto del /filtrar:", p);
@@ -84,6 +85,7 @@ export const useProductsFromCatalogo = (filters: Filters) => {
               precio: detalle?.precio?.precioVenta ?? 0,
               categoria: p.categoria?.nombre ?? '',
               imagen: p.imagen?.url ?? '/assets/placeholder.jpg',
+              tipoProducto: p.tipoProducto ?? '',
             };
           }
         });

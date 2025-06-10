@@ -21,7 +21,7 @@ export interface Categoria {
 }
 
 
-//agregar tipo de tproducto
+
 export interface ProductoCatalogo{
     id: number;
     nombre: string;
@@ -52,6 +52,7 @@ export interface ProductoRequestDTO {
     marca: string;
     imagenesUrls: string[];
     detalles: DetalleRequestDTO[];
+    
 }
 
 export interface Producto {

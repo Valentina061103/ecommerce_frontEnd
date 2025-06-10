@@ -3,15 +3,16 @@ import { useState } from 'react';
 import styles from './Product.module.css';
 import { useAddToCart } from '../../hooks/useAddToCart';
 
-// Define la interfaz para los datos del producto que se reciben a través de location.state
-// Es importante que esta interfaz coincida con lo que pasas desde CardProductCatalog
+
+
+
 interface ProductoVista {
   id: number;
   nombre: string;
   marca: string;
   color: string;
   imagen: string;
-  tipoProducto: string; // <-- ¡Este campo es crucial y ahora llega correctamente!
+  tipoProducto: string;
 }
 
 interface TalleOption {
@@ -26,13 +27,16 @@ export const Product = () => {
   const [selectedTalle, setSelectedTalle] = useState<string | null>(null);
   const [message, setMessage] = useState('');
 
-  // Log para depuración: verifica el valor de producto y tipoProducto
-  console.log("Producto en Product.tsx:", producto);
-  console.log("Tipo de Producto en Product.tsx:", producto?.tipoProducto);
+  
+ console.log("=== DEBUG PRODUCTO ===");
+console.log("Producto completo:", JSON.stringify(producto, null, 2));
+console.log("tipoProducto:", producto?.tipoProducto);
+console.log("Tipo de tipoProducto:", typeof producto?.tipoProducto);
+console.log("¿Es string?", typeof producto?.tipoProducto === 'string');
+console.log("¿Es ZAPATILLA?", producto?.tipoProducto === "ZAPATILLA");
+console.log("=== FIN DEBUG ===");
 
-
-  // La lógica del operador ternario ahora debería funcionar correctamente
-  // ya que `producto?.tipoProducto` tendrá el valor esperado.
+ 
   const talles: TalleOption[] = producto?.tipoProducto === "ZAPATILLA"
     ? [
         { talle: "37" }, { talle: "38" }, { talle: "39" }, { talle: "40" }, { talle: "41" },
@@ -121,5 +125,6 @@ export const Product = () => {
     </div>
   );
 };
+
 
 export default Product;
