@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import {Header} from '../Header/Header';
+import { Footer } from '../Footer/Footer';
 import { useState } from 'react';
 import { ModalCart } from '../modals/ModalCart/ModalCart';
 
@@ -15,6 +16,7 @@ const Layout = () => {
         <main>
             <Outlet />
         </main>
+        <Footer/>
         {isCartOpen && <ModalCart onClose={closeCart} />}
         </>
     );

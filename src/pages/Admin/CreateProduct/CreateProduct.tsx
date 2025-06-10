@@ -4,8 +4,11 @@ import { useCategorias } from '../../../hooks/useCategorias';
 import { useCategoriaStore } from '../../../store/categoriaStore';
 
 const marcasDisponibles = ["Nike"];
-const coloresDisponibles = ["NEGRO", "BLANCO", "GRIS", "VERDE", "ROJO", "AZUL", "AMARILLO", "ROSA", "VIOLETA", "MULTICOLOR"];
+
+
+// Listas de talles según el producto
 const tallesZapatilla = ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44"];
+const coloresDisponibles = ["NEGRO", "BLANCO", "GRIS", "VERDE", "ROJO", "AZUL", "AMARILLO", "ROSA", "VIOLETA", "MULTICOLOR"];
 const tallesRopa = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
 
 const CreateProduct = () => {

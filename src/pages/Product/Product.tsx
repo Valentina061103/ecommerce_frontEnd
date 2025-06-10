@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import styles from './Product.module.css';
-import { Footer } from '../../components/Footer/Footer';
 import { useAddToCart } from '../../hooks/useAddToCart';
 
 // Define la interfaz para los datos del producto que se reciben a través de location.state
@@ -119,7 +118,6 @@ export const Product = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };

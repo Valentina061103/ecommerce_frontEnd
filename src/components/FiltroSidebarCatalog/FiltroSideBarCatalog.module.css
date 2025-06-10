@@ -1,18 +1,197 @@
-    .FiltroSideBar {
-    border: 1px solid #ccc;
+/* === Sidebar general === */
+.sidebar {
+    transform: translateX(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.5s ease, opacity 0.5s ease, visibility 0s linear 0.5s;
+    overflow: hidden;
+    width: 260px;
+    background: white;
+    padding: 24px 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.open {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+}
+
+.sidebarWrapper {
+    width: 260px;
+    transition: width 0.3s ease;
+    overflow: hidden;
+}
+
+.sidebarWrapper.closed {
+    width: 0;
+}
+
+/* === Header === */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px; 
+}
+
+.header h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+/* === Grupos de filtros === */
+.filtroGrupo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.filtroGrupo label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #444;
+}
+
+/* === Inputs y selects === */
+.filtroGrupo input,
+.filtroGrupo select {
+    padding: 8px 10px;
     border-radius: 8px;
-    padding: 1rem;
-    background-color: #fafafa;
-    }
+    border: 1px solid #ddd;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border 0.2s ease;
+    background-color: #f9f9f9;
+}
 
-    .FiltroTitle {
-    font-size: 18px;
+.filtroGrupo input:focus,
+.filtroGrupo select:focus {
+    border-color: #333;
+    background-color: #fff;
+}
+
+/* === Precio === */
+.precioColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* === Checkbox list styles === */
+.checkboxList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 4px;
+}
+
+.checkboxItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.checkboxItem:hover {
+    background-color: #f1f1f1;
+}
+
+.checked {
+    background-color: #e0e0e0;
+    font-weight: 600;
+}
+
+.checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #999;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
     font-weight: bold;
-    margin-bottom: 1rem;
-    }
+    color: #333;
+    background-color: white;
+}
 
-    .filtroItem {
-    display: block;
-    margin-bottom: 0.75rem;
-    font-size: 14px;
-    }
+/* === Circulos filtro color === */
+.colorGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    padding-top: 4px;
+}
+
+.colorCircle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid rgb(181, 181, 181);
+    cursor: pointer;
+    transition: border 0.2s ease, transform 0.2s ease;
+}
+
+.colorCircle:hover {
+    transform: scale(1.05);
+}
+
+.colorCircle.selected {
+    border: 2.5px solid #181818; /* gris oscuro al seleccionarse */
+}
+
+/* === Línea separadora debajo del título de cada filtro === */
+.subSeparator {
+    height: 2px;
+    width: 100%;
+    background-color: #1f1f1f;
+    margin: 1px 0 8px 0;
+}
+
+/* === Checkbox list para talles en fila y con estilo de cuadrito === */
+
+.talleList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-left: 0; 
+    justify-content: center;
+}
+
+.talleItem {
+    width: 34px;
+    height: 26px;
+    border: 1px solid #555555; 
+    border-radius: 8px;
+    color: #555555; 
+    background-color: #ffffff; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 550;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+    font-size: 0.7rem;
+}
+
+.talleItem:hover {
+    border-color: #333333;
+    color: #333333;
+}
+
+.talleItem.checked {
+    border-color: #333333;
+    background-color: #333333; 
+    color: #ffffff; 
+}
