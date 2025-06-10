@@ -11,7 +11,6 @@ interface AuthContextType {
   logout: () => void;
 }
 interface Usuario {
-  id: number;
   nombre: string;
   email: string;
   dni: string;
@@ -90,5 +89,7 @@ export const useAuth = () => {
   if (!context) throw new Error('useAuth must be used within an AuthProvider');
   return context;
 };
+
+
 
 
