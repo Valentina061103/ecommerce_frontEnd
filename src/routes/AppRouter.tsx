@@ -3,37 +3,45 @@ import Home from "../pages/Home/Home";
 import { Cart } from "../pages/Cart/Cart";
 import Catalogo from "../pages/Catalog/Catalogo";
 import Layout from "../components/Layout/Layout";
-import { RegisterPage } from "../pages/Register/Register"; 
+import { RegisterPage } from "../pages/Register/Register";
 import CreateProduct from "../pages/Admin/CreateProduct/CreateProduct";
 import { Product } from "../pages/Product/Product";
 import { ModalCart } from "../components/modals/ModalCart/ModalCart";
 import { LoginPage } from "../pages/Login/Login";
 import { useAuth } from "../store/authContext";
 import { ControlStock } from "../pages/Admin/ControlStock/ControlStock";
-
+import { ProfilePage } from "../components/ProfilePage/ProfilePage"; // ¡Importa tu nueva página de perfil!
 
 export const AppRouter = () => {
-    const { token } = useAuth();
-    
+    const { token } = useAuth(); // Usamos 'token' para proteger rutas
+
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    {/* <Route index element={token ? <Home /> : <Navigate to="/login" />} /> */}
-                    <Route index element={<Navigate to="Home" />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/" element={token ? <Home /> : <Navigate to="/login" />} />
-                    <Route path="/crear-producto" element={token ? <CreateProduct /> : <Navigate to="/login" />} />
-                    <Route path="/stock" element={token ? <ControlStock /> : <Navigate to="/login" />} />
-                    <Route path="Home" element={<Home />} />
-                    <Route path="Cart" element={<Cart />} />
-                    <Route path="modalCart" element={<ModalCart onClose={function (): void {
-                        throw new Error("Function not implemented.");
-                    } } />} />
-                    <Route path="Catalogo" element={<Catalogo />} />
-                    <Route path="/product/:nombre" element={<Product />} />
+                    <Route index element={<Navigate to="/home" replace />} />
+                    <Route path="home" element={<Home />} />
+                    <Route path="login" element={<LoginPage />} />
+                    <Route path="register" element={<RegisterPage />} />
+                    <Route path="cart" element={<Cart />} />
+                    <Route path="modalCart" element={<ModalCart onClose={() => { /* Manejar cierre del modal, si se renderiza aquí */ }} />} />
+                    <Route path="catalogo" element={<Catalogo />} />
+                    <Route path="product/:nombre" element={<Product />} />
+                    
+                    <Route
+                        path="perfil" 
+                        element={token ? <ProfilePage /> : <Navigate to="/login" />}
+                    />
+                    <Route
+                        path="crear-producto"
+                        element={token ? <CreateProduct /> : <Navigate to="/login" />}
+                    />
+                    <Route
+                        path="stock"
+                        element={token ? <ControlStock /> : <Navigate to="/login" />}
+                    />
                 </Route>
+
             </Routes>
         </BrowserRouter>
     );

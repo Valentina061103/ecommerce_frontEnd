@@ -1,6 +1,6 @@
 import { useAuth } from '../../../store/authContext';
 import { useNavigate } from 'react-router-dom';
-import styles from './ModalUser.module.css'; 
+import styles from './ModalUser.module.css';
 
 interface ModalUserProps {
     onClose: () => void;
@@ -21,6 +21,10 @@ export const ModalUser = ({ onClose }: ModalUserProps) => {
         navigate('/');
     };
 
+    const handleGoToProfile = () => {
+        onClose();
+        navigate('/perfil');
+    };
 
     if (loadingUser) {
         return (
@@ -55,7 +59,7 @@ export const ModalUser = ({ onClose }: ModalUserProps) => {
                             <p className={styles.descriptionTextTitle}><strong>{user.nombre}</strong></p>
                             <p>{user.email}</p>
                         </div>
-                        <p className={styles.descriptionBoton}>Mi perfil</p>
+                        <p className={styles.descriptionBoton} onClick={handleGoToProfile}>Mi perfil</p>
                     </div>
                 </div>
 
