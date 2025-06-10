@@ -19,6 +19,7 @@ export const useProductsFromCatalogo = () => {
           precio: p.precio,
           categoria: p.categoria,
           imagen: p.imagenUrl,
+          tipoProducto: p.tipoProducto
         }));
 
         setProductos(productosAdaptados);

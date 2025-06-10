@@ -20,26 +20,6 @@ export interface Categoria {
     nombre: string;
 }
 
-// export interface Detalle {
-//     id: number;
-//     estado: boolean;
-//     color: string;
-//     marca: string;
-//     stock: number;
-//     precio: Precio;
-//     talle: Talle | null;
-//     imagenes: Imagen[];
-// }
-
-// export interface Producto {
-//     id: number;
-//     nombre: string;
-//     sexo: 'MASCULINO' | 'FEMENINO' | 'UNISEX';
-//     tipoProducto: 'ZAPATILLA' | 'REMERA' | 'BUZO' | 'SHORT' | 'PANTALON' | 'ACCESORIO';
-//     categoria: Categoria | null;
-//     detalles: Detalle[];
-// }
-
 
 //agregar tipo de tproducto
 export interface ProductoCatalogo{
@@ -50,6 +30,7 @@ export interface ProductoCatalogo{
     precio: number;
     categoria: string;
     imagen: string;
+    tipoProducto: string;
 }
 export interface DetalleRequestDTO {
     precioCompra: number;

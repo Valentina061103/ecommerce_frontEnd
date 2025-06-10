@@ -9,14 +9,15 @@ interface Props {
     color: string;
     precio: number;
     imagen: string;
+    tipoProducto: string; // <-- ¡Asegúrate de que este campo se pase desde donde renderizas ProductCard!
 }
 
-const ProductCard: React.FC<Props> = ({ id,nombre, marca, color, precio, imagen }) => {
+const ProductCard: React.FC<Props> = ({ id, nombre, marca, color, precio, imagen, tipoProducto }) => {
 
     const navigate = useNavigate();
     const toProductDetail = () => {
         navigate(`/product/${nombre}`, {
-            //pasamos todos los datos del producto como state
+            // Pasamos todos los datos del producto como state
             state: {
                 id,
                 nombre,
@@ -24,9 +25,11 @@ const ProductCard: React.FC<Props> = ({ id,nombre, marca, color, precio, imagen 
                 color,
                 precio,
                 imagen,
+                tipoProducto, // <-- ¡Ahora `tipoProducto` se está enviando!
             }
-        })
-    }
+        });
+    };
+
     return (
         <div className={styles.ProductCard} onClick={toProductDetail}>
             <div className={styles.ProductImage} >
@@ -36,9 +39,10 @@ const ProductCard: React.FC<Props> = ({ id,nombre, marca, color, precio, imagen 
                 <h3>{nombre}</h3>
                 <p>{marca} - {color}</p>
                 <p className={styles.ProductPrice}>
-                    {typeof precio === 'number' ? 
-                    `$${precio.toLocaleString()}`:
-                    'Precio no disponible'}</p>
+                    {typeof precio === 'number' ?
+                    `$${precio.toLocaleString()}` :
+                    'Precio no disponible'}
+                </p>
             </div>
         </div>
     );

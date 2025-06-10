@@ -9,6 +9,8 @@ const Catalogo = () => {
 
   const productos = useCatalogoPublicoStore((state) => state.productosFiltrados());
 
+    console.log("Productos en Catalogo.tsx:", productos);
+
   if (!productos || productos.length === 0) {
     return <div className={styles.CatalogoVacio}>No hay productos disponibles</div>;
   }
@@ -41,6 +43,7 @@ const Catalogo = () => {
                   color={producto.color}
                   precio={producto.precio}
                   imagen={producto.imagen} 
+                  tipoProducto={producto.tipoProducto}
                 />
               ))}
             </div>
