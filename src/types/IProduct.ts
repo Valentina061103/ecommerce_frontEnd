@@ -1,52 +1,43 @@
-export interface Imagen {
+export interface Producto {
+  id: number;
+  nombre: string;
+  sexo: 'MASCULINO' | 'FEMENINO' | 'UNISEX';
+  tipoProducto: 'ZAPATILLA' | 'REMERA' | 'BUZO' | 'SHORT' | 'PANTALON' | 'ACCESORIO';
+  categoria: {
     id: number;
-    url: string;
+    nombre: string;
+  };
+  detalles: Detalle[];
 }
 
-export interface Talle {
-    id: number;
-    talle: string | null;
-}
-
-export interface Precio {
+export interface Detalle {
+  id: number;
+  estado: boolean;
+  color: string;
+  marca: string;
+  stock: number;
+  precio: {
     id: number;
     precioCompra: number;
     precioVenta: number;
-    preciosDescuento: any[]; //revisar
+  };
+  talle: {
+    id: number;
+    talle: string;
+  };
+  imagenes: Array<{
+    id: number;
+    url: string;
+  }>;
 }
 
-export interface DetalleProducto {
-    id: number;
-    estado: boolean;
-    color: string;
-    marca: string;
-    stock: number;
-    precio: Precio;
-    talle: Talle | null;
-    imagenes: Imagen[];
-}
-
-export interface Categoria {
-    id: number;
-    nombre: string;
-}
-
-export interface Producto {
-    id: number;
-    nombre: string;
-    sexo: string;
-    tipoProducto: string;
-    categoria: Categoria | null;
-    detalles: DetalleProducto[];
-}
-
-//agregar tipo de tproducto
-export interface ProductoCatalogo{
-    id: number;
-    nombre: string;
-    marca: string;
-    color: string;
-    precio: number;
-    categoria: string;
-    imagen: string;
+// Producto simplificado para mostrar en catálogo
+export interface ProductoCatalogo {
+  id: number;
+  nombre: string;
+  marca: string;
+  color: string;
+  precio: number;
+  categoria: string;
+  imagenUrl: string;
 }
