@@ -15,7 +15,7 @@ export interface Precio {
     //preciosDescuento: any[]; //revisar
 }
 
-export type Sexo = "HOMBRE" | "MUJER" | "UNISEX";
+export type Sexo = "MASCULINO" | "FEMENINO" | "UNISEX";
 export type TipoProducto = "ZAPATILLA" | "REMERA" | "BUZO" | "SHORT" | "PANTALON" | "ACCESORIO";
 
 

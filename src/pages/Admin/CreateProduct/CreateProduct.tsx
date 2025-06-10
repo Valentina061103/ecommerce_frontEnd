@@ -153,8 +153,8 @@ const CreateProduct = () => {
             <label>Sexo</label>
             <select value={formData.sexo} onChange={(e) => setFormData({ ...formData, sexo: e.target.value })}>
               <option value="">Sexo</option>
-              <option value="HOMBRE">HOMBRE</option>
-              <option value="MUJER">MUJER</option>
+              <option value="MASCULINO">MASCULINO</option>
+              <option value="FEMENINO">FEMENINO</option>
               <option value="UNISEX">UNISEX</option>
             </select>
           </div>
