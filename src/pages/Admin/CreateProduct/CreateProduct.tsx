@@ -2,53 +2,16 @@ import React, { useState } from 'react';
 import styles from './CreateProduct.module.css';
 
 // Enums para las opciones del formulario
-enum ProductType {
-  ZAPATILLAS = "ZAPATILLAS",
-  REMERAS = "REMERAS",
-  BUZO = "BUZO",
-  SHORTS = "SHORTS",
-  PANTALON = "PANTALÓN",
-  ACCESORIOS = "ACCESORIOS",
-}
+import {
+  ProductType,
+  ProductCategory,
+  ProductGender,
+  ProductColor,
+  ProductEstado,
+  ProductSize,
+  StockPorTalle,
+} from '../../../types/productEnums';
 
-enum ProductCategory {
-  RUNNING = "RUNNING",
-  JORDAN = "JORDAN",
-  MODA = "MODA",
-  FUTBOL = "FUTBOL",
-  BASQUET = "BASQUET",
-}
-
-enum ProductGender {
-  HOMBRE = "HOMBRE",
-  MUJER = "MUJER",
-  UNISEX = "UNISEX",
-}
-
-enum ProductColor {
-  NEGRO = "NEGRO",
-  BLANCO = "BLANCO",
-  GRIS = "GRIS",
-  VERDE = "VERDE",
-  ROJO = "ROJO",
-  AZUL = "AZUL",
-  AMARILLO = "AMARILLO",
-  ROSA = "ROSA",
-  VIOLETA = "VIOLETA",
-  MULTICOLOR = "MULTICOLOR",
-}
-
-enum ProductEstado {
-  ACTIVO = "ACTIVO",
-  INACTIVO = "INACTIVO",
-}
-
-// Talles y stock
-type ProductSize = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL" | "35" | "36" | "37" | "38" | "39" | "40" | "41" | "42" | "43" | "44" | "45";
-type StockPorTalle = {
-  talle: ProductSize;
-  cantidad: number;
-};
 
 // Listas de talles según el producto
 const zapatillaSizes = ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45"];

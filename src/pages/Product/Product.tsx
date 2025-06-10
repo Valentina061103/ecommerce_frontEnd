@@ -1,7 +1,6 @@
 
 import { useLocation } from 'react-router-dom';
 import styles from './Product.module.css'; 
-import { Footer } from '../../components/Footer/Footer';
 
 
 interface Talle {
@@ -52,8 +51,6 @@ export const Product = () => {
                     <button className={styles.AddToCartButton}>Agregar al Carrito</button>
                 </div>
             </div>
-
-            <Footer />
         </div>
     );
 };

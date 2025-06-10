@@ -14,6 +14,7 @@ interface Props {
 const ProductCard: React.FC<Props> = ({ id,nombre, marca, color, precio, imagen }) => {
 
     const navigate = useNavigate();
+    const placeholderImage = '/assets/placeholder.jpg'; 
     const toProductDetail = () => {
         navigate(`/product/${nombre}`, {
             //pasamos todos los datos del producto como state
@@ -30,7 +31,13 @@ const ProductCard: React.FC<Props> = ({ id,nombre, marca, color, precio, imagen 
     return (
         <div className={styles.ProductCard} onClick={toProductDetail}>
             <div className={styles.ProductImage} >
-                <img src={imagen} alt={nombre} />
+                <img 
+                    src={imagen && imagen.trim() !== '' ? imagen : placeholderImage}
+                    alt={nombre}
+                    onError={(e) => {
+                        e.currentTarget.src = placeholderImage;
+                    }}
+                />
             </div>
             <div className={styles.ProductInfo}>
                 <h3>{nombre}</h3>
