@@ -5,17 +5,19 @@
     padding-top: 8vh;
 }
 .containerTitlePage {
+    flex-direction: row;
     border-bottom: solid #000 2px;
     width: 90vw;
     display: flex;
     align-items: center;
-    padding: 2rem 1rem 1rem;
+    padding: 1rem 0.5rem 0.5rem;
     margin-bottom: 1rem;
 }
 .containerTitlePage h2 {
+    margin-top: 1.4rem;
     text-transform: uppercase;
     font-size: 1.2rem;
-    margin-left: 2rem;
+    margin-left: 0.2rem;
 }
 
 .containerContent{

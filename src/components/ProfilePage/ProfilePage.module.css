@@ -8,6 +8,7 @@
 }
 
 .profileCard {
+    margin-top: 8vh;
     background-color: #fff;
     padding: 30px;
     border-radius: 8px;
@@ -50,7 +51,7 @@
 }
 
 .editButton, .addAddressButton {
-    background-color: #007bff;
+    background-color: #000000;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -62,7 +63,7 @@
 }
 
 .editButton:hover, .addAddressButton:hover {
-    background-color: #0056b3;
+    background-color: #272829;
 }
 
 .separator {

@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './CardProductCatalog.module.css';
 import { useNavigate } from 'react-router-dom';
 
+
 interface Props {
     id: number;
     nombre: string;
@@ -44,7 +45,11 @@ const ProductCard: React.FC<Props> = ({ id, nombre, marca, color, precio, imagen
             </div>
             <div className={styles.ProductInfo}>
                 <h3>{nombre}</h3>
-                <p>{marca} - {color}</p>
+                <p>Detalle:</p>
+                <div className={styles.detalle}>
+                    <p>Tipo de producto: {tipoProducto.toLowerCase()}</p>
+                    <p>Color: {color.toLowerCase()}</p>
+                </div>
                 <p className={styles.ProductPrice}>
                     {typeof precio === 'number' ?
                     `$${precio.toLocaleString()}` :

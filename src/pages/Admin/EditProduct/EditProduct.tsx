@@ -26,7 +26,7 @@ export const EditarProducto = () => {
     setProducto({ ...producto, [e.target.name]: e.target.value });
   };
 
- type DetalleField = keyof Detalle | "precioCompra" | "precioVenta";
+  type DetalleField = keyof Detalle | "precioCompra" | "precioVenta";
 
 const handleDetalleChange = (
   index: number,
@@ -88,75 +88,90 @@ const handleDetalleChange = (
   if (!producto) return <p>Cargando...</p>;
 
   return (
-    <div className={styles.container}>
-      <h2>Editar Producto</h2>
+  <div className={styles.pageWrapper}>
+    <div className={styles.mainContainer}>
+      <h2 className={styles.title}>Editar Producto</h2>
       {mensaje && <p>{mensaje}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <input name="nombre" value={producto.nombre} onChange={handleInputChange} placeholder="Nombre" />
-        
-        <input name="color" value={producto.color} onChange={handleInputChange} placeholder="Color" />
+      <form onSubmit={handleSubmit} className={styles.form}>
+        {/* Sección de Producto */}
+        <div className={styles.section}>
+          <h3 className={styles.sectionTitle}>Producto</h3>
 
-        <select name="sexo" value={producto.sexo} onChange={handleInputChange}>
-          {Object.values(ProductGender).map((genero) => (
-            <option key={genero} value={genero}>{genero}</option>
-          ))}
-        </select>
+          <div className={styles.inputGroup}>
+            <label>Nombre</label>
+            <input name="nombre" value={producto.nombre} onChange={handleInputChange} />
+          </div>
 
-        <select name="tipoProducto" value={producto.tipoProducto} onChange={handleInputChange}>
-          {Object.values(ProductType).map((tipo) => (
-            <option key={tipo} value={tipo}>{tipo}</option>
-          ))}
-        </select>
+          <div className={styles.inputGroup}>
+            <label>Color</label>
+            <input name="color" value={producto.color} onChange={handleInputChange} />
+          </div>
 
-        {producto.detalles.map((detalle, i) => (
-          <div key={detalle.id} className={styles.detalle}>
-            <h4>Detalle {i + 1}</h4>
-
-            <label>Talle:</label>
-            <select
-              value={detalle.talle.talle}
-              onChange={(e) => handleDetalleChange(i, "talle", e.target.value)}
-            >
-              {ProductSizeValues.map((t) => (
-                <option key={t} value={t}>{t}</option>
+          <div className={styles.inputGroup}>
+            <label>Sexo</label>
+            <select name="sexo" value={producto.sexo} onChange={handleInputChange}>
+              {Object.values(ProductGender).map((genero) => (
+                <option key={genero} value={genero}>{genero}</option>
               ))}
             </select>
+          </div>
 
-            <label>Stock:</label>
-            <input
-              type="number"
-              value={detalle.stock}
-              onChange={(e) => handleDetalleChange(i, "stock", e.target.value)}
-            />
-
-            <label>Precio Compra:</label>
-            <input
-              type="number"
-              value={detalle.precio.precioCompra}
-              onChange={(e) => handleDetalleChange(i, "precioCompra", e.target.value)}
-            />
-
-            <label>Precio Venta:</label>
-            <input
-              type="number"
-              value={detalle.precio.precioVenta}
-              onChange={(e) => handleDetalleChange(i, "precioVenta", e.target.value)}
-            />
-
-            <label>Estado:</label>
-            <select
-              value={detalle.estado ? "true" : "false"}
-              onChange={(e) => handleDetalleChange(i, "estado", e.target.value)}
-            >
-              <option value="true">Activo</option>
-              <option value="false">Inactivo</option>
+          <div className={styles.inputGroup}>
+            <label>Tipo de Producto</label>
+            <select name="tipoProducto" value={producto.tipoProducto} onChange={handleInputChange}>
+              {Object.values(ProductType).map((tipo) => (
+                <option key={tipo} value={tipo}>{tipo}</option>
+              ))}
             </select>
           </div>
-        ))}
+        </div>
 
-        <button type="submit">Guardar Cambios</button>
+        {/* Sección de Detalle */}
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>Detalle</h3>
+
+            {producto.detalles.map((detalle, i) => (
+              <div key={detalle.id} className={styles.detalleGroup}>
+                <h4>Detalle {i + 1}</h4>
+
+                <div className={styles.inputGroup}>
+                  <label>Talle</label>
+                  <select value={detalle.talle.talle} onChange={(e) => handleDetalleChange(i, "talle", e.target.value)}>
+                    {ProductSizeValues.map((t) => (
+                      <option key={t} value={t}>{t}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label>Stock</label>
+                  <input type="number" value={detalle.stock} onChange={(e) => handleDetalleChange(i, "stock", e.target.value)} />
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label>Precio Compra</label>
+                  <input type="number" value={detalle.precio.precioCompra} onChange={(e) => handleDetalleChange(i, "precioCompra", e.target.value)} />
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label>Precio Venta</label>
+                  <input type="number" value={detalle.precio.precioVenta} onChange={(e) => handleDetalleChange(i, "precioVenta", e.target.value)} />
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label>Estado</label>
+                  <select value={detalle.estado ? "true" : "false"} onChange={(e) => handleDetalleChange(i, "estado", e.target.value)}>
+                    <option value="true">Activo</option>
+                    <option value="false">Inactivo</option>
+                  </select>
+                </div>
+              </div>
+            ))}
+          </div>
       </form>
+          <button type="submit" className={styles.GuardarButton}>Guardar Cambios</button>
     </div>
+  </div>
   );
 };

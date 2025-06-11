@@ -26,7 +26,7 @@
     }
 
     .ProductInfo {
-    padding: 1rem;
+    padding: 0.8rem;
     }
 
     .ProductInfo h3 {
@@ -36,12 +36,16 @@
     }
 
     .ProductInfo p {
-    margin: 0;
+    font-size: 14px;
+    color: white;
+    }
+
+    .detalle{
     font-size: 14px;
     color: white;
     }
 
     .ProductPrice {
     font-weight: bold;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     }

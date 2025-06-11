@@ -115,7 +115,10 @@ const navigate = useNavigate();
   return (
     <div className={styles.containerPage}>
       <div className={styles.containerTitlePage}>
-        <span className="material-symbols-outlined">arrow_back_ios</span>
+        <span className="material-symbols-outlined" 
+        style={{ cursor: "pointer" }}
+        onClick={() => navigate("/Home")}
+        >arrow_back_ios</span>
         <h2>Control stock</h2>
       </div>
 

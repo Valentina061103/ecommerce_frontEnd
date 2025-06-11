@@ -97,9 +97,7 @@ useEffect(() => {
   };
 
   //mensaje si no hay productos
-  if (!productos || productos.length === 0) {
-    return <div className={styles.CatalogoVacio}>No hay productos disponibles</div>;
-  }
+
 
   //render princial 
   return (
@@ -127,6 +125,11 @@ useEffect(() => {
         />
 
         <section className={styles.CatalogoMain}>
+            {productos.length === 0 && (
+              <div className={styles.MensajeSinResultados}>
+              Lo sentimos, no tenemos el producto disponible.
+              </div>
+            )}
           <div className={styles.CatalogoGrid}>
             {productos.map((producto) => (
               <CardProductCatalog
