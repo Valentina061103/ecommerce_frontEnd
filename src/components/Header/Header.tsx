@@ -13,14 +13,17 @@ interface HeaderProps {
 export const Header = ({ CartClick }: HeaderProps) => {
     const navigate = useNavigate();
     const { user } = useAuth(); 
+    const [showUserModal, setShowUserModal] = useState(false);
+    const [showAdminMenu, setShowAdminMenu] = useState(false);
+    const adminMenuRef = useRef<HTMLDivElement | null>(null);
 
     const toHome = () => {
         navigate(`/Home`)
     }
 
-    const [showUserModal, setShowUserModal] = useState(false);
-    const [showAdminMenu, setShowAdminMenu] = useState(false);
-    const adminMenuRef = useRef<HTMLDivElement | null>(null);
+    const goToCatalogoWithGenero = (genero: string) => {
+        navigate(`/catalogo?genero=${genero}`);
+    };
 
     const toggleModal = () => {
         setShowUserModal((prev) => !prev);
@@ -52,10 +55,10 @@ export const Header = ({ CartClick }: HeaderProps) => {
             <div className={styles.content_header}>
                 <img src={logoblanco} alt="logo" onClick={toHome} />
                 <div className={styles.containerCategories_header}>
-                    <p>Hombre</p>
-                    <p>Mujer</p>
-                    <p>Unisex</p>
-                    <p>Accesorios</p>
+                    <p onClick={() => goToCatalogoWithGenero("masculino")}>Hombre</p>
+                    <p onClick={() => goToCatalogoWithGenero("femenino")}>Mujer</p>
+                    <p onClick={() => goToCatalogoWithGenero("unisex")}>Unisex</p>
+                    <p onClick={() => navigate("/catalogo?categoria=accesorios")}>Accesorios</p>
                 </div>
                 <div className={styles.containerButtons_header}>
                     <span className="material-symbols-outlined" onClick={CartClick}>shopping_cart</span>

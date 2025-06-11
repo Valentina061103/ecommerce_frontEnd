@@ -1,5 +1,6 @@
 import styles from './CarouselCategory.module.css';
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Category {
   label: string;
@@ -7,15 +8,16 @@ interface Category {
 }
 
 const categories: Category[] = [
-  { label: "Accesorios", img: "src/assets/accesorios.jpg" },
-  { label: "Entrenamiento", img: "src/assets/entrenamiento.jpg" },
-  { label: "Futbol", img: "src/assets/futbol.png" },
-  { label: "Jordan", img: "src/assets/jordan.jpg" },
-  { label: "Basquet", img: "src/assets/basquet.png" },
+  { label: "MODA", img: "src/assets/accesorios.jpg" },
+  { label: "RUNNING", img: "src/assets/entrenamiento.jpg" },
+  { label: "FUTBOL", img: "src/assets/futbol.png" },
+  { label: "JORDAN", img: "src/assets/jordan.jpg" },
+  { label: "BASQUET", img: "src/assets/basquet.png" },
 ];
 
 const CarouselCategory = () => {
   const carouselRef = useRef<HTMLDivElement>(null); //para acceder al contenedor del carrusel
+  const navigate = useNavigate();
 
   const scrollLeft = () => {
     if (carouselRef.current) {
@@ -35,6 +37,10 @@ const CarouselCategory = () => {
     }
   };
 
+  const handleCategoryClick = (category: string) => {
+    navigate(`/catalogo?categoria=${encodeURIComponent(category)}`);
+  };
+
   return (
     <div className={styles.trending}>
       <div className={styles.carouselContainer}>
@@ -43,7 +49,11 @@ const CarouselCategory = () => {
         </button>
         <div className={styles.trending_carousel} ref={carouselRef}>
           {[...categories, ...categories].map((cat, i) => (
-            <div key={i} className={styles.card}>
+            <div 
+            key={i} 
+            className={styles.card}
+            onClick={()=>handleCategoryClick(cat.label)}
+            >
               <img src={cat.img} alt={cat.label} />
               <p>{cat.label}</p>
             </div>

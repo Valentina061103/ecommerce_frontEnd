@@ -10,13 +10,15 @@ import { ModalCart } from "../components/modals/ModalCart/ModalCart";
 import { LoginPage } from "../pages/Login/Login";
 import { useAuth } from "../store/authContext";
 import { ControlStock } from "../pages/Admin/ControlStock/ControlStock";
-import { ProfilePage } from "../components/ProfilePage/ProfilePage"; // ¡Importa tu nueva página de perfil!
+import { ProfilePage } from "../components/ProfilePage/ProfilePage"; 
+import ScrollToTop from "../components/scrollTop/ScrollToTop";
 
 export const AppRouter = () => {
     const { token } = useAuth(); // Usamos 'token' para proteger rutas
 
     return (
         <BrowserRouter>
+            <ScrollToTop />
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Navigate to="/home" replace />} />

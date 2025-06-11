@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './Catalogo.module.css';
+import { useEffect } from 'react';
 
 //componentes
 import FiltroSidebarCatalog from '../../components/FiltroSidebarCatalog/FiltroSideBarCatalog';
@@ -20,6 +21,7 @@ import {
   ProductGender,
   ProductColor
 } from '../../types/productEnums';
+import { useSearchParams } from 'react-router-dom';
 
 type FiltersState = {
   tipo?: string;
@@ -33,18 +35,35 @@ type FiltersState = {
 };
 
 const Catalogo = () => {
-  //estado local para los filtros
-  const [filters, setFilters] = useState<FiltersState>({
-    tipo: '',
-    categoria: '',
-    genero: '',
-    color: '',
-    marca: '',
-    precioMin: '',
-    precioMax: '',
-    talles:[],
+  const [searchParams] = useSearchParams();
 
+  // Leemos filtros desde los query params de la URL
+  const initialFilters: FiltersState = {
+    tipo: searchParams.get("tipo") || '',
+    categoria: searchParams.get("categoria") || '',
+    genero: searchParams.get("genero") || '',
+    color: searchParams.get("color") || '',
+    marca: searchParams.get("marca") || '',
+    precioMin: searchParams.get("precioMin") || '',
+    precioMax: searchParams.get("precioMax") || '',
+    talles: searchParams.getAll("talles") || [],
+  };
+  //estado local para los filtros
+  const [filters, setFilters] = useState<FiltersState>(initialFilters);
+
+  // Sincronizar filtros con los searchParams de la URL si cambian
+useEffect(() => {
+  setFilters({
+    tipo: searchParams.get("tipo") || '',
+    categoria: searchParams.get("categoria") || '',
+    genero: searchParams.get("genero") || '',
+    color: searchParams.get("color") || '',
+    marca: searchParams.get("marca") || '',
+    precioMin: searchParams.get("precioMin") || '',
+    precioMax: searchParams.get("precioMax") || '',
+    talles: searchParams.getAll("talles") || [],
   });
+}, [searchParams]);
 
   
   //Hook que llama al backend con los filtros actuales
@@ -66,10 +85,10 @@ const Catalogo = () => {
     //conversion del filtro al tipo que espera el componente hijo
     const parseFilters = (filters: FiltersState) => {
     return {
-      tipo: filters.tipo as ProductType,
-      categoria: filters.categoria as ProductCategory,
-      genero: filters.genero as ProductGender,
-      color: filters.color as ProductColor,
+      tipo: (filters.tipo?.toUpperCase() as ProductType) || undefined,
+      categoria: (filters.categoria?.toUpperCase() as ProductCategory) || undefined,
+      genero: (filters.genero?.toUpperCase() as ProductGender) || undefined,
+      color: (filters.color?.toUpperCase() as ProductColor) || undefined,
       marca: filters.marca,
       precioMin: filters.precioMin,
       precioMax: filters.precioMax,
@@ -96,12 +115,7 @@ const Catalogo = () => {
             />
         </div>
       </div>
-
-        <div className={styles.SearchContainer}>
-            <span className="material-symbols-outlined">search</span>
-            <input type="text" placeholder="Buscar" />
-        </div>
-      </div>
+    </div>
 
       <div className={styles.Separator}></div>
 
