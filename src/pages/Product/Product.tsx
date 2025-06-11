@@ -16,16 +16,16 @@ interface ProductoVista {
 }
 
 interface TalleOption {
-  talle: string;
+    talle: string;
 }
 
 export const Product = () => {
-  const location = useLocation();
-  const producto = location.state as ProductoVista;
+    const location = useLocation();
+    const producto = location.state as ProductoVista;
 
-  const { addToCart, isLoading } = useAddToCart();
-  const [selectedTalle, setSelectedTalle] = useState<string | null>(null);
-  const [message, setMessage] = useState('');
+    const { addToCart, isLoading } = useAddToCart();
+    const [selectedTalle, setSelectedTalle] = useState<string | null>(null);
+    const [message, setMessage] = useState('');
 
   
  console.log("=== DEBUG PRODUCTO ===");
@@ -42,21 +42,21 @@ console.log("=== FIN DEBUG ===");
         { talle: "37" }, { talle: "38" }, { talle: "39" }, { talle: "40" }, { talle: "41" },
         { talle: "42" }, { talle: "43" }, { talle: "44" }, { talle: "45" }, { talle: "46" }, { talle: "47" },
         { talle: "48" }
-      ]
+    ]
     : [
         { talle: "XS" }, { talle: "S" }, { talle: "M" }, { talle: "L" }, { talle: "XL" }, { talle: "XXL" }
-      ];
+    ];
 
-  if (!producto) {
+if (!producto) {
     return <div>No se encontró el producto</div>;
-  }
+}
 
-  const handleTalleSelect = (talle: string) => {
+const handleTalleSelect = (talle: string) => {
     setSelectedTalle(talle);
     setMessage('');
-  };
+};
 
-  const handleAddToCart = async () => {
+const handleAddToCart = async () => {
     if (!selectedTalle) {
       setMessage('Por favor selecciona un talle');
       return;
@@ -65,65 +65,65 @@ console.log("=== FIN DEBUG ===");
     const detalle = await addToCart(producto.id, selectedTalle);
 
     if (detalle.success) {
-      setMessage('¡Producto agregado al carrito!');
+    setMessage('¡Producto agregado al carrito!');
     } else {
-      setMessage(detalle.message || '');
+    setMessage(detalle.message || '');
     }
 
     setTimeout(() => {
-      setMessage('');
-    }, 3000);
-  };
+        setMessage('');
+    } , 3000);
+};
 
-  return (
+return (
     <div className={styles.container_content}>
-      <div className={styles.ProductDetailContainer}>
+        <div className={styles.ProductDetailContainer}>
         <div className={styles.product_imagesSection}>
-          <div className={styles.product_imagesSection_imagen}>1</div>
-          <div className={styles.product_imagesSection_imagen}>2</div>
-          <div className={styles.product_imagesSection_imagen}>3</div>
-          <div className={styles.product_imagesSection_imagen}>4</div>
+            <div className={styles.product_imagesSection_imagen}>1</div>
+            <div className={styles.product_imagesSection_imagen}>2</div>
+            <div className={styles.product_imagesSection_imagen}>3</div>
+            <div className={styles.product_imagesSection_imagen}>4</div>
         </div>
         <div className={styles.product_imagenPricipalSection}>
-          <img src={producto.imagen} alt={producto.nombre} className={styles.product_imagenPricipalSection_imagen} />
+            <img src={producto.imagen} alt={producto.nombre} className={styles.product_imagenPricipalSection_imagen} />
         </div>
         <div className={styles.product_infoSection}>
-          <h1>{producto.nombre}</h1>
-          <p>{producto.marca} - {producto.color}</p>
+            <h1>{producto.nombre}</h1>
+            <p>{producto.marca} - {producto.color}</p>
 
-          <div className={styles.product_infoSection_talles}>
+            <div className={styles.product_infoSection_talles}>
             <p className={styles.titulo}>Seleccionar un talle</p>
             <div className={styles.container_talles}>
-              {talles.map((talle, index) => (
+                {talles.map((talle, index) => (
                 <div
-                  key={index}
-                  className={`${styles.talle} ${selectedTalle === talle.talle ? styles.talle_selected : ''}`}
-                  onClick={() => handleTalleSelect(talle.talle)}
+                    key={index}
+                    className={`${styles.talle} ${selectedTalle === talle.talle ? styles.talle_selected : ''}`}
+                    onClick={() => handleTalleSelect(talle.talle)}
                 >
-                  <p>{talle.talle}</p>
+                    <p>{talle.talle}</p>
                 </div>
-              ))}
+                ))}
             </div>
-          </div>
+            </div>
 
-          {message && (
+            {message && (
             <p className={`${styles.message} ${message.includes('Error') ? styles.error : styles.success}`}>
-              {message}
+                {message}
             </p>
-          )}
+        )}
 
-          <button
+        <button
             className={styles.AddToCartButton}
             onClick={handleAddToCart}
             disabled={isLoading || !selectedTalle}
-          >
+        >
             {isLoading ? 'Agregando...' : 'Agregar al Carrito'}
-          </button>
+        </button>
         </div>
-      </div>
+    </div>
 
     </div>
-  );
+);
 };
 
 
