@@ -28,7 +28,10 @@ export const ModalCart = ({ onClose }: ModalCartProps) => {
                         <h2>Mi compra</h2>
                     </div>
                     <div className={styles.empty_cart}>
-                        <p>Tu carrito está vacío</p>
+                        <p>
+                            Tu carrito está vacío :( <br />
+                            Sigue buscando el producto ideal para ti
+                        </p>
                         <button onClick={onClose} className={styles.continue_shopping}>
                             Seguir comprando
                         </button>

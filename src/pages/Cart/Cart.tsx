@@ -50,11 +50,10 @@ export const Cart = () => {
         body: JSON.stringify(paymentData)
       });
 
-     
+    
       console.log('Solicitud enviada al backend:', { url: `http://localhost:8080/api/payments/create-checkout?userId=${usuarioId}`, method: 'POST', body: paymentData });
 
       if (!response.ok) {
-       
         const errorData = await response.json().catch(() => null); 
         const errorMessage = errorData && errorData.message ? errorData.message : `Error HTTP: ${response.status} ${response.statusText}`;
         console.error('Error en la respuesta del backend:', response, errorData);
@@ -67,7 +66,6 @@ export const Cart = () => {
       console.log('Respuesta recibida del backend:', data);
 
       if (data.initPoint) {
-       
         console.log('Redirigiendo a MercadoPago:', data.initPoint);
         window.location.href = data.initPoint; 
       } else {
@@ -94,13 +92,60 @@ export const Cart = () => {
 
   if (items.length === 0) {
     return (
-      <div className={styles.container_empty}>
-        <div className={styles.empty_cart}>
-          <h2>Tu carrito está vacío</h2>
-          <p>¡Agrega algunos productos para comenzar!</p>
-          <button onClick={handleContinueShopping} className={styles.continue_shopping}>
-            Ir a la tienda
-          </button>
+<div className={styles.container}>
+        <div className={styles.container_contentCard}>
+          {/* Columna izquierda: mensaje de carrito vacío */}
+          <div className={styles.container_cardsProducts}>
+            <div className={styles.cart_header}>
+              <div>
+                <h2>Mi Carrito</h2>
+                <p>0 productos</p>
+              </div>
+            </div>
+            <div className={styles.empty_cart}>
+              <h2>Tu carrito está vacío</h2>
+              <p>¡Agrega algunos productos para comenzar!</p>
+              <button
+                onClick={handleContinueShopping}
+                className={styles.continue_shopping}
+              >
+                Ir a la tienda
+              </button>
+            </div>
+          </div>
+
+          {/* Columna derecha: resumen en cero, botones inactivos */}
+          <div className={styles.container_price}>
+            <div className={styles.container_detailPrice}>
+              <div className={styles.detailPrice_description}>
+                <div className={styles.detailPrice_text}>
+                  <p>Subtotal: </p>
+                  <p>$0</p>
+                </div>
+                <div className={styles.detailPrice_text}>
+                  <p>Envío: </p>
+                  <p>Gratis</p>
+                </div>
+                <div className={styles.detailPrice_text}>
+                  <p>Impuestos: </p>
+                  <p>Incluidos</p>
+                </div>
+              </div>
+              <div className={styles.detailPrice_total}>
+                <p>Total: </p>
+                <p>$0</p>
+              </div>
+            </div>
+
+            <div className={styles.container_actions}>
+              <button className={styles.pay_button_disabled} disabled>
+                Iniciar pago
+              </button>
+              <button className={styles.continue_shopping_link_disabled} disabled>
+                Seguir comprando
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
