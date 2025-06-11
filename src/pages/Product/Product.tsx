@@ -4,15 +4,13 @@ import styles from './Product.module.css';
 import { useAddToCart } from '../../hooks/useAddToCart';
 
 
-
-
 interface ProductoVista {
-  id: number;
-  nombre: string;
-  marca: string;
-  color: string;
-  imagen: string;
-  tipoProducto: string;
+    id: number;
+    nombre: string;
+    marca: string;
+    color: string;
+    imagen: string;
+    tipoProducto: string;
 }
 
 interface TalleOption {
@@ -27,8 +25,8 @@ export const Product = () => {
     const [selectedTalle, setSelectedTalle] = useState<string | null>(null);
     const [message, setMessage] = useState('');
 
-  
- console.log("=== DEBUG PRODUCTO ===");
+
+console.log("=== DEBUG PRODUCTO ===");
 console.log("Producto completo:", JSON.stringify(producto, null, 2));
 console.log("tipoProducto:", producto?.tipoProducto);
 console.log("Tipo de tipoProducto:", typeof producto?.tipoProducto);
@@ -36,8 +34,8 @@ console.log("¿Es string?", typeof producto?.tipoProducto === 'string');
 console.log("¿Es ZAPATILLA?", producto?.tipoProducto === "ZAPATILLA");
 console.log("=== FIN DEBUG ===");
 
- 
-  const talles: TalleOption[] = producto?.tipoProducto === "ZAPATILLA"
+
+const talles: TalleOption[] = producto?.tipoProducto === "ZAPATILLA"
     ? [
         { talle: "37" }, { talle: "38" }, { talle: "39" }, { talle: "40" }, { talle: "41" },
         { talle: "42" }, { talle: "43" }, { talle: "44" }, { talle: "45" }, { talle: "46" }, { talle: "47" },
@@ -58,8 +56,8 @@ const handleTalleSelect = (talle: string) => {
 
 const handleAddToCart = async () => {
     if (!selectedTalle) {
-      setMessage('Por favor selecciona un talle');
-      return;
+        setMessage('Por favor selecciona un talle');
+        return;
     }
 
     const detalle = await addToCart(producto.id, selectedTalle);

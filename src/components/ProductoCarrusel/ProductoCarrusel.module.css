@@ -1,0 +1,84 @@
+    .carouselContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    margin: 1.5rem auto;
+    width: 100%;
+    overflow: hidden;
+    }
+
+    .carousel {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex-grow: 1;
+    padding: 10px 0;
+    }
+
+    .carousel::-webkit-scrollbar {
+    display: none;
+    }
+
+    .card {
+    flex: 0 0 22%;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: white;
+    }
+
+    .CardContent {
+    padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+
+    .card:hover {
+    transform: scale(1.03);
+    }
+
+    .card img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 0;
+    box-shadow: none; 
+    }
+
+    .precio {
+    font-weight: bold;
+    margin-top: 0.5rem;
+    }
+
+    .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    }
+
+    .arrow:hover {
+    background-color: #000000;
+    }
+
+    .arrow:first-of-type {
+        left: 10px;
+    }
+
+    .arrow:last-of-type {
+        right: 10px;
+    }

@@ -37,3 +37,20 @@
 .conteiner_corouselProducts{
     height: 30vh;
 }
+
+.containerNombreCarrusel {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.containerNombreCarrusel h3 {
+    font-family: var(--font-paytone-one);
+    color: #000;
+    font-size:1.5rem;
+    letter-spacing: 3px;
+    text-decoration: underline;
+    text-underline-offset: 4px; 
+    text-decoration-thickness: 3px;
+    text-decoration-color: #000000; 
+}
