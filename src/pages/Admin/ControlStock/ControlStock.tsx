@@ -1,6 +1,12 @@
 import { useEffect, useState, useCallback } from "react";
 import { useAdminProductosStore } from "../../../hooks/useAdminProducts";
 import styles from "./ControlStock.module.css";
+import { useNavigate } from "react-router-dom";
+import { ProductoCatalogo } from "../../../types/IProduct";
+
+
+
+
 
 type Subcategories = {
   [key: string]: string[];
@@ -10,6 +16,19 @@ export const ControlStock = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("Todos");
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>("");
   const [productoExpandido, setProductoExpandido] = useState<number | null>(null);
+const navigate = useNavigate(); 
+
+  const handleEditar = (producto: ProductoCatalogo) => {
+    navigate(`/editar-producto/${producto.id}`, {
+      state: {
+        id: producto.id,
+        nombre: producto.nombre,
+        tipoProducto: producto.tipoProducto,
+        sexo: producto.sexo,
+        categoriaNombre: producto.categoria.nombre,
+      }
+    });
+  };
 
   const {
     productos,
@@ -51,22 +70,20 @@ export const ControlStock = () => {
       }
     } 
     else if (selectedCategory === "Ropa") {
-      // Para ropa: si hay subcategoría, filtrar por ese tipo específico
+      
       if (selectedSubcategory) {
         const tipoProducto = tipoRopaMapping[selectedSubcategory];
         if (tipoProducto) {
           filtros.tipoProducto = tipoProducto;
         }
       } else {
-        // Si no hay subcategoría, mostrar toda la ropa
-        // Podrías filtrar por múltiples tipos, pero necesitarías modificar el backend
-        // Por ahora, sin filtro específico mostrará todo
+        
       }
     }
     else if (selectedCategory === "Accesorios") {
       filtros.tipoProducto = "ACCESORIO";
     }
-    // Si selectedCategory === "Todos", no agregamos filtros
+    
 
     console.log("Filtros enviados:", filtros);
 
@@ -166,6 +183,14 @@ export const ControlStock = () => {
                 >
                   {prod.activo ? "visibility_off" : "visibility"}
                 </span>
+                <span
+                    className="material-symbols-outlined"
+                    onClick={() => handleEditar(prod)}
+                    style={{ cursor: "pointer", marginLeft: "8px" }}
+                    title="Editar producto"
+                  >
+                    edit
+                  </span>
 
                 {productoExpandido === prod.id && (
                   <div className={styles.expandedRow}>

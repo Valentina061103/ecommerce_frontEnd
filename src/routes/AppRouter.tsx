@@ -12,6 +12,8 @@ import { useAuth } from "../store/authContext";
 import { ControlStock } from "../pages/Admin/ControlStock/ControlStock";
 import { ProfilePage } from "../components/ProfilePage/ProfilePage"; 
 import ScrollToTop from "../components/scrollTop/ScrollToTop";
+import { EditarProducto } from "../pages/Admin/EditProduct/EditProduct"; 
+
 
 export const AppRouter = () => {
     const { token } = useAuth(); // Usamos 'token' para proteger rutas
@@ -37,6 +39,11 @@ export const AppRouter = () => {
                     <Route
                         path="crear-producto"
                         element={token ? <CreateProduct /> : <Navigate to="/login" />}
+                        
+                    />
+                    <Route
+                        path="editar-producto/:id"
+                        element={token ? <EditarProducto /> : <Navigate to="/login" />}
                     />
                     <Route
                         path="stock"

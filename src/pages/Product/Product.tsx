@@ -27,13 +27,7 @@ export const Product = () => {
     const [invalidTalles, setInvalidTalles] = useState<string[]>([]);
 
 
-console.log("=== DEBUG PRODUCTO ===");
-console.log("Producto completo:", JSON.stringify(producto, null, 2));
-console.log("tipoProducto:", producto?.tipoProducto);
-console.log("Tipo de tipoProducto:", typeof producto?.tipoProducto);
-console.log("¿Es string?", typeof producto?.tipoProducto === 'string');
-console.log("¿Es ZAPATILLA?", producto?.tipoProducto === "ZAPATILLA");
-console.log("=== FIN DEBUG ===");
+
 
 
 const talles: TalleOption[] = producto?.tipoProducto === "ZAPATILLA"
