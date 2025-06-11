@@ -1,9 +1,10 @@
 import styles from './Header.module.css';
 import logoblanco from '../../assets/logo-blanco.png';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ModalUser } from '../modals/ModalUser/ModalUser';
 import { useAuth } from '../../store/authContext';
+import { ModalControlsAdmin } from '../modals/ModalControlsAdmin/ModalMenuAdmin';
 
 interface HeaderProps {
     CartClick: () => void;
@@ -18,10 +19,33 @@ export const Header = ({ CartClick }: HeaderProps) => {
     }
 
     const [showUserModal, setShowUserModal] = useState(false);
+    const [showAdminMenu, setShowAdminMenu] = useState(false);
+    const adminMenuRef = useRef<HTMLDivElement | null>(null);
 
     const toggleModal = () => {
         setShowUserModal((prev) => !prev);
     };
+    const toggleAdminMenu = () => setShowAdminMenu((prev) => !prev);
+
+      // Cierra el modal admin si se hace click fuera
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+        if (
+            adminMenuRef.current &&
+            !adminMenuRef.current.contains(event.target as Node)
+        ) {
+            setShowAdminMenu(false);
+        }
+        };
+
+        if (showAdminMenu) {
+        document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showAdminMenu]);
 
     return (
         <div className={styles.conteiner_header}> 
@@ -37,7 +61,18 @@ export const Header = ({ CartClick }: HeaderProps) => {
                     <span className="material-symbols-outlined" onClick={CartClick}>shopping_cart</span>
 
                     {user?.rol === 'ADMIN' && (
-                        <span className="material-symbols-outlined">menu</span>
+                        <div style={{ position: 'relative' }} ref={adminMenuRef}>
+                        <span
+                            className="material-symbols-outlined"
+                            onClick={toggleAdminMenu}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            menu
+                        </span>
+                        {showAdminMenu && (
+                            <ModalControlsAdmin onClose={() => setShowAdminMenu(false)} />
+                        )}
+                        </div>
                     )}
 
                     <span className="material-symbols-outlined" 

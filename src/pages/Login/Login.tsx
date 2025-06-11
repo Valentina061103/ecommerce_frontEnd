@@ -25,7 +25,10 @@ export const LoginPage = () => {
         dni: res.dni,
         rol: res.rol
       })
-      localStorage.setItem('userId', res.id.toString());
+      if (res.id !== undefined && res.id !== null) {
+        localStorage.setItem('userId', res.id.toString());
+      }
+      
       navigate('/');
     } catch (err: any) {
       setError(err.message || 'Error al iniciar sesión. Inténtalo de nuevo.');
