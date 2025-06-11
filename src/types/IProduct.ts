@@ -28,9 +28,21 @@ export interface ProductoCatalogo{
     marca: string;
     color: string;
     precio: number;
-    categoria: string;
+    categoria: Categoria;
     imagen: string;
     tipoProducto: string;
+    sexo: Sexo;
+    activo: boolean;
+    detalles: {
+        id: number;
+        estado: boolean;
+        color: string;
+        marca: string;
+        stock: number;
+        precio: Precio;
+        talle: Talle;
+        imagenes: Imagen[];
+    }[];
 }
 export interface DetalleRequestDTO {
     precioCompra: number;
@@ -65,6 +77,9 @@ export interface Producto {
         nombre: string;
     };
     detalles: Detalle[];
+    activo: boolean;
+    color: string;
+    imagen: Imagen | null;
 }
 
 export interface Detalle {

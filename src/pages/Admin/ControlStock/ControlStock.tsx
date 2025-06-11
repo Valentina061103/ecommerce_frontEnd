@@ -1,120 +1,200 @@
-import { useAdminProducts } from "../../../hooks/useAminProducts";
-import { useProductosStore } from "../../../store/ProductStore";
-import styles from "./ControlStock.module.css"
-import {useState} from "react";
+import { useEffect, useState, useCallback } from "react";
+import { useAdminProductosStore } from "../../../hooks/useAdminProducts";
+import styles from "./ControlStock.module.css";
+
+type Subcategories = {
+  [key: string]: string[];
+};
 
 export const ControlStock = () => {
-    const [selectedCategory, setSelectedCategory] = useState("");
-    const productos = useProductosStore((state) => state.productos);
-    const [productoExpandido, setProductoExpandido] = useState<number | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>("Todos");
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string>("");
+  const [productoExpandido, setProductoExpandido] = useState<number | null>(null);
 
-    //carga los productos
-    useAdminProducts();
+  const {
+    productos,
+    loading,
+    error,
+    fetchProductos,
+    toggleActivo
+  } = useAdminProductosStore();
 
-    const handleCategoryClick = (category: string) => {
-        // Si vuelven a hacer clic sobre la misma categoría, la cerramos
-        setSelectedCategory((prev) => (prev === category ? "" : category));
-    };
+  // Subcategorías: para Zapatillas son categorías (estilos), para Ropa son tipos de prenda
+  const subcategories: Subcategories = {
+    Zapatillas: ["Running", "Fútbol", "Básquet", "Jordan", "Moda"], // Estas son categorías
+    Ropa: ["Remera", "Buzo", "Short", "Pantalón"], // Estos son tipos de producto
+    Accesorios: [] // Sin subcategorías
+  };
 
-    const subcategories = {
-        Zapatillas: ["Running", "Fútbol", "Básquet", "Jordan", "Moda"],
-        Ropa: ["Remera", "Buzo", "Campera", "Short", "Pantalón"]
-    };
+  // Mapeo de tipos de ropa a TipoProducto del backend
+  const tipoRopaMapping: Record<string, string> = {
+    "Remera": "REMERA",
+    "Buzo": "BUZO",
+    "Short": "SHORT", 
+    "Pantalón": "PANTALON"
+  };
 
-    const toggleExpand = (id: number) => {
-        setProductoExpandido((prev) => (prev === id ? null : id));
-    };
+  useEffect(() => {
+    fetchProductos(); // Carga inicial
+  }, []);
 
+  useEffect(() => {
+    const filtros: Record<string, any> = {};
 
-    return (
-        <div className={styles.containerPage}>
-            <div className={styles.containerTitlePage}>
-                <span className="material-symbols-outlined">arrow_back_ios</span>
-                <h2>Control stock</h2>
-            </div>
-            <div className={styles.containerContent}>
-                <div className={styles.containerFilter}>
-                    {["Todos", "Zapatillas", "Ropa", "Accesorios"].map((category) => (
-                        <p
-                            key={category}
-                            onClick={() => handleCategoryClick(category)}
-                            className={selectedCategory === category ? styles.selected : ""}
-                        >
-                            {category}
-                        </p>
-                    ))}
-                </div>
-                {subcategories[selectedCategory] && (
-                    <div className={styles.containerSubFilter}>
-                        {subcategories[selectedCategory].map((item, index) => (
-                            <p key={index}>{item}</p>
-                        ))}
-                    </div>
-                )}
+    if (selectedCategory === "Zapatillas") {
+      // Para zapatillas: filtrar por tipoProducto = ZAPATILLA
+      filtros.tipoProducto = "ZAPATILLA";
+      
+      // Si hay subcategoría seleccionada, es una categoría (estilo)
+      if (selectedSubcategory) {
+        filtros.categoria = selectedSubcategory;
+      }
+    } 
+    else if (selectedCategory === "Ropa") {
+      // Para ropa: si hay subcategoría, filtrar por ese tipo específico
+      if (selectedSubcategory) {
+        const tipoProducto = tipoRopaMapping[selectedSubcategory];
+        if (tipoProducto) {
+          filtros.tipoProducto = tipoProducto;
+        }
+      } else {
+        // Si no hay subcategoría, mostrar toda la ropa
+        // Podrías filtrar por múltiples tipos, pero necesitarías modificar el backend
+        // Por ahora, sin filtro específico mostrará todo
+      }
+    }
+    else if (selectedCategory === "Accesorios") {
+      filtros.tipoProducto = "ACCESORIO";
+    }
+    // Si selectedCategory === "Todos", no agregamos filtros
 
-                <div className={styles.productGrid}>
-                    {/* Cabecera */}
-                    <div className={styles.tableHeader}>
-                        <p></p>
-                        <p>Nombre</p>
-                        <p>Categoría</p>
-                        <p>Producto</p>
-                        <p>Género</p>
-                        <p>Acciones</p>
-                    </div>
+    console.log("Filtros enviados:", filtros);
 
-                {/* Productos */}
-                {productos.map((producto) => (
-                    <div key={producto.id} className={styles.tableRow}>
-                    {/* Flecha para expandir */}
-                    <span
-                        className="material-symbols-outlined"
-                        onClick={() => toggleExpand(producto.id)}
-                        style={{ cursor: "pointer" }}
-                    >
-                        {productoExpandido === producto.id ? "keyboard_arrow_up" : "keyboard_arrow_down"}
-                    </span>
+    fetchProductos(filtros);
+  }, [selectedCategory, selectedSubcategory]); // Removido fetchProductos de las dependencias
 
-                    <p>{producto.nombre}</p>
-                    <p>{producto.categoria?.nombre}</p>
-                    <p>{producto.tipoProducto}</p>
-                    <p>{producto.sexo}</p>
+  const handleCategoryClick = (cat: string) => {
+    if (cat === "Todos") {
+      setSelectedCategory("Todos");
+      setSelectedSubcategory("");
+    } else {
+      setSelectedCategory(prev => prev === cat ? "Todos" : cat);
+      setSelectedSubcategory(""); // Limpiar subcategoría al cambiar categoría
+    }
+  };
 
-                    <span className="material-symbols-outlined">visibility_off</span>
+  const handleSubcategoryClick = (sub: string) => {
+    setSelectedSubcategory(prev => prev === sub ? "" : sub);
+  };
 
-                    {/* Detalle expandido */}
-                    {productoExpandido === producto.id && (
-                        <div className={styles.expandedRow}>
-                            {/* Detalles de stock con grid */}
-                            <div className={styles.detailGrid}>
-                                <div className={styles.detailHeader}>
-                                <p>Talle</p>
-                                <p>Stock</p>
-                                <p>Precio</p>
-                                </div>
-                                {producto.detalles.map((detalle) => (
-                                <div key={detalle.id} className={styles.detailRow}>
-                                    <p>{detalle.talle?.talle || '—'}</p>
-                                    <p>{detalle.stock}</p>
-                                    <p>${detalle.precio?.precioVenta?.toFixed(2) || '0.00'}</p>
-                                </div>
-                                ))}
-                            </div>
+  const toggleExpand = (id: number) => {
+    setProductoExpandido(prev => prev === id ? null : id);
+  };
 
-                            {/* Imagen del producto */}
-                            <div>
-                                {producto.imagen?.url && (
-                                <img src={producto.imagen.url} alt={producto.nombre} width="120" />
-                                )}
-                            </div>
-                        </div>
-                    )}
-                    </div>
-                ))}
-                </div>
+  const handleToggleActivo = (id: number) => {
+    toggleActivo(id);
+  };
 
+  return (
+    <div className={styles.containerPage}>
+      <div className={styles.containerTitlePage}>
+        <span className="material-symbols-outlined">arrow_back_ios</span>
+        <h2>Control stock</h2>
+      </div>
 
-            </div>
+      <div className={styles.containerContent}>
+        <div className={styles.containerFilter}>
+          {["Todos", "Zapatillas", "Ropa", "Accesorios"].map(cat => (
+            <p
+              key={cat}
+              className={selectedCategory === cat ? styles.selected : ""}
+              onClick={() => handleCategoryClick(cat)}
+            >
+              {cat}
+            </p>
+          ))}
         </div>
-    )
-}
+
+        {selectedCategory && selectedCategory !== "Todos" && subcategories[selectedCategory] && subcategories[selectedCategory].length > 0 && (
+          <div className={styles.containerSubFilter}>
+            {subcategories[selectedCategory].map(sub => (
+              <p
+                key={sub}
+                className={selectedSubcategory === sub ? styles.selected : ""}
+                onClick={() => handleSubcategoryClick(sub)}
+              >
+                {sub}
+              </p>
+            ))}
+          </div>
+        )}
+
+        {loading && <p>Cargando productos...</p>}
+        {error && <p className={styles.error}>Error: {error}</p>}
+
+        <div className={styles.productGrid}>
+          <div className={styles.tableHeader}>
+            <p></p>
+            <p>Nombre</p>
+            <p>Categoría</p>
+            <p>Producto</p>
+            <p>Género</p>
+            <p>Acciones</p>
+          </div>
+
+          {productos.length > 0 ? (
+            productos.map(prod => (
+              <div key={prod.id} className={styles.tableRow}>
+                <span
+                  className="material-symbols-outlined"
+                  onClick={() => toggleExpand(prod.id)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {productoExpandido === prod.id ? "keyboard_arrow_up" : "keyboard_arrow_down"}
+                </span>
+
+                <p>{prod.nombre}</p>
+                <p>{prod.categoria?.nombre || "—"}</p>
+                <p>{prod.tipoProducto}</p>
+                <p>{prod.sexo}</p>
+
+                <span
+                  className="material-symbols-outlined"
+                  onClick={() => handleToggleActivo(prod.id)}
+                  style={{ cursor: "pointer" }}
+                  title={prod.activo ? "Ocultar" : "Mostrar"}
+                >
+                  {prod.activo ? "visibility_off" : "visibility"}
+                </span>
+
+                {productoExpandido === prod.id && (
+                  <div className={styles.expandedRow}>
+                    <div className={styles.detailGrid}>
+                      <div className={styles.detailHeader}>
+                        <p>Talle</p>
+                        <p>Stock</p>
+                        <p>Precio</p>
+                      </div>
+                      {prod.detalles?.map(det => (
+                        <div key={det.id} className={styles.detailRow}>
+                          <p>{det.talle?.talle ?? "—"}</p>
+                          <p>{det.stock}</p>
+                          <p>${det.precio?.precioVenta?.toFixed(2) ?? "0.00"}</p>
+                        </div>
+                      )) || <p>No hay detalles disponibles</p>}
+                    </div>
+                    {prod.imagen && (
+                        <img src={prod.imagen} alt={prod.nombre} width="120" />
+                        )}
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <p>No hay productos para mostrar.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
