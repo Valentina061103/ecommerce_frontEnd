@@ -1,3 +1,4 @@
+
 import { CardProductCart } from "../../components/CardProductCartPage/CardProductCartPage";
 import styles from './Cart.module.css';
 import { useState } from "react";
@@ -25,13 +26,13 @@ export const Cart = () => {
       return;
     }
     
-   
+
 
     const paymentData: PaymentRequest = {
-     
+  
       productos: items.map((item) => ({
         detalleId: item.detalleId,
-       
+    
         nombre: `${item.producto.nombre} - ${item.detalle.marca} ${item.detalle.color} Talle ${item.detalle.talle}`,
         precioVenta: item.detalle.precio, 
         cantidad: item.cantidad,

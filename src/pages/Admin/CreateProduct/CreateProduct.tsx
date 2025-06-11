@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styles from './CreateProduct.module.css';
 import { useCategorias } from '../../../hooks/useCategorias';
 import { useCategoriaStore } from '../../../store/categoriaStore';
+import { Imagen } from '../../../types/IProduct';
 
 const marcasDisponibles = ["Nike"];
 
@@ -16,6 +17,9 @@ const CreateProduct = () => {
   const [detalles, setDetalles] = useState<any[]>([]);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
+  const [imagenesCargadas, setImagenesCargadas] = useState<Imagen[]>([]);
+  const [selectedMainImageId, setSelectedMainImageId] = useState<number | null>(null);
+
   const [tallesDisponibles, setTallesDisponibles] = useState<string[]>([]);
 
   const [formData, setFormData] = useState({
@@ -127,15 +131,66 @@ const CreateProduct = () => {
 
   const handleActivarProducto = async () => {
     if (!productoId) return;
+  
+    const token = localStorage.getItem("token");
+  
+    if (selectedMainImageId) {
+      await fetch(`http://localhost:8080/api/detalle-imagenes/producto/${productoId}/principal/${selectedMainImageId}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+  
     const res = await fetch(`http://localhost:8080/api/productos/${productoId}/activar`, {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${token}`,
       },
     });
+  
     if (res.ok) alert('Producto activado');
   };
+  
+  
 
+
+  const subirMultiplesImagenes = async (files: FileList) => {
+    const token = localStorage.getItem("token");
+    const nuevasImagenes: Imagen[] = [];
+  
+    for (const file of Array.from(files)) {
+      const data = new FormData();
+      data.append("file", file);
+  
+      const res = await fetch("http://localhost:8080/api/imagenes/upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: data,
+      });
+  
+      if (res.ok) {
+        const img = await res.json();
+        nuevasImagenes.push(img);
+  
+        // Asociar al producto
+        if (productoId) {
+          await fetch(`http://localhost:8080/api/detalle-imagenes/asociar?imagenId=${img.id}&productId=${productoId}`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        }
+      }
+    }
+  
+    setImagenesCargadas((prev) => [...prev, ...nuevasImagenes]);
+  };
+  
   return (
     <div className={styles.containerPage}>
       <div className={styles.containerTitlePage}>
@@ -196,7 +251,15 @@ const CreateProduct = () => {
           <section className={styles.formulario}>
             <h3>Subir imagen</h3>
             <label>Imagen</label>
-            <input type="file" onChange={(e) => setImageFile(e.target.files?.[0] || null)} />
+            <input
+              type="file"
+              multiple
+              onChange={(e) => {
+                const files = e.target.files;
+                if (files) subirMultiplesImagenes(files);
+              }}
+            />
+
             {imageUrl && <img src={imageUrl} width="100" />}
             <div className={styles.conteinerActions}>
               <button onClick={handleImageUpload}>Subir a Cloudinary</button>
@@ -281,6 +344,28 @@ const CreateProduct = () => {
               </ol>
             </section>
           )}
+
+
+          {imagenesCargadas.length > 0 && (
+            <section className={styles.formulario}>
+              <h3>Seleccionar imagen principal</h3>
+              <div className={styles.imagenesGrid}>
+                {imagenesCargadas.map((img) => (
+                  <label key={img.id} className={styles.imagenCard}>
+                    <input
+                      type="radio"
+                      name="mainImage"
+                      value={img.id}
+                      onChange={() => setSelectedMainImageId(img.id)}
+                      checked={selectedMainImageId === img.id}
+                    />
+                    <img src={img.url} alt="Subida" width={100} />
+                  </label>
+                ))}
+              </div>
+            </section>
+          )}
+
 
           {/* Paso 4: Activar / Resetear */}
           <div className={styles.botonEnviar}>
