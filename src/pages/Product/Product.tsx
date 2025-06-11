@@ -24,6 +24,7 @@ export const Product = () => {
     const { addToCart, isLoading } = useAddToCart();
     const [selectedTalle, setSelectedTalle] = useState<string | null>(null);
     const [message, setMessage] = useState('');
+    const [invalidTalles, setInvalidTalles] = useState<string[]>([]);
 
 
 console.log("=== DEBUG PRODUCTO ===");
@@ -37,7 +38,7 @@ console.log("=== FIN DEBUG ===");
 
 const talles: TalleOption[] = producto?.tipoProducto === "ZAPATILLA"
     ? [
-        { talle: "37" }, { talle: "38" }, { talle: "39" }, { talle: "40" }, { talle: "41" },
+        { talle: "35" },{ talle: "36" },{ talle: "37" }, { talle: "38" }, { talle: "39" }, { talle: "40" }, { talle: "41" },
         { talle: "42" }, { talle: "43" }, { talle: "44" }, { talle: "45" }, { talle: "46" }, { talle: "47" },
         { talle: "48" }
     ]
@@ -66,6 +67,7 @@ const handleAddToCart = async () => {
     setMessage('¡Producto agregado al carrito!');
     } else {
     setMessage(detalle.message || '');
+    setInvalidTalles((prev) => [...prev, selectedTalle]);
     }
 
     setTimeout(() => {
@@ -92,17 +94,21 @@ return (
             <div className={styles.product_infoSection_talles}>
             <p className={styles.titulo}>Seleccionar un talle</p>
             <div className={styles.container_talles}>
-                {talles.map((talle, index) => (
+                {talles.map((talle, index) => {
+                    const isSelected = selectedTalle === talle.talle;
+                    const isInvalid = invalidTalles.includes(talle.talle);
+                return(
                 <div
                     key={index}
-                    className={`${styles.talle} ${selectedTalle === talle.talle ? styles.talle_selected : ''}`}
+                    className={`${styles.talle} ${isSelected ? styles.talle_selected : ''}${isInvalid ? styles.talle_invalido: ''}`}
                     onClick={() => handleTalleSelect(talle.talle)}
                 >
                     <p>{talle.talle}</p>
                 </div>
-                ))}
-            </div>
-            </div>
+                );
+            })}
+        </div>
+    </div>
 
             {message && (
             <p className={`${styles.message} ${message.includes('Error') ? styles.error : styles.success}`}>

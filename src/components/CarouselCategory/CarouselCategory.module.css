@@ -26,13 +26,12 @@
 }
 
 .card {
-    flex: 0 0 22%; /* ajusta el ancho de las tarjetas */
+    flex: 0 0 22%; 
     overflow: hidden;
     text-align: center;
     transition: transform 0.3s ease;
 }
 
-  /* que se agrande un poco cuando nos podsicionamos encima */
 .card:hover {
     transform: scale(1.01);
 }

@@ -72,9 +72,10 @@
 .CatalogoGrid {
     display: grid;
     gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 230px));
+    justify-content: start;
 }
+
 
 /* ------------------------------------- */
 /* Sidebar de filtros                    */
