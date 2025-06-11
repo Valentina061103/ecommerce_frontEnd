@@ -15,8 +15,7 @@ const tallesRopa = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
 const CreateProduct = () => {
   const [productoId, setProductoId] = useState<number | null>(null);
   const [detalles, setDetalles] = useState<any[]>([]);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string>('');
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagenesCargadas, setImagenesCargadas] = useState<Imagen[]>([]);
   const [selectedMainImageId, setSelectedMainImageId] = useState<number | null>(null);
 
@@ -45,8 +44,6 @@ const CreateProduct = () => {
   const handleResetAll = () => {
     setProductoId(null);
     setDetalles([]);
-    setImageFile(null);
-    setImageUrl('');
     setFormData({
       nombre: '',
       sexo: '',
@@ -70,21 +67,6 @@ const CreateProduct = () => {
     setTallesDisponibles(tipo === "ZAPATILLA" ? tallesZapatilla : tallesRopa);
   };
 
-  const handleImageUpload = async () => {
-    if (!imageFile) return alert('Selecciona una imagen');
-    const data = new FormData();
-    data.append('file', imageFile);
-    data.append('upload_preset', 'ramardoh');
-
-    const res = await fetch('https://api.cloudinary.com/v1_1/cloudrama/image/upload', {
-      method: 'POST',
-      body: data,
-    });
-
-    const result = await res.json();
-    setImageUrl(result.secure_url);
-    alert('Imagen subida correctamente');
-  };
 
   const handleCrearProducto = async () => {
     console.log(formData)
@@ -103,31 +85,81 @@ const CreateProduct = () => {
     alert('Producto creado');
   };
 
+  const handleSubirImagenesCloudinary = async () => {
+    if (imageFiles.length === 0) return alert("No seleccionaste imágenes");
+  
+    const token = localStorage.getItem("token");
+    const nuevasImagenes: Imagen[] = [];
+  
+    for (const file of imageFiles) {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "ramardoh");
+  
+      // 1. Subir a Cloudinary
+      const cloudRes = await fetch("https://api.cloudinary.com/v1_1/cloudrama/image/upload", {
+        method: "POST",
+        body: data,
+      });
+  
+      const cloudData = await cloudRes.json();
+  
+      // 2. Guardar en backend
+      const backendRes = await fetch("http://localhost:8080/api/imagenes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ url: cloudData.secure_url }),
+      });
+  
+      const imagenCreada: Imagen = await backendRes.json();
+  
+      // 3. Asociar al producto
+      if (productoId) {
+        await fetch(`http://localhost:8080/api/detalle-imagenes/asociar?imagenId=${imagenCreada.id}&productId=${productoId}`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      }
+  
+      nuevasImagenes.push(imagenCreada);
+    }
+  
+    setImagenesCargadas((prev) => [...prev, ...nuevasImagenes]);
+    setImageFiles([]);
+    alert("Imágenes subidas correctamente");
+  };
+  
+  
   const handleAgregarDetalle = async () => {
-    if (!productoId || !imageUrl) return alert('Falta imagen o producto');
-
+    if (!productoId) return alert("Falta producto");
+  
     const detallePayload = {
       ...detalleData,
       precioCompra: parseFloat(detalleData.precioCompra),
       precioVenta: parseFloat(detalleData.precioVenta),
-      estado: detalleData.estado === 'ACTIVO',
-      imagenesUrls: [imageUrl],
+      estado: detalleData.estado === "ACTIVO",
+      imagenesUrls: [] // Ya están asociadas, no se envían aquí
     };
-
+  
     const res = await fetch(`http://localhost:8080/api/productos/${productoId}/detalles`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(detallePayload),
     });
-
-    if (!res.ok) return alert('Error al agregar detalle');
+  
+    if (!res.ok) return alert("Error al agregar detalle");
+  
     const nuevoDetalle = await res.json();
     setDetalles((prev) => [...prev, nuevoDetalle]);
-    alert('Detalle agregado');
+    alert("Detalle agregado");
   };
+  
 
   const handleActivarProducto = async () => {
     if (!productoId) return;
@@ -135,7 +167,7 @@ const CreateProduct = () => {
     const token = localStorage.getItem("token");
   
     if (selectedMainImageId) {
-      await fetch(`http://localhost:8080/api/detalle-imagenes/producto/${productoId}/principal/${selectedMainImageId}`, {
+      await fetch(`http://localhost:8080/api/productos/${productoId}/imagen-principal/${selectedMainImageId}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -249,21 +281,26 @@ const CreateProduct = () => {
         <>
           {/* Paso 2: Subir Imagen */}
           <section className={styles.formulario}>
-            <h3>Subir imagen</h3>
-            <label>Imagen</label>
+            <h3>Subir imágenes del producto</h3>
             <input
               type="file"
               multiple
               onChange={(e) => {
-                const files = e.target.files;
-                if (files) subirMultiplesImagenes(files);
+                if (e.target.files) {
+                  setImageFiles(Array.from(e.target.files));
+                }
               }}
             />
 
-            {imageUrl && <img src={imageUrl} width="100" />}
-            <div className={styles.conteinerActions}>
-              <button onClick={handleImageUpload}>Subir a Cloudinary</button>
-            </div>
+            {imageFiles.length > 0 && (
+              <div className={styles.imagenesGrid}>
+                {imageFiles.map((file, i) => (
+                  <img key={i} src={URL.createObjectURL(file)} alt="preview" width={100} />
+                ))}
+              </div>
+            )}
+
+            <button onClick={handleSubirImagenesCloudinary}>Subir imágenes</button>
           </section>
 
           {/* Paso 3: Agregar Detalle */}
