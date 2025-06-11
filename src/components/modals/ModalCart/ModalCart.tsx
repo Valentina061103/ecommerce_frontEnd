@@ -43,7 +43,10 @@ export const ModalCart = ({ onClose }: ModalCartProps) => {
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
                 <div className={styles.container_titulo}>
                     <span className="material-symbols-outlined" onClick={onClose}>arrow_back</span>
-                    <h2>Mi compra ({items.length} producto{items.length !== 1 ? 's' : ''})</h2>
+                    <div>
+                        <h2>Mi compra</h2>
+                        <p>{items.length} producto{items.length !== 1 ? 's' : ''}</p>
+                    </div>
                 </div>
                 <div className={styles.container_contentCard}>
                     <div className={styles.container_cardsProducts}>

@@ -14,6 +14,7 @@
     height: 6rem;
     object-fit: cover;
     margin-right: 1rem;
+    background-color: var(--color-gris);
 }
 
 
@@ -29,12 +30,12 @@
 }
 .cardProduct_detail_counter {
     border: solid #7f7f7f 1px;
-    width: 5rem;
+    width: 5.5rem;
     border-radius: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 4px 4px;
+    padding: 4px 8px;
 }
 .cardProduct_price_counter p {
     font-size: 1rem;
@@ -50,7 +51,15 @@
     gap: 2rem;
     align-items:end;
 }
+.cardProduct_buttonDelete button{
+    background-color: white;
+    border: none;
+}
 .cardProduct_buttonDelete span{
     font-size: 1.5rem;
     cursor: pointer;
+}
+.cardProduct_detail_counter button{
+    background-color: white;
+    border: none;
 }

@@ -106,11 +106,14 @@ export const Cart = () => {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.container_contentCard}>
         <div className={styles.container_cardsProducts}>
           <div className={styles.cart_header}>
-            <h2>Mi Carrito ({items.length} producto{items.length !== 1 ? 's' : ''})</h2>
+            <div>
+              <h2>Mi Carrito</h2>
+              <p>{items.length} producto{items.length !== 1 ? 's' : ''}</p>
+            </div>
             <button
               onClick={handleClearCart}
               className={styles.clear_cart}

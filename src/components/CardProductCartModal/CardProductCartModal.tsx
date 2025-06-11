@@ -43,23 +43,20 @@ export const CardProductCartModal = ({ cartItem }: CardProductCartModalProps) =>
                     <div className={styles.cardProduct_detail}>
                         <div className={styles.cardProduct_detail_model}>
                             <p className={styles.product_brand}>
-                                {cartItem.detalle.marca}
+                                {cartItem.detalle.marca} {cartItem.producto.nombre}
                             </p>
-                            <p className={styles.product_name}>
+                            {/* <p className={styles.product_name}>
                                 {cartItem.producto.nombre}
-                            </p>
+                            </p> */}
                             <p className={styles.product_details}>
                                 {cartItem.detalle.color} - Talle {cartItem.detalle.talle}
                             </p>
                         </div>
-                        <div className={styles.cardProduct_price}>
+                        {/* <div className={styles.cardProduct_price}>
                             <p className={styles.price}>
                                 ${cartItem.detalle.precio.toLocaleString()}
                             </p>
-                            <p className={styles.total_price}>
-                                Total: ${totalPrice.toLocaleString()}
-                            </p>
-                        </div>
+                        </div> */}
                     </div>
                     <div className={styles.cardProduct_detail_counter}>
                         <button 
@@ -88,6 +85,9 @@ export const CardProductCartModal = ({ cartItem }: CardProductCartModalProps) =>
                 >
                     <span className="material-symbols-outlined">delete</span>
                 </button>
+                <p className={styles.total_price}><strong>
+                    ${totalPrice.toLocaleString()} </strong>
+                </p>
             </div>
         </div>
     );

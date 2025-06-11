@@ -29,6 +29,13 @@
     text-transform: uppercase;
     font-size: 1.2rem;
 }
+.container_titulo p {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+.container_titulo span{
+    cursor: pointer;
+}
 .container_contentCard {
     flex: 1; /* Toma todo el espacio disponible entre header y actions */
     overflow-y: auto; 

@@ -34,14 +34,14 @@ export const CardProductCart = ({ cartItem }: CardProductCartProps) => {
   return (
     <div className={styles.container_cardProduct}>
       <div className={styles.cardProduct_content}>
-        <img 
-          src={cartItem.detalle.imagenUrl} 
-          alt={cartItem.producto.nombre}
-          onError={(e) => {
-            e.currentTarget.src = '/default-product-image.png'; 
-          }}
-        />
         <div className={styles.CardProduct_content_detail}>
+          <img 
+            src={cartItem.detalle.imagenUrl} 
+            alt={cartItem.producto.nombre}
+            onError={(e) => {
+              e.currentTarget.src = '/default-product-image.png'; 
+            }}
+          />
           <div className={styles.cardProduct_detail}>
             <div className={styles.cardProduct_detail_model}>
               <p className={styles.product_name}>
@@ -57,7 +57,14 @@ export const CardProductCart = ({ cartItem }: CardProductCartProps) => {
                 {cartItem.producto.tipoProducto}
               </p>
             </div>
-            <div className={styles.cardProduct_price}>
+          </div>
+        </div>
+        <div>
+          <p className={styles.unit_price}>
+            ${cartItem.detalle.precio.toLocaleString()} 
+          </p>
+        </div>
+        <div className={styles.cardProduct_price}>
               <div className={styles.cardProduct_detail_counter}>
                 <button 
                   onClick={handleDecrement}
@@ -75,30 +82,25 @@ export const CardProductCart = ({ cartItem }: CardProductCartProps) => {
                   <span className="material-symbols-outlined">add</span>
                 </button>
               </div>
-              <div className={styles.stock_info}>
-                <p className={styles.stock_text}>
-                  Stock: {cartItem.detalle.stock}
-                </p>
-              </div>
-            </div>
-          </div>
+          {/* <div className={styles.stock_info}>
+            <p className={styles.stock_text}>
+              Stock: {cartItem.detalle.stock}
+            </p>
+          </div> */}
         </div>
-      </div>
-      <div className={styles.cardProduct_buttonDelete}>
-        <button 
-          onClick={handleRemove}
-          className={styles.delete_button}
-          title="Eliminar producto"
-        >
-          <span className="material-symbols-outlined">delete</span>
-        </button>
         <div className={styles.price_section}>
-          <p className={styles.unit_price}>
-            ${cartItem.detalle.precio.toLocaleString()} c/u
+          <p className={styles.total_price}><strong>
+            ${totalPrice.toLocaleString()}</strong>
           </p>
-          <p className={styles.total_price}>
-            ${totalPrice.toLocaleString()}
-          </p>
+        </div>
+        <div className={styles.cardProduct_buttonDelete}>
+          <button 
+            onClick={handleRemove}
+            className={styles.delete_button}
+            title="Eliminar producto"
+          >
+            <span className="material-symbols-outlined">delete</span>
+          </button>
         </div>
       </div>
     </div>
